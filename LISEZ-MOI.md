@@ -43,3 +43,7 @@ Champs Metricool : Insta reels IGRE02,03,06,23,11,10,07,12,21,09,24,28 ; Insta p
 - `donnees` : chemin du fichier chiffré du compte (ex. `comptes/declic.enc.json`), même format que celui du Déclic. Sans ce champ, l'appli affiche « pas encore de statistiques ».
 - `da` : la direction artistique du compte, appliquée à tout l'écran : `nuit` (fond), `encre` et `encre-2` (cartes), `ivoire` (texte), `givre` (texte secondaire), `ardoise` (gris), `ambre` (accent), `brume` (accent 2), `cuivre`, `titre` (police des titres). Le Déclic a sa vraie DA ; celles de La ronde des Comptines, Inspecteur Pi et Bébé Steve sont provisoires, tirées des couleurs du document NITT.
 - Pour ajouter ou modifier un compte : déchiffre `comptes.enc.json` (même code), modifie le JSON hors du dépôt, rechiffre avec `node chiffre.mjs "$CODE" comptes.json > comptes.enc.json`. Ne jamais y mettre d'e-mail ni de mot de passe.
+
+## Graphiques (version 13)
+
+L'onglet Stats dessine, à partir des mêmes données : la courbe des vues et de la portée par jour (`jours[].vues`, `jours[].portee`), la courbe des abonnés dès que deux jours ont `abonnes`, l'anneau de répartition des vues par vidéo, les barres de rétention (`taux3s`) avec la médiane, le nuage rétention × vues et l'anneau des réactions. L'onglet Dernier post compare le post à la médiane des autres reels dès que ses chiffres remontent. Aucune donnée en plus n'est demandée à la routine.
