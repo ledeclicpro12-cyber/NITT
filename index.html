@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>NITT</title>
 <meta name="description" content="Tableau de bord des comptes de NITT Corporation.">
-<meta name="theme-color" content="#1F2A44">
+<meta name="theme-color" content="#0A0A0A">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -22,19 +22,20 @@
 <div id="hub" class="hub">
   <header class="hub-tete">
     <p class="hub-logo">NITT</p>
-    <p class="hub-sous">Corporation · tableau de bord des comptes</p>
+    <p class="hub-sous">Corporation</p>
   </header>
   <form id="verrou" class="verrou hub-verrou" hidden>
     <p class="hub-logo">NITT</p>
-    <h2>Accès privé</h2>
+    <h2>Espace privé</h2>
     <label for="code">Entre ton code d'accès</label>
     <input id="code" type="password" autocomplete="current-password" autocapitalize="none" autocorrect="off" spellcheck="false" required>
     <p id="verrou-msg" class="verrou-msg"></p>
     <button type="submit">Ouvrir</button>
   </form>
   <div class="hub-corps">
-    <h2>Choisis un compte</h2>
+    <div class="hub-titre"><h2>Comptes</h2><span id="hub-compteur"></span></div>
     <div id="hub-liste"><p class="vide">Chargement…</p></div>
+    <p class="hub-pied" id="hub-pied"></p>
   </div>
 </div>
 
@@ -61,7 +62,7 @@
     <div class="carte" id="graph"></div>
     <h2>Prochaines publications</h2>
     <div id="prochains"></div>
-    <p class="version">Version 8 de l'appli · NITT</p>
+    <p class="version">Version 9 de l'appli · NITT</p>
   </section>
 
   <section id="tab-activite" class="tab" aria-labelledby="nav-activite">

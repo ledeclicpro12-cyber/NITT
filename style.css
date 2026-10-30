@@ -171,53 +171,58 @@ h2 {
 
 .version { margin: 28px 0 0; text-align: center; font-size: 12px; color: var(--ardoise); }
 
-/* ---- Accueil NITT ---- */
+/* ---- Accueil NITT : noir et blanc, minimaliste ---- */
 [hidden] { display: none !important; }
-.ecran[hidden], .app[hidden] { display: none !important; }
 .hub {
-  --n-marine: #1F2A44; --n-saumon: #F5C6B8; --n-fond: #F3F4F7; --n-gris: #6B7280;
-  min-height: 100dvh; background: var(--n-fond); color: var(--n-marine);
-  font-family: var(--texte);
+  --n-noir: #0A0A0A; --n-blanc: #FFFFFF; --n-gris: #6B6B6B; --n-trait: #E6E6E6; --n-pale: #F5F5F5;
+  min-height: 100dvh; background: var(--n-blanc); color: var(--n-noir);
+  font-family: "Inter", -apple-system, system-ui, sans-serif;
 }
 .hub-tete {
-  background: var(--n-marine); color: #fff;
-  padding: calc(var(--haut) + 28px) 20px 26px;
-  border-bottom: 4px solid var(--n-saumon);
+  background: var(--n-noir); color: var(--n-blanc);
+  padding: calc(var(--haut) + 40px) 24px 32px;
 }
-.hub-logo { margin: 0; font: 800 34px/1 var(--texte); letter-spacing: .32em; }
-.hub-sous { margin: 8px 0 0; color: var(--n-saumon); font-size: 14px; letter-spacing: .04em; }
-.hub-corps { padding: 20px 16px calc(var(--bas) + 32px); max-width: 560px; margin: 0 auto; }
-.hub h2 { color: var(--n-gris); }
+.hub-logo { margin: 0; font: 800 30px/1 "Inter", system-ui, sans-serif; letter-spacing: .42em; margin-right: -.42em; }
+.hub-sous { margin: 12px 0 0; font: 500 11px/1 "Inter", system-ui, sans-serif; letter-spacing: .28em; text-transform: uppercase; color: #A3A3A3; }
+.hub-corps { padding: 32px 24px calc(var(--bas) + 40px); max-width: 560px; margin: 0 auto; }
+.hub-titre { display: flex; justify-content: space-between; align-items: baseline; margin: 0 0 8px; }
+.hub-titre h2 { margin: 0; font: 600 11px/1 "Inter", system-ui, sans-serif; letter-spacing: .2em; text-transform: uppercase; color: var(--n-gris); }
+.hub-titre span { font: 500 12px "Inter", system-ui, sans-serif; color: var(--n-gris); font-variant-numeric: tabular-nums; }
 .compte {
-  display: flex; align-items: center; gap: 14px; width: 100%; text-align: left;
-  background: #fff; border: 0; border-left: 6px solid var(--c); border-radius: 14px;
-  padding: 14px; margin-bottom: 10px; color: var(--n-marine); font: inherit;
-  box-shadow: 0 1px 2px rgba(31, 42, 68, .08);
+  display: grid; grid-template-columns: 28px 44px 1fr 16px; align-items: center; gap: 14px;
+  width: 100%; min-height: 76px; padding: 16px 0; text-align: left;
+  background: none; border: 0; border-top: 1px solid var(--n-trait);
+  color: var(--n-noir); font: inherit; cursor: pointer;
 }
-.compte:disabled { opacity: .55; }
-.compte .pastille-c {
-  flex: none; width: 46px; height: 46px; border-radius: 50%; overflow: hidden;
-  display: grid; place-items: center; background: var(--c); color: #fff; font: 800 20px var(--texte);
+.compte:last-child { border-bottom: 1px solid var(--n-trait); }
+.compte:active { background: var(--n-pale); }
+.compte:focus-visible { outline: 2px solid var(--n-noir); outline-offset: 2px; }
+.compte .num { font: 500 12px "Inter", system-ui, sans-serif; color: var(--n-gris); font-variant-numeric: tabular-nums; }
+.compte .mono {
+  width: 44px; height: 44px; border: 1.5px solid var(--n-noir); border-radius: 50%;
+  display: grid; place-items: center; font: 700 15px "Inter", system-ui, sans-serif; letter-spacing: .02em;
 }
-.compte .pastille-c img { width: 100%; height: 100%; object-fit: cover; }
-.compte .infos { flex: 1; min-width: 0; }
-.compte .nom { font-weight: 700; font-size: 17px; }
-.compte .det { font-size: 13px; color: var(--n-gris); margin-top: 2px; }
-.compte .statut { font-size: 12px; font-weight: 700; margin-top: 4px; color: #1E8E3E; }
-.compte .statut.afaire { color: #B9770E; }
-.compte .fleche { color: var(--n-gris); font-size: 22px; }
-.hub .verrou { background: var(--n-fond); }
-.hub-verrou h2 { color: var(--n-marine); }
+.compte .infos { min-width: 0; }
+.compte .nom { display: block; font: 600 17px/1.25 "Inter", system-ui, sans-serif; letter-spacing: -.01em; }
+.compte .det { display: block; margin-top: 3px; font-size: 13px; line-height: 1.35; color: var(--n-gris); }
+.compte .statut { display: block; margin-top: 8px; font: 600 10px/1 "Inter", system-ui, sans-serif; letter-spacing: .14em; text-transform: uppercase; color: var(--n-noir); }
+.compte .statut::before { content: ""; display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--n-noir); margin-right: 6px; vertical-align: 1px; }
+.compte .fleche { font-size: 18px; color: var(--n-noir); justify-self: end; }
+.compte:disabled { cursor: default; }
+.compte:disabled .nom, .compte:disabled .mono, .compte:disabled .fleche { color: #A3A3A3; border-color: #CFCFCF; }
+.compte:disabled .statut { color: var(--n-gris); }
+.compte:disabled .statut::before { background: none; border: 1px solid var(--n-gris); }
+.hub-pied { margin: 28px 0 0; font-size: 12px; color: var(--n-gris); text-align: center; letter-spacing: .02em; }
 .retour {
   width: 40px; height: 40px; border-radius: 50%; border: 0; flex: none;
   background: var(--encre); color: var(--givre); font-size: 18px;
 }
 .vide-compte { margin-top: 40px; text-align: center; color: var(--ardoise); }
 .vide-compte h3 { color: var(--ivoire); font: 600 22px var(--titre); }
-.hub-verrou { background: var(--n-fond); }
-.hub-verrou .hub-logo { color: var(--n-marine); }
-.hub-verrou h2 { margin: 4px 0 0; font: 700 22px var(--texte); letter-spacing: 0; text-transform: none; color: var(--n-marine); }
-.hub-verrou label { color: var(--n-gris); }
-.hub-verrou input { background: #fff; color: var(--n-marine); border-color: #D9DCE3; }
-.hub-verrou button { background: var(--n-marine); color: #fff; }
-.hub-verrou .verrou-msg { color: #C0392B; }
+.hub-verrou { background: var(--n-blanc); gap: 14px; }
+.hub-verrou .hub-logo { color: var(--n-noir); font-size: 26px; margin-bottom: 20px; }
+.hub-verrou h2 { margin: 0; font: 600 20px "Inter", system-ui, sans-serif; letter-spacing: -.01em; text-transform: none; color: var(--n-noir); }
+.hub-verrou label { color: var(--n-gris); font-size: 14px; }
+.hub-verrou input { background: var(--n-blanc); color: var(--n-noir); border: 1.5px solid var(--n-noir); border-radius: 10px; font-family: "Inter", system-ui, sans-serif; letter-spacing: .04em; }
+.hub-verrou button { background: var(--n-noir); color: var(--n-blanc); border-radius: 10px; font-family: "Inter", system-ui, sans-serif; letter-spacing: .02em; }
+.hub-verrou .verrou-msg { color: var(--n-noir); font-weight: 600; }

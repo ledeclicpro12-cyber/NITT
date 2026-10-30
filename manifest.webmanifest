@@ -7,8 +7,8 @@
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait",
-  "background_color": "#F3F4F7",
-  "theme_color": "#1F2A44",
+  "background_color": "#FFFFFF",
+  "theme_color": "#0A0A0A",
   "icons": [
     {
       "src": "icons/nitt-192.png",

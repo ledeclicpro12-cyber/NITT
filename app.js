@@ -86,17 +86,23 @@ async function chargerComptes() {
 }
 
 function afficherHub() {
-  $("#hub-liste").innerHTML = COMPTES.comptes.map((c, i) => `
-    <button class="compte" data-i="${i}" style="--c:${esc(c.couleur)}" ${c.statut !== "actif" ? "disabled" : ""}>
-      <span class="pastille-c">${c.logo ? `<img src="${esc(c.logo)}" alt="">` : esc(initiale(c.nom))}</span>
+  const cs = COMPTES.comptes, actifs = cs.filter((c) => c.statut === "actif").length;
+  $("#hub-compteur").textContent = String(cs.length).padStart(2, "0");
+  $("#hub-liste").innerHTML = cs.map((c, i) => `
+    <button class="compte" data-i="${i}" ${c.statut !== "actif" ? "disabled" : ""} aria-label="${esc(c.nom)}${c.statut !== "actif" ? ", en préparation" : ""}">
+      <span class="num">${String(i + 1).padStart(2, "0")}</span>
+      <span class="mono" aria-hidden="true">${esc(monogramme(c.nom))}</span>
       <span class="infos"><span class="nom">${esc(c.nom)}</span>
-        <div class="det">${esc(c.plateformes)} · ${esc(c.sujet)}</div>
-        <div class="statut ${c.statut !== "actif" ? "afaire" : ""}">${c.statut === "actif" ? (c.donnees ? "● En activité · stats branchées" : "● En activité") : "○ À faire"}</div></span>
-      <span class="fleche">›</span>
+        <span class="det">${esc(c.plateformes)}${c.sujet && c.sujet !== "à définir" ? " — " + esc(c.sujet) : ""}</span>
+        <span class="statut">${c.statut === "actif" ? (c.donnees ? "Actif · stats en direct" : "Actif") : "En préparation"}</span></span>
+      <span class="fleche" aria-hidden="true">${c.statut === "actif" ? "→" : ""}</span>
     </button>`).join("");
-  document.querySelectorAll(".compte").forEach((b) => b.addEventListener("click", () => ouvrirCompte(COMPTES.comptes[+b.dataset.i])));
+  $("#hub-pied").textContent = `${actifs} comptes actifs · ${cs.length - actifs} en préparation`;
+  document.querySelectorAll(".compte").forEach((b) => b.addEventListener("click", () => ouvrirCompte(cs[+b.dataset.i])));
 }
 
+// Deux lettres : initiales des mots importants (« Le Déclic » → LD, « Inspecteur Pi » → IP).
+const monogramme = (nom) => { const m = nom.split(/\s+/).filter((w) => !/^(des|de|du)$/i.test(w)); return (m.length > 1 ? m[0][0] + m[m.length - 1][0] : nom.slice(0, 2)).toUpperCase(); };
 const initiale = (nom) => nom.replace(/^(le|la|les) /i, "").charAt(0).toUpperCase();
 // Pastille ronde à l'initiale du compte, quand il n'a pas encore de logo.
 const logoInitiale = (c) => "data:image/svg+xml," + encodeURIComponent(
@@ -125,8 +131,8 @@ async function ouvrirCompte(c) {
 function fermerCompte() {
   COMPTE = null; DATA = null;
   appliquerDA({});
-  document.querySelector('meta[name="theme-color"]').content = "#1F2A44";
-  document.body.style.background = "#F3F4F7";
+  document.querySelector('meta[name="theme-color"]').content = "#0A0A0A";
+  document.body.style.background = "#FFFFFF";
   $("#app").hidden = true; $("#hub").hidden = false;
   scrollTo(0, 0);
 }
@@ -418,5 +424,5 @@ if ("serviceWorker" in navigator) {
     document.addEventListener("visibilitychange", () => { if (!document.hidden) reg.update(); });
   });
 }
-document.body.style.background = "#F3F4F7";
+document.body.style.background = "#FFFFFF";
 chargerComptes();
