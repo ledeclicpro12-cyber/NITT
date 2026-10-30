@@ -40,6 +40,7 @@ Champs Metricool : Insta reels IGRE02,03,06,23,11,10,07,12,21,09,24,28 ; Insta p
 ## Comptes du groupe
 
 `comptes.enc.json` (chiffré avec le même code) liste les comptes affichés à l'accueil : `{ groupe, comptes: [{ id, nom, plateformes, sujet, statut: "actif"|"a-faire", couleur, logo?, donnees?, da }] }`.
-- `donnees` : chemin du fichier chiffré du compte (ex. `comptes/declic.enc.json`), même format que celui du Déclic. Sans ce champ, l'appli affiche « pas encore de statistiques ».
+- `donnees` : chemin du fichier chiffré du compte (ex. `comptes/declic.enc.json`), même format que celui du Déclic. Sans ce champ, l'appli cherche `comptes/<id>.enc.json` (puis le nom du compte en minuscules avec des tirets, ex. `comptes/inspecteur-pi.enc.json`) ; si rien n'est trouvé, elle affiche « pas encore de statistiques ».
+- Code par compte : l'appli essaie d'abord le code du groupe, puis le code gardé pour ce compte ; sinon elle le demande à l'ouverture du compte. Un ami peut donc chiffrer ses stats avec son propre code. Voir [AMIS.md](AMIS.md) pour brancher le compte d'un ami.
 - `da` : la direction artistique du compte, appliquée à tout l'écran : `nuit` (fond), `encre` et `encre-2` (cartes), `ivoire` (texte), `givre` (texte secondaire), `ardoise` (gris), `ambre` (accent), `brume` (accent 2), `cuivre`, `titre` (police des titres). Le Déclic a sa vraie DA ; celles de La ronde des Comptines, Inspecteur Pi et Bébé Steve sont provisoires, tirées des couleurs du document NITT.
 - Pour ajouter ou modifier un compte : déchiffre `comptes.enc.json` (même code), modifie le JSON hors du dépôt, rechiffre avec `node chiffre.mjs "$CODE" comptes.json > comptes.enc.json`. Ne jamais y mettre d'e-mail ni de mot de passe.
