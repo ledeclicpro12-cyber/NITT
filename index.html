@@ -33,8 +33,13 @@
     <button type="submit">Ouvrir</button>
   </form>
   <div class="hub-corps">
-    <div class="hub-titre"><h2>Comptes</h2><span id="hub-compteur"></span></div>
-    <div id="hub-liste"><p class="vide">Chargement…</p></div>
+    <div class="hub-titre"><h2>Comptes</h2><span id="hub-compteur" aria-live="polite"></span></div>
+    <div id="hub-liste" class="carrousel" tabindex="0" role="region" aria-roledescription="carrousel" aria-label="Comptes NITT, glisse à gauche ou à droite"><p class="vide">Chargement…</p></div>
+    <div class="hub-nav">
+      <button class="hub-fl" id="hub-prec" aria-label="Compte précédent">←</button>
+      <div class="points" id="hub-points" role="tablist" aria-label="Choisir un compte"></div>
+      <button class="hub-fl" id="hub-suiv" aria-label="Compte suivant">→</button>
+    </div>
     <p class="hub-pied" id="hub-pied"></p>
   </div>
 </div>
@@ -62,7 +67,7 @@
     <div class="carte" id="graph"></div>
     <h2>Prochaines publications</h2>
     <div id="prochains"></div>
-    <p class="version">Version 9 de l'appli · NITT</p>
+    <p class="version">Version 10 de l'appli · NITT</p>
   </section>
 
   <section id="tab-activite" class="tab" aria-labelledby="nav-activite">

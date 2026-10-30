@@ -85,20 +85,60 @@ async function chargerComptes() {
   afficherHub();
 }
 
+// Choix du compte : un compte par page, on glisse à gauche ou à droite, puis on touche la carte.
+const CLE_POS = "nitt-compte";
 function afficherHub() {
   const cs = COMPTES.comptes, actifs = cs.filter((c) => c.statut === "actif").length;
-  $("#hub-compteur").textContent = String(cs.length).padStart(2, "0");
-  $("#hub-liste").innerHTML = cs.map((c, i) => `
-    <button class="compte" data-i="${i}" ${c.statut !== "actif" ? "disabled" : ""} aria-label="${esc(c.nom)}${c.statut !== "actif" ? ", en préparation" : ""}">
-      <span class="num">${String(i + 1).padStart(2, "0")}</span>
-      <span class="mono" aria-hidden="true">${esc(monogramme(c.nom))}</span>
-      <span class="infos"><span class="nom">${esc(c.nom)}</span>
-        <span class="det">${esc(c.plateformes)}${c.sujet && c.sujet !== "à définir" ? " — " + esc(c.sujet) : ""}</span>
-        <span class="statut">${c.statut === "actif" ? (c.donnees ? "Actif · stats en direct" : "Actif") : "En préparation"}</span></span>
-      <span class="fleche" aria-hidden="true">${c.statut === "actif" ? "→" : ""}</span>
-    </button>`).join("");
-  $("#hub-pied").textContent = `${actifs} comptes actifs · ${cs.length - actifs} en préparation`;
-  document.querySelectorAll(".compte").forEach((b) => b.addEventListener("click", () => ouvrirCompte(cs[+b.dataset.i])));
+  const liste = $("#hub-liste"), points = $("#hub-points");
+  const n2 = (n) => String(n).padStart(2, "0");
+  liste.innerHTML = cs.map((c, i) => {
+    const actif = c.statut === "actif";
+    return `<button class="carte-compte ${actif ? "" : "afaire"}" data-i="${i}" tabindex="-1" ${actif ? "" : 'aria-disabled="true"'}
+        aria-label="${esc(c.nom)}, compte ${i + 1} sur ${cs.length}${actif ? ". Touche pour ouvrir" : ", en préparation"}">
+      <span class="haut"><span class="mono" aria-hidden="true">${esc(monogramme(c.nom))}</span></span>
+      <span>
+        <span class="nom">${esc(c.nom)}</span>
+        <span class="det">${esc(c.plateformes)}${c.sujet && c.sujet !== "à définir" ? "<br>" + esc(c.sujet) : ""}</span>
+        <span class="statut">${actif ? (c.donnees ? "Actif · stats en direct" : "Actif") : "En préparation"}</span>
+        <span class="entrer">${actif ? "Ouvrir le compte" : "Bientôt disponible"}<span aria-hidden="true">${actif ? "→" : ""}</span></span>
+      </span>
+    </button>`;
+  }).join("");
+  points.innerHTML = cs.map((c, i) => `<button role="tab" aria-label="${esc(c.nom)}" data-i="${i}"></button>`).join("");
+  $("#hub-pied").textContent = `${actifs} comptes actifs · ${cs.length - actifs} en préparation · glisse pour changer`;
+
+  const cartes = [...liste.children];
+  const pas = () => cartes[0].offsetWidth + 24;
+  const courante = () => Math.max(0, Math.min(cs.length - 1, Math.round(liste.scrollLeft / pas())));
+  const aller = (i, doux = true) => {
+    i = Math.max(0, Math.min(cs.length - 1, i));
+    liste.scrollTo({ left: i * pas(), behavior: doux && !matchMedia("(prefers-reduced-motion: reduce)").matches ? "smooth" : "auto" });
+  };
+  const majIndicateurs = () => {
+    const i = courante();
+    cartes.forEach((c, k) => { c.tabIndex = k === i ? 0 : -1; c.setAttribute("aria-hidden", k !== i); });
+    [...points.children].forEach((p, k) => p.setAttribute("aria-selected", k === i));
+    $("#hub-compteur").textContent = `${n2(i + 1)} / ${n2(cs.length)}`;
+    $("#hub-prec").disabled = i === 0; $("#hub-suiv").disabled = i === cs.length - 1;
+    try { localStorage.setItem(CLE_POS, i); } catch {}
+  };
+  let attente;
+  liste.onscroll = () => { cancelAnimationFrame(attente); attente = requestAnimationFrame(majIndicateurs); };
+  cartes.forEach((c, k) => c.addEventListener("click", () => {
+    if (k !== courante()) return aller(k);
+    if (cs[k].statut === "actif") ouvrirCompte(cs[k]);
+  }));
+  [...points.children].forEach((p) => p.addEventListener("click", () => aller(+p.dataset.i)));
+  $("#hub-prec").onclick = () => aller(courante() - 1);
+  $("#hub-suiv").onclick = () => aller(courante() + 1);
+  liste.onkeydown = (e) => {
+    if (e.key === "ArrowRight") { e.preventDefault(); aller(courante() + 1); }
+    if (e.key === "ArrowLeft") { e.preventDefault(); aller(courante() - 1); }
+    if (e.key === "Enter" && e.target === liste && cs[courante()].statut === "actif") ouvrirCompte(cs[courante()]);
+  };
+  let depart = 0;
+  try { depart = +localStorage.getItem(CLE_POS) || 0; } catch {}
+  requestAnimationFrame(() => { aller(depart, false); majIndicateurs(); });
 }
 
 // Deux lettres : initiales des mots importants (« Le Déclic » → LD, « Inspecteur Pi » → IP).
@@ -135,6 +175,7 @@ function fermerCompte() {
   document.body.style.background = "#FFFFFF";
   $("#app").hidden = true; $("#hub").hidden = false;
   scrollTo(0, 0);
+  afficherHub();
 }
 
 async function chargerDonnees() {
