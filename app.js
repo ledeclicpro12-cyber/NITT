@@ -85,17 +85,28 @@ async function chargerComptes() {
   afficherHub();
 }
 
+// Couleurs d'une page du carrousel, tirées de la DA du compte.
+const clairete = (hex) => { const n = parseInt(hex.slice(1), 16); return (0.299 * (n >> 16) + 0.587 * (n >> 8 & 255) + 0.114 * (n & 255)) / 255; };
+function styleCarte(c) {
+  const da = c.da || {};
+  if (!da.nuit) return { fond: "#EDEDED", texte: "#6B6B6B", texte2: "#8A8A8A", accent: "#9E9E9E", surAccent: "#FFFFFF", titre: '"Inter", system-ui, sans-serif', clair: true };
+  const accent = da.ambre || "#FFFFFF";
+  return { fond: da.nuit, texte: da.ivoire, texte2: da.ardoise, accent, surAccent: clairete(accent) > .6 ? "#0A0A0A" : "#FFFFFF",
+    titre: da.titre || '"Inter", system-ui, sans-serif', clair: clairete(da.nuit) > .5 };
+}
+
 // Choix du compte : un compte par page, on glisse à gauche ou à droite, puis on touche la carte.
 const CLE_POS = "nitt-compte";
 function afficherHub() {
-  const cs = COMPTES.comptes, actifs = cs.filter((c) => c.statut === "actif").length;
+  const cs = COMPTES.comptes;
   const liste = $("#hub-liste"), points = $("#hub-points");
   const n2 = (n) => String(n).padStart(2, "0");
   liste.innerHTML = cs.map((c, i) => {
-    const actif = c.statut === "actif";
-    return `<button class="carte-compte ${actif ? "" : "afaire"}" data-i="${i}" tabindex="-1" ${actif ? "" : 'aria-disabled="true"'}
+    const actif = c.statut === "actif", s = styleCarte(c);
+    return `<button class="page-compte ${actif ? "" : "afaire"}" data-i="${i}" tabindex="-1" ${actif ? "" : 'aria-disabled="true"'}
+        style="--p-fond:${s.fond};--p-texte:${s.texte};--p-texte2:${s.texte2};--p-accent:${s.accent};--p-sur-accent:${s.surAccent};--p-titre:${s.titre.replace(/"/g, "'")}"
         aria-label="${esc(c.nom)}, compte ${i + 1} sur ${cs.length}${actif ? ". Touche pour ouvrir" : ", en préparation"}">
-      <span class="haut"><span class="mono" aria-hidden="true">${esc(monogramme(c.nom))}</span></span>
+      <span class="logo" aria-hidden="true">${c.logo ? `<img src="${esc(c.logo)}" alt="">` : esc(monogramme(c.nom))}</span>
       <span>
         <span class="nom">${esc(c.nom)}</span>
         <span class="det">${esc(c.plateformes)}${c.sujet && c.sujet !== "à définir" ? "<br>" + esc(c.sujet) : ""}</span>
@@ -105,10 +116,10 @@ function afficherHub() {
     </button>`;
   }).join("");
   points.innerHTML = cs.map((c, i) => `<button role="tab" aria-label="${esc(c.nom)}" data-i="${i}"></button>`).join("");
-  $("#hub-pied").textContent = `${actifs} comptes actifs · ${cs.length - actifs} en préparation · glisse pour changer`;
+  $("#hub-pied").textContent = "Glisse pour changer de compte";
 
   const cartes = [...liste.children];
-  const pas = () => cartes[0].offsetWidth + 24;
+  const pas = () => cartes[0].offsetWidth;
   const courante = () => Math.max(0, Math.min(cs.length - 1, Math.round(liste.scrollLeft / pas())));
   const aller = (i, doux = true) => {
     i = Math.max(0, Math.min(cs.length - 1, i));
@@ -119,6 +130,11 @@ function afficherHub() {
     cartes.forEach((c, k) => { c.tabIndex = k === i ? 0 : -1; c.setAttribute("aria-hidden", k !== i); });
     [...points.children].forEach((p, k) => p.setAttribute("aria-selected", k === i));
     $("#hub-compteur").textContent = `${n2(i + 1)} / ${n2(cs.length)}`;
+    const s = styleCarte(cs[i]), hub = $("#hub");
+    hub.style.setProperty("--fg", s.texte); hub.style.setProperty("--fg2", s.texte2);
+    hub.classList.toggle("clair", s.clair);
+    document.body.style.background = s.fond;
+    document.querySelector('meta[name="theme-color"]').content = s.fond;
     $("#hub-prec").disabled = i === 0; $("#hub-suiv").disabled = i === cs.length - 1;
     try { localStorage.setItem(CLE_POS, i); } catch {}
   };
