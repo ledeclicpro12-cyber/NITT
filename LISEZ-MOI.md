@@ -1,6 +1,6 @@
 # Appli « Le Déclic » pour iPhone
 
-Une petite appli web (PWA) à mettre sur l'écran d'accueil : conseil du jour, activité (programmé et publié) et statistiques Instagram et TikTok.
+Une petite appli web (PWA) à mettre sur l'écran d'accueil : conseil du jour, activité (programmé et publié), page « Dernier post » (chiffres, comparaison à ta médiane, prévisions à 24 h, 7 j et 30 j) et statistiques Instagram et TikTok.
 
 ## Comment ça marche
 
@@ -32,6 +32,7 @@ Le code d'accès n'est écrit nulle part dans le dépôt. Pour le changer, il fa
 - `maj` : date ISO de la mise à jour.
 - `conseil` : `{ date: "AAAA-MM-JJ", titre, texte, base }` (affiché seulement si `date` = aujourd'hui, heure de Paris).
 - `instagram` / `tiktok` : `{ compte, abonnes, abonnesVeille?, jours: [{date, vues, portee}], reels|videos: [{date, titre, url, vues, portee, likes, commentaires, enregistrements, partages, interactions, tempsMoyen, taux3s}] }`.
+- `suivi` : `{ "<url du reel>": [{ date: "AAAA-MM-JJ", vues }] }`, une entrée par jour, pour la page Dernier post et pour recaler les prévisions.
 - `programmes` : `[{ date, reseau: "instagram"|"tiktok", titre, statut }]`.
 
 Champs Metricool : Insta reels IGRE02,03,06,23,11,10,07,12,21,09,24,28 ; Insta par jour IGEV01 (abonnés), IGEV05 (vues), IGEV06 (portée) ; TikTok vidéos TKPO02,03,05,07,08,09,10,13,15 ; TikTok par jour TKEV07,12 ; programmés : getScheduledPosts.

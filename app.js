@@ -85,6 +85,7 @@ function afficher() {
   tuiles();
   graphique($("#graph"), DATA.instagram.jours);
   activite();
+  dernier();
   stats();
 }
 
@@ -155,6 +156,117 @@ function activite() {
     <div class="corps"><div class="titre">${esc(p.titre)}</div>
     <div class="meta"><span class="pastille ${p.reseau}">${p.reseau === "tiktok" ? "TikTok" : "Instagram"}</span>${dateCourte(p.date)} · ${heure(p.date)}</div></div>
     <div class="chiffre">${p.vues == null ? "…" : fmt.format(p.vues)}<small>${p.vues == null ? "chiffres demain" : "vues"}</small></div></a>`).join("") || '<p class="vide">Aucune publication.</p>';
+}
+
+// ---- Dernier post : chiffres, comparaison et prévisions ----
+
+// Part des vues sur 30 jours déjà faite après t jours (hypothèse de départ pour un petit compte,
+// à recaler avec le suivi jour par jour que la routine enregistre).
+const COURBE = [[0, 0], [1, .45], [2, .6], [3, .68], [4, .73], [7, .85], [14, .94], [30, 1]];
+function part(t) {
+  if (t >= 30) return 1;
+  for (let i = 1; i < COURBE.length; i++) {
+    const [t1, p1] = COURBE[i], [t0, p0] = COURBE[i - 1];
+    if (t <= t1) return p0 + (p1 - p0) * (t - t0) / (t1 - t0);
+  }
+  return 1;
+}
+const ageJours = (iso, ref) => Math.max(0, (new Date(ref) - new Date(iso)) / 864e5);
+const quantile = (xs, q) => {
+  const s = [...xs].sort((a, b) => a - b);
+  if (!s.length) return null;
+  const i = (s.length - 1) * q, lo = Math.floor(i), hi = Math.ceil(i);
+  return s[lo] + (s[hi] - s[lo]) * (i - lo);
+};
+const arrondi = (n) => n >= 10000 ? Math.round(n / 500) * 500 : n >= 1000 ? Math.round(n / 50) * 50 : Math.round(n / 10) * 10;
+const memePost = (a, b) => Math.abs(new Date(a.date) - new Date(b.date)) < 3 * 36e5;
+
+function prevision(post, autres, ref) {
+  const vus = autres.filter((r) => r.vues != null);
+  if (vus.length < 3) return null;
+  // Ce qu'auraient fait les vidéos précédentes sur 30 jours, d'après leurs vues actuelles.
+  const est = vus.map((r) => r.vues / part(Math.max(ageJours(r.date, ref), .5)));
+  const med = quantile(est, .5), bas = quantile(est, .25), haut = quantile(est, .75);
+  const age = ageJours(post.date, ref);
+  let central = med, b = bas, h = haut, source = "de tes vidéos précédentes";
+  if (post.vues != null && age >= .25) {
+    const obs = post.vues / part(age);
+    const w = Math.min(1, age / 2);
+    central = Math.exp(w * Math.log(obs) + (1 - w) * Math.log(med));
+    const f = 1.3 + 1.2 * Math.max(0, 1 - age / 7);
+    b = Math.max(post.vues, central / f); h = central * f;
+    source = w >= 1 ? "des vues déjà faites" : "des vues déjà faites et de tes vidéos précédentes";
+  }
+  const horizons = [["24 h", 1], ["7 jours", 7], ["30 jours", 30]].map(([lib, j]) => ({
+    lib, passe: age >= j,
+    // Une prévision ne descend jamais sous les vues déjà faites.
+    central: Math.max(central * part(j), post.vues ?? 0), bas: Math.max(b * part(j), post.vues ?? 0), haut: Math.max(h * part(j), post.vues ?? 0),
+  }));
+  return { horizons, mediane30: med, source, age };
+}
+
+function comparer(val, ref) {
+  if (val == null || ref == null || !ref) return "";
+  const r = val / ref;
+  const txt = r >= 1 ? "×" + r.toFixed(1).replace(".", ",") : "−" + Math.round((1 - r) * 100) + " %";
+  return `<span class="${r >= 1 ? "plus" : "moins"}">${txt} vs ta médiane</span>`;
+}
+
+function blocReseau(nom, post, autres, champs) {
+  if (!post) return `<h2>${nom}</h2><p class="vide">Pas publié sur ${nom}.</p>`;
+  if (post.vues == null) return `<h2>${nom}</h2><p class="vide">Publié, chiffres pas encore remontés par Metricool (souvent le lendemain).</p>`;
+  const med = (k) => { const xs = autres.map((r) => r[k]).filter((v) => v != null); return xs.length ? quantile(xs, .5) : null; };
+  return `<h2>${nom}</h2><div class="tuiles">${champs.filter(([k]) => post[k] != null).map(([k, lib, f]) =>
+    `<div class="tuile"><div class="val">${f ? f(post[k]) : fmt.format(post[k])}</div><div class="lib">${lib}</div><div class="delta">${comparer(post[k], med(k))}</div></div>`).join("")}</div>`;
+}
+
+function dernier() {
+  const el = $("#dernier");
+  const ig = DATA.instagram.reels, tk = DATA.tiktok.videos;
+  const tous = [...ig, ...tk].sort((a, b) => new Date(b.date) - new Date(a.date));
+  if (!tous.length) { el.innerHTML = '<p class="vide">Aucun post publié.</p>'; return; }
+  const ref = tous[0];
+  const pIg = ig.find((r) => memePost(r, ref)), pTk = tk.find((r) => memePost(r, ref));
+  const autresIg = ig.filter((r) => r !== pIg), autresTk = tk.filter((r) => r !== pTk);
+  const age = ageJours(ref.date, DATA.maj);
+  const depuis = age < 1 ? Math.max(1, Math.round(age * 24)) + " h" : Math.round(age) + " j";
+
+  const prev = pIg ? prevision(pIg, autresIg, DATA.maj) : null;
+  let prevHtml = '<p class="vide">Pas assez de vidéos précédentes pour prévoir.</p>';
+  if (prev) {
+    const max = Math.max(...prev.horizons.map((x) => x.haut), prev.mediane30);
+    prevHtml = prev.horizons.map((x) => `<div class="prev">
+      <div class="prev-lib">${x.lib}${x.passe ? ' <small>(passé)</small>' : ""}</div>
+      <div class="prev-val">${fmt.format(arrondi(x.central))}<small> vues</small></div>
+      <div class="prev-barre"><span style="left:${x.bas / max * 100}%;width:${Math.max(2, (x.haut - x.bas) / max * 100)}%"></span>
+        <i style="left:${x.central / max * 100}%"></i></div>
+      <div class="prev-four">entre ${fmt.format(arrondi(x.bas))} et ${fmt.format(arrondi(x.haut))}</div></div>`).join("")
+      + `<p class="note">Médiane de tes reels sur 30 jours : environ ${fmt.format(arrondi(prev.mediane30))} vues. Prévision calculée à partir ${prev.source}, avec une courbe type (≈ 45 % des vues le 1er jour, 85 % à 7 jours). C'est un ordre de grandeur, pas une promesse.</p>`;
+  }
+
+  const suivi = (DATA.suivi || {})[pIg?.url] || [];
+  const jours = DATA.instagram.jours.filter((j) => j.abonnes != null);
+  const avant = [...jours].reverse().find((j) => new Date(j.date + "T23:59:00") < new Date(ref.date));
+  const apres = jours[jours.length - 1];
+  const gain = avant && apres && apres !== avant ? apres.abonnes - avant.abonnes : null;
+
+  const pct = (v) => Math.round(v) + " %";
+  const sec = (v) => v.toFixed(1).replace(".", ",") + " s";
+  el.innerHTML = `
+    <article class="carte dernier-tete">
+      <span class="etiquette-douce">Publié il y a ${depuis}</span>
+      <h3>${esc(ref.titre)}</h3>
+      <p class="meta">${dateCourte(ref.date)} · ${heure(ref.date)}</p>
+      <div class="liens">${pIg ? `<a href="${esc(pIg.url)}" target="_blank" rel="noopener">Voir sur Instagram</a>` : ""}${pTk ? `<a href="${esc(pTk.url)}" target="_blank" rel="noopener">Voir sur TikTok</a>` : ""}</div>
+    </article>
+    <h2>Prévisions Instagram</h2>
+    <div class="carte">${prevHtml}</div>
+    ${blocReseau("Instagram", pIg, autresIg, [["vues", "vues"], ["portee", "comptes touchés"], ["taux3s", "restent plus de 3 s", pct], ["tempsMoyen", "temps moyen regardé", sec], ["likes", "j'aime"], ["commentaires", "commentaires"], ["enregistrements", "enregistrements"], ["partages", "partages"]])}
+    ${blocReseau("TikTok", pTk, autresTk, [["vues", "vues"], ["likes", "j'aime"], ["commentaires", "commentaires"], ["partages", "partages"], ["vuesCompletes", "regardée jusqu'au bout", pct], ["tempsMoyen", "temps moyen regardé", sec]])}
+    <h2>Abonnés</h2>
+    <p class="vide">${gain != null ? `${signe(gain)} abonnés Instagram depuis la sortie (tout le compte, pas seulement ce post).` : "Gain d'abonnés visible après la prochaine mise à jour du matin."}</p>
+    ${suivi.length > 1 ? `<h2>Vues jour après jour</h2><div class="carte" id="graph-dernier"></div>` : ""}`;
+  if (suivi.length > 1) graphique($("#graph-dernier"), suivi);
 }
 
 function stats() {
