@@ -105,13 +105,13 @@ function conseil() {
 
 function tuiles() {
   const ig = DATA.instagram, tk = DATA.tiktok;
-  const vues = ig.reels.map((r) => r.vues);
+  const vues = ig.reels.map((r) => r.vues).filter((v) => v != null);
   const total = vues.reduce((a, b) => a + b, 0);
   const t = [
     [fmt.format(ig.abonnes), "abonnés Instagram", ig.abonnesVeille != null ? signe(ig.abonnes - ig.abonnesVeille) + " depuis hier" : ""],
     [fmt.format(total), "vues des reels", ig.reels.length + " reels"],
     [fmt.format(Math.round(mediane(vues))), "vues médianes par reel", ""],
-    [fmt.format(tk.abonnes), "abonnés TikTok", tk.videos.length ? tk.videos.length + " vidéos" : "pas encore de vidéo"],
+    [fmt.format(tk.abonnes), "abonnés TikTok", tk.videos.length ? tk.videos.length + (tk.videos.length > 1 ? " vidéos" : " vidéo") : "pas encore de vidéo"],
   ];
   $("#tuiles").innerHTML = t.map(([v, l, d]) => `<div class="tuile"><div class="val">${v}</div><div class="lib">${l}</div>${d ? `<div class="delta">${d}</div>` : ""}</div>`).join("");
 }
@@ -154,13 +154,18 @@ function activite() {
   $("#publies").innerHTML = publies.map((p) => `<a class="ligne" href="${esc(p.url)}" target="_blank" rel="noopener">
     <div class="corps"><div class="titre">${esc(p.titre)}</div>
     <div class="meta"><span class="pastille ${p.reseau}">${p.reseau === "tiktok" ? "TikTok" : "Instagram"}</span>${dateCourte(p.date)} · ${heure(p.date)}</div></div>
-    <div class="chiffre">${fmt.format(p.vues)}<small>vues</small></div></a>`).join("") || '<p class="vide">Aucune publication.</p>';
+    <div class="chiffre">${p.vues == null ? "…" : fmt.format(p.vues)}<small>${p.vues == null ? "chiffres demain" : "vues"}</small></div></a>`).join("") || '<p class="vide">Aucune publication.</p>';
 }
 
 function stats() {
   const d = DATA[reseau];
   const items = reseau === "instagram" ? d.reels : d.videos;
   const el = $("#stats");
+  const avecChiffres = items.filter((r) => r.vues != null);
+  if (items.length && !avecChiffres.length) {
+    el.innerHTML = `<h2>@${esc(d.compte)}</h2><p class="vide">${items.length} vidéo publiée, mais Metricool récupère les chiffres TikTok avec environ un jour de retard. Ils apparaîtront après la mise à jour du matin.</p>`;
+    return;
+  }
   if (!items.length) {
     el.innerHTML = `<h2>@${esc(d.compte)}</h2><p class="vide">Pas encore de vidéo publiée sur TikTok. Les chiffres apparaîtront le lendemain de la première publication.</p>`;
     return;
@@ -175,7 +180,7 @@ function stats() {
     [fmt.format(somme("enregistrements")), "enregistrements"],
     [fmt.format(somme("partages")), "partages"],
   ];
-  const classes = [...items].sort((a, b) => b.vues - a.vues);
+  const classes = [...items].sort((a, b) => (b.vues ?? -1) - (a.vues ?? -1));
   el.innerHTML = `<h2>@${esc(d.compte)}</h2>
     <div class="tuiles">${t.map(([v, l]) => `<div class="tuile"><div class="val">${v}</div><div class="lib">${l}</div></div>`).join("")}</div>
     <h2>Vues par jour</h2><div class="carte" id="graph-stats"></div>
@@ -184,7 +189,7 @@ function stats() {
       <span class="rang">${i + 1}</span>
       <div class="corps"><div class="titre">${esc(r.titre)}</div>
       <div class="meta">${r.taux3s != null ? Math.round(r.taux3s) + " % > 3 s · " : ""}${fmt.format(r.likes || 0)} j'aime · ${fmt.format(r.partages || 0)} partages</div></div>
-      <div class="chiffre">${fmt.format(r.vues)}<small>vues</small></div></a>`).join("")}`;
+      <div class="chiffre">${r.vues == null ? "…" : fmt.format(r.vues)}<small>${r.vues == null ? "chiffres demain" : "vues"}</small></div></a>`).join("")}`;
   graphique($("#graph-stats"), d.jours);
 }
 
