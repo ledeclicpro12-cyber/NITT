@@ -1,5 +1,5 @@
 // Coquille en cache (l'appli s'ouvre hors ligne), données toujours prises en ligne d'abord.
-const CACHE = "declic-v4";
+const CACHE = "declic-v5";
 const COQUILLE = ["./", "index.html", "style.css", "app.js", "manifest.webmanifest",
   "icons/icon-180.png", "icons/icon-192.png", "icons/icon-512.png"];
 

@@ -293,14 +293,15 @@ function stats() {
     [fmt.format(somme("partages")), "partages"],
   ];
   const classes = [...items].sort((a, b) => (b.vues ?? -1) - (a.vues ?? -1));
+  const recent = items.reduce((a, b) => (new Date(b.date) > new Date(a.date) ? b : a));
   el.innerHTML = `<h2>@${esc(d.compte)}</h2>
     <div class="tuiles">${t.map(([v, l]) => `<div class="tuile"><div class="val">${v}</div><div class="lib">${l}</div></div>`).join("")}</div>
     <h2>Vues par jour</h2><div class="carte" id="graph-stats"></div>
     <h2>Classement des vidéos</h2>
-    ${classes.map((r, i) => `<a class="ligne ${i === 0 ? "top1" : ""}" href="${esc(r.url)}" target="_blank" rel="noopener">
+    ${classes.map((r, i) => `<a class="ligne ${i === 0 ? "top1" : ""} ${r === recent ? "recent" : ""}" href="${esc(r.url)}" target="_blank" rel="noopener">
       <span class="rang">${i + 1}</span>
-      <div class="corps"><div class="titre">${esc(r.titre)}</div>
-      <div class="meta">${r.taux3s != null ? Math.round(r.taux3s) + " % > 3 s · " : ""}${fmt.format(r.likes || 0)} j'aime · ${fmt.format(r.partages || 0)} partages</div></div>
+      <div class="corps">${r === recent ? '<span class="badge-recent">Dernier post</span>' : ""}<div class="titre">${esc(r.titre)}</div>
+      <div class="meta">${r.vues == null ? "Chiffres pas encore remontés" : `${r.taux3s != null ? Math.round(r.taux3s) + " % > 3 s · " : ""}${fmt.format(r.likes || 0)} j'aime · ${fmt.format(r.partages || 0)} partages`}</div></div>
       <div class="chiffre">${r.vues == null ? "…" : fmt.format(r.vues)}<small>${r.vues == null ? "chiffres demain" : "vues"}</small></div></a>`).join("")}`;
   graphique($("#graph-stats"), d.jours);
 }
