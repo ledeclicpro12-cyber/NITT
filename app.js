@@ -82,8 +82,20 @@ async function chargerComptes() {
     return verrou("Code incorrect ou changé.");
   }
   $("#verrou").hidden = true;
+  COMPTES.comptes = COMPTES.comptes.map(avecDA);
   afficherHub();
 }
+
+// DA en clair (ce ne sont que des couleurs) : prioritaire sur celle de la liste chiffrée.
+// Inspecteur Pi : fond quasi noir, crème et corail, accent cyan, logo pixel-art du détective.
+const DA_LOCALES = {
+  "inspecteur-pi": {
+    logo: "icons/inspecteur-pi.svg",
+    da: { nuit: "#07090F", encre: "#121830", "encre-2": "#1A2244", ivoire: "#F3E6CF", givre: "#C9CFE4", ardoise: "#AEB6D4",
+      ambre: "#FF7A59", brume: "#8FE3FF", cuivre: "#3F4F86", titre: '"Anton", "Impact", sans-serif' },
+  },
+};
+const avecDA = (c) => { const l = DA_LOCALES[slug(c.id || c.nom)]; return l ? { ...c, ...l, da: { ...(c.da || {}), ...l.da } } : c; };
 
 // Couleurs d'une page du carrousel, tirées de la DA du compte.
 const clairete = (hex) => { const n = parseInt(hex.slice(1), 16); return (0.299 * (n >> 16) + 0.587 * (n >> 8 & 255) + 0.114 * (n & 255)) / 255; };
