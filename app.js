@@ -269,6 +269,7 @@ function afficher() {
   activite();
   dernier();
   stories();
+  rythme();
   stats();
   compter($(".tab.actif") || document);
 }
@@ -450,6 +451,52 @@ function stories() {
     const s = (k) => avec.reduce((a, x) => a + (x[k] || 0), 0);
     anneau($("#g-st-gestes"), [{ lib: "Passent à la suivante", val: s("suivant") }, { lib: "Reviennent en arrière", val: s("retour") }, { lib: "Quittent", val: s("sorties") }, { lib: "Répondent", val: s("reponses") }], kilo(s("impressions")), "vues");
   }
+}
+
+// ——— Rythme de publication : conseil de l'IA (écrit par la routine du matin) et choix de l'utilisateur ———
+// Le choix part en « issue » GitHub pré-remplie ; la routine du matin l'applique dans reglages.json.
+const DEPOT = "ledeclicpro12-cyber/NITT";
+const LIMITES = { posts: [0, 4], stories: [0, 6] };
+async function rythme() {
+  const el = $("#rythme"), id = COMPTE.id;
+  const conseil = DATA.rythme?.conseil || { posts: 1, stories: 2, pourquoi: "Règle de départ : 1 post par jour tant qu'il n'y a pas 14 jours de recul, 2 stories pour rester visible entre les posts." };
+  let actuel = null;
+  try { actuel = (await (await fetch("reglages.json?t=" + Date.now(), { cache: "no-store" })).json())[id] || null; } catch {}
+  const cleEnvoi = "nitt-rythme-" + id;
+  let envoye = null; try { envoye = JSON.parse(localStorage.getItem(cleEnvoi)); } catch {}
+  if (envoye && actuel && envoye.posts === actuel.posts && envoye.stories === actuel.stories) envoye = null;
+  const choix = { posts: (envoye || actuel || conseil).posts, stories: (envoye || actuel || conseil).stories };
+
+  const rendu = () => {
+    const estConseil = choix.posts === conseil.posts && choix.stories === conseil.stories;
+    const change = !actuel || choix.posts !== actuel.posts || choix.stories !== actuel.stories;
+    const ligne = (k, lib) => `<div class="pas"><span class="pas-lib">${lib}<small>conseil : ${conseil[k]}</small></span>
+      <button data-k="${k}" data-d="-1" aria-label="Moins de ${lib}" ${choix[k] <= LIMITES[k][0] ? "disabled" : ""}>−</button>
+      <b aria-live="polite">${choix[k]}</b>
+      <button data-k="${k}" data-d="1" aria-label="Plus de ${lib}" ${choix[k] >= LIMITES[k][1] ? "disabled" : ""}>+</button></div>`;
+    el.innerHTML = `<p class="rythme-ia"><span class="etiquette-douce">Conseil IA</span> ${conseil.posts} post${conseil.posts > 1 ? "s" : ""} et ${conseil.stories} stor${conseil.stories > 1 ? "ies" : "y"} par jour. ${esc(conseil.pourquoi)}</p>
+      ${ligne("posts", "posts par jour")}${ligne("stories", "stories par jour")}
+      <p class="meta rythme-etat">${actuel ? `En place : ${actuel.posts} post${actuel.posts > 1 ? "s" : ""} et ${actuel.stories} stor${actuel.stories > 1 ? "ies" : "y"} par jour${actuel.source === "conseil" ? " (conseil IA)" : ""}.` : "Aucun rythme enregistré : la routine suit le conseil IA."}
+        ${envoye ? ` Demande envoyée : ${envoye.posts} et ${envoye.stories}, appliquée à la prochaine routine.` : ""}</p>
+      <div class="rythme-actions">
+        ${estConseil ? "" : '<button class="btn-doux" data-a="conseil">Revenir au conseil IA</button>'}
+        <button class="btn-plein" data-a="appliquer" ${change ? "" : "disabled"}>${!change ? "C'est le rythme en place" : envoye && envoye.posts === choix.posts && envoye.stories === choix.stories ? "Renvoyer la demande" : "Appliquer ce rythme"}</button>
+      </div>`;
+    el.querySelectorAll(".pas button").forEach((b) => b.onclick = () => {
+      const k = b.dataset.k; choix[k] = Math.max(LIMITES[k][0], Math.min(LIMITES[k][1], choix[k] + +b.dataset.d)); rendu();
+    });
+    el.querySelector('[data-a="conseil"]')?.addEventListener("click", () => { choix.posts = conseil.posts; choix.stories = conseil.stories; rendu(); });
+    el.querySelector('[data-a="appliquer"]').onclick = () => {
+      const src = choix.posts === conseil.posts && choix.stories === conseil.stories ? "conseil" : "choix";
+      const titre = `Rythme ${id} : ${choix.posts} post${choix.posts > 1 ? "s" : ""}, ${choix.stories} stor${choix.stories > 1 ? "ies" : "y"}`;
+      const corps = `Demande envoyée depuis l'appli NITT.\n\ncompte: ${id}\nposts: ${choix.posts}\nstories: ${choix.stories}\nsource: ${src}\n\nLa routine du matin l'applique dans reglages.json puis ferme cette demande.`;
+      try { localStorage.setItem(cleEnvoi, JSON.stringify({ posts: choix.posts, stories: choix.stories })); } catch {}
+      envoye = { ...choix };
+      open(`https://github.com/${DEPOT}/issues/new?title=${encodeURIComponent(titre)}&body=${encodeURIComponent(corps)}`, "_blank", "noopener");
+      rendu();
+    };
+  };
+  rendu();
 }
 
 function lignePost(p) {

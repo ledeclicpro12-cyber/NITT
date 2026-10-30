@@ -51,3 +51,7 @@ L'onglet Stats dessine, à partir des mêmes données : la courbe des vues et de
 ## Stories (version 14)
 
 Onglet « Stories » : objectif du jour (2 stories), programme des prochains jours avec miniatures, et stats Instagram (portée, vues, sorties, réponses, gestes). Il lit le champ `stories` du fichier du compte, décrit dans routine-matin.md (étape 2 ter). Les stories elles-mêmes sont programmées dans Metricool par la routine des 2 vidéos du jour (type STORY, Instagram seulement : Metricool ne fait pas de story TikTok).
+
+## Rythme de publication (version 15)
+
+Carte « Rythme de publication » dans l'onglet Aujourd'hui : le conseil IA (`rythme.conseil` dans le fichier chiffré du compte, réécrit chaque matin) est proposé par défaut ; on peut choisir de 0 à 4 posts et de 0 à 6 stories par jour. « Appliquer » ouvre une demande GitHub pré-remplie (titre « Rythme <id> : … ») qu'il suffit d'envoyer. La routine du matin la reporte dans `reglages.json` (en clair : seulement des nombres) et la ferme. La routine qui produit et programme les vidéos lit `reglages.json` ; sans entrée pour un compte, elle suit le conseil IA.

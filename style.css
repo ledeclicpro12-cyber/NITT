@@ -357,6 +357,23 @@ svg rect { transform-box: fill-box; transform-origin: bottom; animation: pousse 
 .pastille.ok { background: color-mix(in srgb, var(--brume) 25%, transparent); color: var(--brume); }
 .nav button { font-size: 10.5px; }
 
+/* Rythme de publication */
+.rythme-ia { margin: 0 0 12px; font-size: 14px; line-height: 1.45; color: var(--givre); }
+.rythme-ia .etiquette-douce { margin-right: 4px; }
+.pas { display: grid; grid-template-columns: 1fr 40px 2.4em 40px; align-items: center; gap: 8px; padding: 8px 0; border-top: 1px solid var(--encre-2); }
+.pas-lib { font-weight: 600; display: grid; }
+.pas-lib small { font-weight: 400; font-size: 12px; color: var(--ardoise); }
+.pas button { width: 40px; height: 40px; border-radius: 12px; border: 0; background: var(--encre-2); color: var(--ivoire); font: 600 20px var(--texte); transition: transform .15s; }
+.pas button:active { transform: scale(.9); }
+.pas button:disabled { opacity: .3; }
+.pas b { font: 700 22px var(--mono); text-align: center; }
+.rythme-etat { margin: 10px 0 0; }
+.rythme-actions { display: flex; gap: 8px; margin-top: 12px; }
+.rythme-actions button { flex: 1; min-height: 44px; border-radius: 12px; font: 700 14px var(--texte); border: 0; }
+.btn-plein { background: var(--ambre); color: var(--nuit); }
+.btn-plein:disabled { background: var(--encre-2); color: var(--ardoise); }
+.btn-doux { background: transparent; color: var(--givre); border: 1px solid var(--encre-2) !important; }
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
   .page-compte .logo, .page-compte .nom, .page-compte .det, .page-compte .statut, .page-compte .entrer, .page-compte::before { transform: none; opacity: 1; }
