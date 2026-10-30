@@ -106,7 +106,7 @@ function afficherHub() {
     return `<button class="page-compte ${actif ? "" : "afaire"}" data-i="${i}" tabindex="-1" ${actif ? "" : 'aria-disabled="true"'}
         style="--p-fond:${s.fond};--p-texte:${s.texte};--p-texte2:${s.texte2};--p-accent:${s.accent};--p-sur-accent:${s.surAccent};--p-titre:${s.titre.replace(/"/g, "'")}"
         aria-label="${esc(c.nom)}, compte ${i + 1} sur ${cs.length}${actif ? ". Touche pour ouvrir" : ", en préparation"}">
-      <span class="logo" aria-hidden="true">${c.logo ? `<img src="${esc(c.logo)}" alt="">` : esc(monogramme(c.nom))}</span>
+      <span class="logo-boite"><span class="logo" aria-hidden="true">${c.logo ? `<img src="${esc(c.logo)}" alt="">` : esc(monogramme(c.nom))}</span></span>
       <span>
         <span class="nom">${esc(c.nom)}</span>
         <span class="det">${esc(c.plateformes)}${c.sujet && c.sujet !== "à définir" ? "<br>" + esc(c.sujet) : ""}</span>
@@ -138,11 +138,16 @@ function afficherHub() {
     $("#hub-prec").disabled = i === 0; $("#hub-suiv").disabled = i === cs.length - 1;
     try { localStorage.setItem(CLE_POS, i); } catch {}
   };
+  // Parallaxe : chaque page connaît sa distance au centre (−1 à 1).
+  const parallaxe = () => {
+    const x = liste.scrollLeft / pas();
+    cartes.forEach((c, k) => { const d = Math.max(-1, Math.min(1, k - x)); c.style.setProperty("--d", d.toFixed(3)); c.style.setProperty("--a", Math.abs(d).toFixed(3)); });
+  };
   let attente;
-  liste.onscroll = () => { cancelAnimationFrame(attente); attente = requestAnimationFrame(majIndicateurs); };
+  liste.onscroll = () => { cancelAnimationFrame(attente); attente = requestAnimationFrame(() => { parallaxe(); majIndicateurs(); }); };
   cartes.forEach((c, k) => c.addEventListener("click", () => {
     if (k !== courante()) return aller(k);
-    if (cs[k].statut === "actif") ouvrirCompte(cs[k]);
+    if (cs[k].statut === "actif") ouvrirCompte(cs[k], c.querySelector(".entrer"));
   }));
   [...points.children].forEach((p) => p.addEventListener("click", () => aller(+p.dataset.i)));
   $("#hub-prec").onclick = () => aller(courante() - 1);
@@ -150,11 +155,14 @@ function afficherHub() {
   liste.onkeydown = (e) => {
     if (e.key === "ArrowRight") { e.preventDefault(); aller(courante() + 1); }
     if (e.key === "ArrowLeft") { e.preventDefault(); aller(courante() - 1); }
-    if (e.key === "Enter" && e.target === liste && cs[courante()].statut === "actif") ouvrirCompte(cs[courante()]);
+    if (e.key === "Enter" && e.target === liste && cs[courante()].statut === "actif") ouvrirCompte(cs[courante()], cartes[courante()].querySelector(".entrer"));
   };
   let depart = 0;
   try { depart = +localStorage.getItem(CLE_POS) || 0; } catch {}
-  requestAnimationFrame(() => { aller(depart, false); majIndicateurs(); });
+  const hub = $("#hub");
+  hub.classList.remove("entree"); void hub.offsetWidth; hub.classList.add("entree");
+  setTimeout(() => hub.classList.remove("entree"), 1400);
+  requestAnimationFrame(() => { aller(depart, false); parallaxe(); majIndicateurs(); });
 }
 
 // Deux lettres : initiales des mots importants (« Le Déclic » → LD, « Inspecteur Pi » → IP).
@@ -173,7 +181,21 @@ function appliquerDA(da) {
   document.body.style.background = da.nuit || "";
 }
 
-async function ouvrirCompte(c) {
+const calme = () => matchMedia("(prefers-reduced-motion: reduce)").matches;
+// Cercle de couleur qui part du bouton et couvre l'écran, puis le compte apparaît dessous.
+function eclat(origine, couleur) {
+  if (calme() || !origine) return Promise.resolve(() => {});
+  const r = origine.getBoundingClientRect(), el = document.createElement("div");
+  el.className = "eclat"; el.style.background = couleur;
+  el.style.setProperty("--ox", r.left + r.width / 2 + "px"); el.style.setProperty("--oy", r.top + r.height / 2 + "px");
+  document.body.append(el);
+  return new Promise((ok) => el.addEventListener("animationend", () => ok(() => {
+    el.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 350, easing: "ease-out" }).finished.then(() => el.remove());
+  }), { once: true }));
+}
+
+async function ouvrirCompte(c, origine) {
+  const fin = await eclat(origine, (c.da || {}).nuit || "#0E1220");
   COMPTE = c; DATA = null;
   appliquerDA(c.da || {});
   $("#app-nom").textContent = c.nom;
@@ -181,6 +203,7 @@ async function ouvrirCompte(c) {
   $("#hub").hidden = true; $("#app").hidden = false;
   ouvrirOnglet("jour");
   scrollTo(0, 0);
+  fin();
   await chargerDonnees();
 }
 
@@ -223,6 +246,21 @@ $("#verrou").addEventListener("submit", (e) => {
 });
 $("#retour").addEventListener("click", fermerCompte);
 
+// Les chiffres des tuiles défilent jusqu'à leur valeur.
+function compter(racine) {
+  if (calme()) return;
+  racine.querySelectorAll(".tuile .val").forEach((el) => {
+    const texte = el.textContent, m = texte.match(/^([^\d]*)([\d\s\u202f\u00a0]+)(.*)$/);
+    if (!m) return;
+    const cible = +m[2].replace(/\D/g, ""); if (!cible) return;
+    const t0 = performance.now(), duree = 900;
+    const pas = (t) => { const p = Math.min(1, (t - t0) / duree), e = 1 - Math.pow(1 - p, 3);
+      el.textContent = m[1] + fmt.format(Math.round(cible * e)) + m[3];
+      if (p < 1) requestAnimationFrame(pas); else el.textContent = texte; };
+    requestAnimationFrame(pas);
+  });
+}
+
 function afficher() {
   $("#maj").textContent = "Mis à jour " + dateCourte(DATA.maj) + " à " + heure(DATA.maj);
   conseil();
@@ -231,6 +269,7 @@ function afficher() {
   activite();
   dernier();
   stats();
+  compter($(".tab.actif") || document);
 }
 
 function conseil() {
@@ -458,13 +497,14 @@ function ouvrirOnglet(nom) {
 }
 document.querySelectorAll(".nav button").forEach((b) => b.addEventListener("click", () => {
   ouvrirOnglet(b.dataset.tab);
+  compter($("#tab-" + b.dataset.tab));
   scrollTo(0, 0);
 }));
 document.querySelectorAll(".seg button").forEach((b) => b.addEventListener("click", () => {
   document.querySelectorAll(".seg button").forEach((x) => x.classList.remove("actif"));
   b.classList.add("actif");
   reseau = b.dataset.reseau;
-  if (DATA) stats();
+  if (DATA) { stats(); compter($("#stats")); }
 }));
 $("#refresh").addEventListener("click", () => COMPTE && chargerDonnees());
 document.addEventListener("visibilitychange", () => { if (!document.hidden && COMPTE?.donnees) chargerDonnees(); });

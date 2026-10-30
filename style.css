@@ -251,3 +251,67 @@ h2 {
 .hub-verrou input { background: var(--n-blanc); color: var(--n-noir); border: 1.5px solid var(--n-noir); border-radius: 10px; font-family: "Inter", system-ui, sans-serif; letter-spacing: .04em; }
 .hub-verrou button { background: var(--n-noir); color: var(--n-blanc); border-radius: 10px; font-family: "Inter", system-ui, sans-serif; letter-spacing: .02em; }
 .hub-verrou .verrou-msg { color: var(--n-noir); font-weight: 600; }
+
+/* Animations */
+@keyframes monte { from { opacity: 0; transform: translateY(26px); } to { opacity: 1; transform: none; } }
+@keyframes flotte { 0%, 100% { translate: 0 0; } 50% { translate: 0 -8px; } }
+@keyframes respire { 0%, 100% { opacity: .75; scale: 1; } 50% { opacity: 1; scale: 1.08; } }
+@keyframes pousse { from { transform: scaleY(0); } to { transform: none; } }
+@keyframes eclat { from { clip-path: circle(0 at var(--ox) var(--oy)); } to { clip-path: circle(150vmax at var(--ox) var(--oy)); } }
+
+/* Glissement : chaque page bouge à sa vitesse selon --d (−1 à 1, calculé en JS). */
+.page-compte { --d: 0; --a: 0; }
+.page-compte .logo { transform: translateX(calc(var(--d) * 140px)) rotate(calc(var(--d) * -30deg)) scale(calc(1 - var(--a) * .35)); will-change: transform; }
+.page-compte .nom { transform: translateX(calc(var(--d) * 70px)); opacity: calc(1 - var(--a) * .9); }
+.page-compte .det, .page-compte .statut { transform: translateX(calc(var(--d) * 110px)); opacity: calc(1 - var(--a)); }
+.page-compte .entrer { transform: translateX(calc(var(--d) * 170px)); opacity: calc(1 - var(--a)); }
+.page-compte::before { transform: translateX(calc(var(--d) * -35vw)); }
+.page-compte .logo { animation: flotte 5s ease-in-out infinite; }
+.page-compte .logo::after { content: ""; position: absolute; inset: -18px; border-radius: 50%; border: 1px solid color-mix(in srgb, var(--p-accent) 45%, transparent); animation: respire 3.2s ease-in-out infinite; pointer-events: none; }
+.page-compte .logo { position: relative; overflow: visible; }
+.page-compte .logo img { border-radius: 50%; }
+.page-compte .entrer { transition: scale .15s; }
+.page-compte:active .entrer { scale: .97; }
+.page-compte .entrer span { transition: translate .3s; }
+.page-compte:not(.afaire):hover .entrer span { translate: 4px 0; }
+
+/* Arrivée sur le choix des comptes */
+.hub.entree .hub-tete, .hub.entree .hub-nav, .hub.entree .hub-pied { animation: monte .7s cubic-bezier(.2,.8,.2,1) backwards; }
+.hub.entree .hub-nav { animation-delay: .45s; }
+.hub.entree .hub-pied { animation-delay: .55s; }
+.hub.entree .page-compte .logo-boite, .hub.entree .page-compte .nom, .hub.entree .page-compte .det,
+.hub.entree .page-compte .statut, .hub.entree .page-compte .entrer { animation: monte .8s cubic-bezier(.2,.8,.2,1) backwards; }
+.hub.entree .page-compte .logo-boite { animation-delay: .05s; }
+.hub.entree .page-compte .nom { animation-delay: .15s; }
+.hub.entree .page-compte .det { animation-delay: .25s; }
+.hub.entree .page-compte .statut { animation-delay: .32s; }
+.hub.entree .page-compte .entrer { animation-delay: .4s; }
+.logo-boite { display: block; width: max-content; }
+
+/* Ouverture d'un compte : un cercle de la couleur du compte part du bouton et remplit l'écran. */
+.eclat { position: fixed; inset: 0; z-index: 50; pointer-events: none; animation: eclat .55s cubic-bezier(.7,0,.3,1) both; }
+
+/* Dans un compte : les blocs arrivent les uns après les autres. */
+.tab.actif > * { animation: monte .6s cubic-bezier(.2,.8,.2,1) backwards; }
+.tab.actif > *:nth-child(2) { animation-delay: .06s; }
+.tab.actif > *:nth-child(3) { animation-delay: .12s; }
+.tab.actif > *:nth-child(4) { animation-delay: .18s; }
+.tab.actif > *:nth-child(5) { animation-delay: .24s; }
+.tab.actif > *:nth-child(n+6) { animation-delay: .3s; }
+.tuiles .tuile { animation: monte .6s cubic-bezier(.2,.8,.2,1) backwards; }
+.tuiles .tuile:nth-child(2) { animation-delay: .08s; }
+.tuiles .tuile:nth-child(3) { animation-delay: .16s; }
+.tuiles .tuile:nth-child(4) { animation-delay: .24s; }
+.tuiles .tuile:nth-child(n+5) { animation-delay: .32s; }
+svg rect { transform-box: fill-box; transform-origin: bottom; animation: pousse .7s cubic-bezier(.2,.8,.2,1) backwards; }
+.top { animation: monte .5s cubic-bezier(.2,.8,.2,1) backwards; }
+.nav button { transition: color .25s, transform .2s; }
+.nav button:active { transform: scale(.9); }
+.nav button.actif span { animation: respire .5s ease-out 1; }
+.tuile, .ligne { transition: transform .15s; }
+.ligne:active, .tuile:active { transform: scale(.98); }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  .page-compte .logo, .page-compte .nom, .page-compte .det, .page-compte .statut, .page-compte .entrer, .page-compte::before { transform: none; opacity: 1; }
+}
