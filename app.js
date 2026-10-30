@@ -320,6 +320,85 @@ function graphique(el, jours) {
   el.innerHTML = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Vues par jour">${barres}</svg>`;
 }
 
+// ——— Graphiques (SVG, couleurs de la DA du compte) ———
+const court = (s, n = 24) => { s = String(s || ""); return s.length > n ? s.slice(0, n - 1).trim() + "…" : s; };
+const kilo = (v) => v >= 1000 ? (v / 1000).toFixed(v >= 10000 ? 0 : 1).replace(".", ",") + "k" : String(Math.round(v));
+const jj = (iso) => { const d = new Date(iso + "T12:00:00"); return d.getDate() + "/" + (d.getMonth() + 1); };
+const PALETTE = ["--ambre", "--brume", "--cuivre", "--givre", "--ardoise"];
+
+// Courbe(s) lissée(s) avec aire dégradée ; series = [{nom, cle, couleur}]
+function courbe(el, jours, series) {
+  const js = jours.filter((j) => series.some((s) => j[s.cle] != null));
+  if (js.length < 2) { el.innerHTML = '<p class="vide">Il faut au moins deux jours de données : la courbe se remplira avec les mises à jour du matin.</p>'; return; }
+  const W = 320, H = 170, g = 8, d = 30, h = 14, b = 22;
+  const vals = js.flatMap((j) => series.map((s) => j[s.cle]).filter((v) => v != null));
+  let min = Math.min(...vals), max = Math.max(...vals);
+  if (series.length > 1 || min === max) min = 0; else min -= (max - min) * .15;
+  if (max === min) max = min + 1;
+  const X = (i) => g + (i / (js.length - 1)) * (W - g - d), Y = (v) => H - b - ((v - min) / (max - min)) * (H - b - h);
+  const id = "c" + Math.random().toString(36).slice(2, 7);
+  const tracés = series.map((s, k) => {
+    const pts = js.map((j, i) => [X(i), j[s.cle] == null ? null : Y(j[s.cle])]).filter((p) => p[1] != null);
+    let chemin = `M${pts[0][0]},${pts[0][1]}`;
+    for (let i = 1; i < pts.length; i++) { const [x0, y0] = pts[i - 1], [x1, y1] = pts[i], cx = (x0 + x1) / 2; chemin += ` C${cx},${y0} ${cx},${y1} ${x1},${y1}`; }
+    const aire = `${chemin} L${pts[pts.length - 1][0]},${H - b} L${pts[0][0]},${H - b} Z`;
+    const [xd, yd] = pts[pts.length - 1], dern = js.filter((j) => j[s.cle] != null).pop()[s.cle];
+    return `<defs><linearGradient id="${id}${k}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color:var(${s.couleur});stop-opacity:.35"/><stop offset="1" style="stop-color:var(${s.couleur});stop-opacity:0"/></linearGradient></defs>
+      <path class="aire" d="${aire}" fill="url(#${id}${k})"/>
+      <path class="trait" pathLength="1" d="${chemin}" fill="none" style="stroke:var(${s.couleur})" stroke-width="2.5" stroke-linecap="round"/>
+      <circle class="point" cx="${xd}" cy="${yd}" r="4" style="fill:var(${s.couleur})"/>
+      <text class="etiq" x="${Math.min(xd + 6, W - 2)}" y="${yd - 8}" text-anchor="end" font-size="10" style="fill:var(${s.couleur});font-family:var(--mono)">${kilo(dern)}</text>`;
+  }).join("");
+  const pasLib = Math.ceil(js.length / 6);
+  const libs = js.map((j, i) => i % pasLib && i !== js.length - 1 ? "" : `<text x="${X(i)}" y="${H - 6}" text-anchor="${i === 0 ? "start" : i === js.length - 1 ? "end" : "middle"}" font-size="10" style="fill:var(--ardoise)">${jj(j.date)}</text>`).join("");
+  const grille = [0, .5, 1].map((f) => { const y = H - b - f * (H - b - h); return `<line x1="${g}" x2="${W - d}" y1="${y}" y2="${y}" style="stroke:var(--encre-2)" stroke-dasharray="2 4"/><text x="${W - d + 4}" y="${y + 3}" font-size="9" style="fill:var(--ardoise)">${kilo(min + f * (max - min))}</text>`; }).join("");
+  const legende = series.length > 1 ? `<div class="legende">${series.map((s) => `<span><i style="background:var(${s.couleur})"></i>${s.nom}</span>`).join("")}</div>` : "";
+  el.innerHTML = `${legende}<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${series.map((s) => s.nom).join(" et ")} par jour">${grille}${tracés}${libs}</svg>`;
+}
+
+// Anneau : parts = [{lib, val}]
+function anneau(el, parts, centre, sous) {
+  parts = parts.filter((p) => p.val > 0);
+  const total = parts.reduce((a, p) => a + p.val, 0);
+  if (!total) { el.innerHTML = '<p class="vide">Pas encore de chiffres.</p>'; return; }
+  const R = 52, C = 2 * Math.PI * R; let cumul = 0;
+  const arcs = parts.map((p, i) => { const l = p.val / total * C, o = cumul; cumul += l;
+    return `<circle class="arc" cx="70" cy="70" r="${R}" fill="none" stroke-width="18" style="stroke:var(${PALETTE[i % PALETTE.length]});--l:${Math.max(0, l - 2)};--c:${C};animation-delay:${i * .12}s" stroke-dasharray="${Math.max(0, l - 2)} ${C}" stroke-dashoffset="${-o}" transform="rotate(-90 70 70)"/>`; }).join("");
+  el.innerHTML = `<div class="anneau"><svg viewBox="0 0 140 140" role="img" aria-label="${esc(centre)} ${esc(sous)}">
+      <circle cx="70" cy="70" r="${R}" fill="none" stroke-width="18" style="stroke:var(--encre-2)"/>${arcs}
+      <text x="70" y="70" text-anchor="middle" font-size="20" font-weight="700" style="fill:var(--ivoire);font-family:var(--mono)">${esc(centre)}</text>
+      <text x="70" y="88" text-anchor="middle" font-size="10" style="fill:var(--ardoise)">${esc(sous)}</text></svg>
+    <ul>${parts.map((p, i) => `<li><i style="background:var(${PALETTE[i % PALETTE.length]})"></i><span>${esc(p.lib)}</span><b>${Math.round(p.val / total * 100)} %</b></li>`).join("")}</ul></div>`;
+}
+
+// Barres horizontales : items = [{lib, val, txt, fort}], repere = trait vertical (médiane)
+function barresH(el, items, repere, librepere) {
+  if (!items.length) { el.innerHTML = '<p class="vide">Pas encore de chiffres.</p>'; return; }
+  const max = Math.max(...items.map((x) => x.val), repere || 0) * 1.05;
+  el.innerHTML = `<div class="barres">${items.map((x, i) => `<div class="bh ${x.fort ? "fort" : ""}">
+      <span class="bh-lib">${esc(x.lib)}</span>
+      <span class="bh-piste"><span class="bh-val" style="width:${x.val / max * 100}%;animation-delay:${i * .05}s"></span>${repere != null ? `<i style="left:${repere / max * 100}%"></i>` : ""}</span>
+      <span class="bh-txt">${esc(x.txt)}</span></div>`).join("")}</div>
+    ${repere != null ? `<p class="note"><i class="repere"></i> ${esc(librepere)}</p>` : ""}`;
+}
+
+// Nuage de points : rétention (x) contre vues (y, échelle log)
+function nuage(el, items) {
+  const pts = items.filter((r) => r.vues > 0 && r.taux3s != null);
+  if (pts.length < 3) { el.innerHTML = '<p class="vide">Pas encore assez de vidéos.</p>'; return; }
+  const W = 320, H = 180, g = 30, d = 10, h = 12, b = 26;
+  const xs = pts.map((r) => r.taux3s), x0 = Math.floor(Math.min(...xs) / 5) * 5, x1 = Math.ceil(Math.max(...xs) / 5) * 5 || x0 + 5;
+  const ly = pts.map((r) => Math.log10(r.vues)), y0 = Math.floor(Math.min(...ly) * 2) / 2, y1 = Math.ceil(Math.max(...ly) * 2) / 2 || y0 + .5;
+  const X = (v) => g + (v - x0) / (x1 - x0 || 1) * (W - g - d), Y = (v) => H - b - (Math.log10(v) - y0) / (y1 - y0 || 1) * (H - b - h);
+  const top = pts.reduce((a, r) => (r.vues > a.vues ? r : a));
+  const grilleX = []; for (let v = x0; v <= x1; v += 5) grilleX.push(`<text x="${X(v)}" y="${H - 8}" text-anchor="middle" font-size="9" style="fill:var(--ardoise)">${v} %</text>`);
+  const grilleY = []; for (let e = Math.ceil(y0); e <= y1; e++) grilleY.push(`<line x1="${g}" x2="${W - d}" y1="${Y(10 ** e)}" y2="${Y(10 ** e)}" style="stroke:var(--encre-2)" stroke-dasharray="2 4"/><text x="${g - 4}" y="${Y(10 ** e) + 3}" text-anchor="end" font-size="9" style="fill:var(--ardoise)">${kilo(10 ** e)}</text>`);
+  el.innerHTML = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Vues selon la part de gens restés plus de 3 secondes">${grilleY.join("")}${grilleX.join("")}
+    ${pts.map((r, i) => `<circle class="bulle" cx="${X(r.taux3s)}" cy="${Y(r.vues)}" r="${r === top ? 7 : 5}" style="fill:var(${r === top ? "--ambre" : "--brume"});animation-delay:${i * .05}s" opacity="${r === top ? 1 : .7}"><title>${esc(r.titre)} : ${fmt.format(r.vues)} vues, ${Math.round(r.taux3s)} %</title></circle>`).join("")}
+    <text x="${Math.min(X(top.taux3s), W - d)}" y="${Y(top.vues) - 11}" text-anchor="end" font-size="10" style="fill:var(--ambre)">${esc(court(top.titre, 22))}</text></svg>
+    <p class="note">Plus un point est à droite, plus l'accroche retient. Plus il est haut, plus la vidéo a été vue.</p>`;
+}
+
 function lignePost(p) {
   return `<div class="ligne"><div class="corps"><div class="titre">${esc(p.titre)}</div>
     <div class="meta"><span class="pastille ${p.reseau}">${p.reseau === "tiktok" ? "TikTok" : "Instagram"}</span><span class="pastille attente">${esc(p.statut)}</span>${dateCourte(p.date)} · ${heure(p.date)}</div></div></div>`;
@@ -447,10 +526,16 @@ function dernier() {
     <div class="carte">${prevHtml}</div>
     ${blocReseau("Instagram", pIg, autresIg, [["vues", "vues"], ["portee", "comptes touchés"], ["taux3s", "restent plus de 3 s", pct], ["tempsMoyen", "temps moyen regardé", sec], ["likes", "j'aime"], ["commentaires", "commentaires"], ["enregistrements", "enregistrements"], ["partages", "partages"]])}
     ${blocReseau("TikTok", pTk, autresTk, [["vues", "vues"], ["likes", "j'aime"], ["commentaires", "commentaires"], ["partages", "partages"], ["vuesCompletes", "regardée jusqu'au bout", pct], ["tempsMoyen", "temps moyen regardé", sec]])}
+    ${pIg && pIg.vues != null && autresIg.length > 2 ? '<h2>Comparé à tes autres reels</h2><div class="carte" id="g-compare"></div>' : ""}
     <h2>Abonnés</h2>
     <p class="vide">${gain != null ? `${signe(gain)} abonnés Instagram depuis la sortie (tout le compte, pas seulement ce post).` : "Gain d'abonnés visible après la prochaine mise à jour du matin."}</p>
     ${suivi.length > 1 ? `<h2>Vues jour après jour</h2><div class="carte" id="graph-dernier"></div>` : ""}`;
-  if (suivi.length > 1) graphique($("#graph-dernier"), suivi);
+  if (suivi.length > 1) courbe($("#graph-dernier"), suivi, [{ nom: "Vues", cle: "vues", couleur: "--ambre" }]);
+  if ($("#g-compare")) {
+    const champs = [["vues", "Vues"], ["portee", "Portée"], ["taux3s", "Restent > 3 s"], ["tempsMoyen", "Temps regardé"], ["likes", "J'aime"], ["partages", "Partages"], ["enregistrements", "Enregistrements"]];
+    const items = champs.filter(([k]) => pIg[k] != null).map(([k, lib]) => { const m = mediane(autresIg.map((r) => r[k]).filter((v) => v != null)); return m ? { lib, val: pIg[k] / m * 100, txt: Math.round(pIg[k] / m * 100) + " %", fort: pIg[k] >= m } : null; }).filter(Boolean);
+    barresH($("#g-compare"), items, 100, "Le trait = ta médiane (100 %). Une barre plus longue = ce post fait mieux que d'habitude.");
+  }
 }
 
 function stats() {
@@ -480,14 +565,30 @@ function stats() {
   const recent = items.reduce((a, b) => (new Date(b.date) > new Date(a.date) ? b : a));
   el.innerHTML = `<h2>@${esc(d.compte)}</h2>
     <div class="tuiles">${t.map(([v, l]) => `<div class="tuile"><div class="val">${v}</div><div class="lib">${l}</div></div>`).join("")}</div>
-    <h2>Vues par jour</h2><div class="carte" id="graph-stats"></div>
+    <h2>Vues et portée par jour</h2><div class="carte" id="g-jours"></div>
+    ${(d.jours || []).filter((j) => j.abonnes != null).length > 1 ? '<h2>Abonnés</h2><div class="carte" id="g-abonnes"></div>' : ""}
+    <h2>D'où viennent tes vues</h2><div class="carte" id="g-part"></div>
+    <h2>Accroche : restent plus de 3 s</h2><div class="carte" id="g-retention"></div>
+    <h2>Rétention et vues</h2><div class="carte" id="g-nuage"></div>
+    <h2>Ce que les gens font</h2><div class="carte" id="g-actions"></div>
     <h2>Classement des vidéos</h2>
     ${classes.map((r, i) => `<a class="ligne ${i === 0 ? "top1" : ""} ${r === recent ? "recent" : ""}" href="${esc(r.url)}" target="_blank" rel="noopener">
       <span class="rang">${i + 1}</span>
       <div class="corps">${r === recent ? '<span class="badge-recent">Dernier post</span>' : ""}<div class="titre">${esc(r.titre)}</div>
       <div class="meta">${r.vues == null ? "Chiffres pas encore remontés" : `${r.taux3s != null ? Math.round(r.taux3s) + " % > 3 s · " : ""}${fmt.format(r.likes || 0)} j'aime · ${fmt.format(r.partages || 0)} partages`}</div></div>
       <div class="chiffre">${r.vues == null ? "…" : fmt.format(r.vues)}<small>${r.vues == null ? "chiffres demain" : "vues"}</small></div></a>`).join("")}`;
-  graphique($("#graph-stats"), d.jours);
+  courbe($("#g-jours"), d.jours || [], [{ nom: "Vues", cle: "vues", couleur: "--ambre" }, { nom: "Portée", cle: "portee", couleur: "--brume" }]);
+  if ($("#g-abonnes")) courbe($("#g-abonnes"), d.jours, [{ nom: "Abonnés", cle: "abonnes", couleur: "--brume" }]);
+  const vus = avecChiffres.filter((r) => r.vues > 0).sort((a, b) => b.vues - a.vues), totalVues = somme("vues");
+  const parts = vus.slice(0, 4).map((r) => ({ lib: court(r.titre, 28), val: r.vues }));
+  if (vus.length > 4) parts.push({ lib: `${vus.length - 4} autres vidéos`, val: vus.slice(4).reduce((a, r) => a + r.vues, 0) });
+  anneau($("#g-part"), parts, kilo(totalVues), "vues");
+  const ret = avecChiffres.filter((r) => r.taux3s != null).sort((a, b) => b.taux3s - a.taux3s);
+  const medRet = mediane(ret.map((r) => r.taux3s));
+  barresH($("#g-retention"), ret.map((r) => ({ lib: court(r.titre, 22), val: r.taux3s, txt: Math.round(r.taux3s) + " %", fort: r.taux3s >= 55 })), medRet, `Médiane : ${Math.round(medRet)} %. Au-dessus de 55 %, l'accroche marche bien.`);
+  nuage($("#g-nuage"), avecChiffres);
+  anneau($("#g-actions"), [{ lib: "J'aime", val: somme("likes") }, { lib: "Partages", val: somme("partages") }, { lib: "Enregistrements", val: somme("enregistrements") }, { lib: "Commentaires", val: somme("commentaires") }],
+    kilo(somme("likes") + somme("partages") + somme("enregistrements") + somme("commentaires")), "actions");
 }
 
 function ouvrirOnglet(nom) {

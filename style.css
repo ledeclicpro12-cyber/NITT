@@ -311,6 +311,36 @@ svg rect { transform-box: fill-box; transform-origin: bottom; animation: pousse 
 .tuile, .ligne { transition: transform .15s; }
 .ligne:active, .tuile:active { transform: scale(.98); }
 
+/* Graphiques */
+@keyframes trace { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+@keyframes apparait { from { opacity: 0; } }
+@keyframes pop { from { opacity: 0; transform: scale(0); } }
+@keyframes tourne-arc { from { stroke-dasharray: 0 var(--c); } }
+@keyframes etire { from { transform: scaleX(0); } }
+.trait { stroke-dasharray: 1; animation: trace 1.2s cubic-bezier(.4,0,.2,1) backwards; }
+.aire { animation: apparait 1s .5s backwards; }
+.point, .etiq { animation: apparait .4s 1.1s backwards; }
+.point { filter: drop-shadow(0 0 6px currentColor); }
+.arc { animation: tourne-arc 1s cubic-bezier(.2,.8,.2,1) backwards; }
+.bulle { transform-box: fill-box; transform-origin: center; animation: pop .5s cubic-bezier(.3,1.6,.5,1) backwards; }
+.legende { display: flex; gap: 14px; font-size: 12px; color: var(--ardoise); margin-bottom: 8px; }
+.legende span, .anneau li { display: flex; align-items: center; gap: 6px; }
+.legende i, .anneau li i { width: 10px; height: 10px; border-radius: 3px; flex: none; }
+.anneau { display: flex; align-items: center; gap: 14px; }
+.anneau svg { width: 140px !important; flex: none; }
+.anneau ul { list-style: none; margin: 0; padding: 0; flex: 1; min-width: 0; display: grid; gap: 8px; font-size: 12px; }
+.anneau li span { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--givre); }
+.anneau li b { font: 700 12px var(--mono); }
+.barres { display: grid; gap: 9px; }
+.bh { display: grid; grid-template-columns: 9.5em 1fr 3.2em; align-items: center; gap: 8px; font-size: 12px; }
+.bh-lib { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--givre); }
+.bh-piste { position: relative; height: 10px; border-radius: 5px; background: var(--encre-2); }
+.bh-val { position: absolute; inset: 0 auto 0 0; border-radius: 5px; background: var(--brume); opacity: .6; transform-origin: left; animation: etire .8s cubic-bezier(.2,.8,.2,1) backwards; }
+.bh.fort .bh-val { background: var(--ambre); opacity: 1; }
+.bh-piste i, .repere { position: absolute; top: -3px; bottom: -3px; width: 2px; margin-left: -1px; background: var(--ivoire); border-radius: 1px; }
+.repere { position: static; display: inline-block; height: 10px; vertical-align: -1px; }
+.bh-txt { font: 700 12px var(--mono); text-align: right; }
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
   .page-compte .logo, .page-compte .nom, .page-compte .det, .page-compte .statut, .page-compte .entrer, .page-compte::before { transform: none; opacity: 1; }
