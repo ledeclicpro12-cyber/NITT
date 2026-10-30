@@ -47,3 +47,7 @@ Champs Metricool : Insta reels IGRE02,03,06,23,11,10,07,12,21,09,24,28 ; Insta p
 ## Graphiques (version 13)
 
 L'onglet Stats dessine, à partir des mêmes données : la courbe des vues et de la portée par jour (`jours[].vues`, `jours[].portee`), la courbe des abonnés dès que deux jours ont `abonnes`, l'anneau de répartition des vues par vidéo, les barres de rétention (`taux3s`) avec la médiane, le nuage rétention × vues et l'anneau des réactions. L'onglet Dernier post compare le post à la médiane des autres reels dès que ses chiffres remontent. Aucune donnée en plus n'est demandée à la routine.
+
+## Stories (version 14)
+
+Onglet « Stories » : objectif du jour (2 stories), programme des prochains jours avec miniatures, et stats Instagram (portée, vues, sorties, réponses, gestes). Il lit le champ `stories` du fichier du compte, décrit dans routine-matin.md (étape 2 ter). Les stories elles-mêmes sont programmées dans Metricool par la routine des 2 vidéos du jour (type STORY, Instagram seulement : Metricool ne fait pas de story TikTok).

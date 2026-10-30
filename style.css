@@ -341,6 +341,22 @@ svg rect { transform-box: fill-box; transform-origin: bottom; animation: pousse 
 .repere { position: static; display: inline-block; height: 10px; vertical-align: -1px; }
 .bh-txt { font: 700 12px var(--mono); text-align: right; }
 
+/* Stories */
+.obj { display: flex; align-items: center; gap: 16px; }
+.obj-anneau { width: 84px !important; flex: none; }
+.obj h3 { margin: 6px 0 4px; font: 700 18px/1.25 var(--titre); }
+.jour-st + .jour-st { margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--encre-2); }
+.jour-lib { display: flex; justify-content: space-between; font: 600 13px var(--texte); color: var(--givre); margin-bottom: 10px; }
+.jour-lib small { font: 700 12px var(--mono); color: var(--ardoise); }
+.rang-st { display: flex; gap: 10px; overflow-x: auto; scrollbar-width: none; }
+.st { flex: none; width: 76px; display: grid; gap: 5px; justify-items: start; font-size: 12px; }
+.st .vign { width: 76px; height: 124px; }
+.st b { font: 700 13px var(--mono); }
+.vign { width: 40px; height: 64px; border-radius: 10px; object-fit: cover; flex: none; background: var(--encre-2); display: block; }
+.vide-v { background: linear-gradient(160deg, color-mix(in srgb, var(--ambre) 40%, var(--encre-2)), var(--encre-2)); }
+.pastille.ok { background: color-mix(in srgb, var(--brume) 25%, transparent); color: var(--brume); }
+.nav button { font-size: 10.5px; }
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
   .page-compte .logo, .page-compte .nom, .page-compte .det, .page-compte .statut, .page-compte .entrer, .page-compte::before { transform: none; opacity: 1; }
