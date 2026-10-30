@@ -1,5 +1,5 @@
-// Coquille en cache (l'appli s'ouvre hors ligne), données toujours prises en ligne d'abord.
-const CACHE = "declic-v5";
+// Toujours la dernière version en ligne d'abord ; le cache ne sert que hors ligne.
+const CACHE = "declic-v6";
 const COQUILLE = ["./", "index.html", "style.css", "app.js", "manifest.webmanifest",
   "icons/icon-180.png", "icons/icon-192.png", "icons/icon-512.png"];
 
@@ -14,20 +14,22 @@ self.addEventListener("activate", (e) => {
 });
 
 self.addEventListener("fetch", (e) => {
-  const url = new URL(e.request.url);
   if (e.request.method !== "GET") return;
-  if (url.pathname.endsWith("data.enc.json")) {
-    e.respondWith(fetch(e.request).then((rep) => {
-      caches.open(CACHE).then((c) => c.put("data.enc.json", rep.clone()));
-      return rep;
-    }).catch(() => caches.match("data.enc.json")));
-    return;
-  }
-  e.respondWith(caches.match(e.request).then((r) => r || fetch(e.request).then((rep) => {
-    if (rep.ok && (url.origin === location.origin || url.host.includes("gstatic") || url.host.includes("googleapis"))) {
+  const url = new URL(e.request.url);
+  const local = url.origin === location.origin;
+  const polices = url.host.includes("gstatic") || url.host.includes("googleapis");
+  if (!local && !polices) return;
+  if (polices) {
+    e.respondWith(caches.match(e.request).then((r) => r || fetch(e.request).then((rep) => {
       const copie = rep.clone();
       caches.open(CACHE).then((c) => c.put(e.request, copie));
-    }
+      return rep;
+    })));
+    return;
+  }
+  const cle = url.pathname.endsWith("data.enc.json") ? "data.enc.json" : e.request;
+  e.respondWith(fetch(e.request, { cache: "no-store" }).then((rep) => {
+    if (rep.ok) { const copie = rep.clone(); caches.open(CACHE).then((c) => c.put(cle, copie)); }
     return rep;
-  })));
+  }).catch(() => caches.match(cle, { ignoreSearch: true })));
 });

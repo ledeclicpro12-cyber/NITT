@@ -321,5 +321,16 @@ document.querySelectorAll(".seg button").forEach((b) => b.addEventListener("clic
 $("#refresh").addEventListener("click", charger);
 document.addEventListener("visibilitychange", () => { if (!document.hidden) charger(); });
 
-if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js");
+// Nouvelle version de l'appli : on recharge une fois pour l'afficher.
+if ("serviceWorker" in navigator) {
+  const avaitControleur = !!navigator.serviceWorker.controller;
+  let recharge = false;
+  navigator.serviceWorker.addEventListener("controllerchange", () => {
+    if (avaitControleur && !recharge) { recharge = true; location.reload(); }
+  });
+  navigator.serviceWorker.register("sw.js", { updateViaCache: "none" }).then((reg) => {
+    $("#refresh").addEventListener("click", () => reg.update());
+    document.addEventListener("visibilitychange", () => { if (!document.hidden) reg.update(); });
+  });
+}
 charger();
