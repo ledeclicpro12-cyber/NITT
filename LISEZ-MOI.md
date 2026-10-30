@@ -44,3 +44,15 @@ Champs Metricool : Insta reels IGRE02,03,06,23,11,10,07,12,21,09,24,28 ; Insta p
 - Code par compte : l'appli essaie d'abord le code du groupe, puis le code gardé pour ce compte ; sinon elle le demande à l'ouverture du compte. Un ami peut donc chiffrer ses stats avec son propre code. Voir [AMIS.md](AMIS.md) pour brancher le compte d'un ami.
 - `da` : la direction artistique du compte, appliquée à tout l'écran : `nuit` (fond), `encre` et `encre-2` (cartes), `ivoire` (texte), `givre` (texte secondaire), `ardoise` (gris), `ambre` (accent), `brume` (accent 2), `cuivre`, `titre` (police des titres). Le Déclic a sa vraie DA ; celles de La ronde des Comptines, Inspecteur Pi et Bébé Steve sont provisoires, tirées des couleurs du document NITT.
 - Pour ajouter ou modifier un compte : déchiffre `comptes.enc.json` (même code), modifie le JSON hors du dépôt, rechiffre avec `node chiffre.mjs "$CODE" comptes.json > comptes.enc.json`. Ne jamais y mettre d'e-mail ni de mot de passe.
+
+## Graphiques (version 13)
+
+L'onglet Stats dessine, à partir des mêmes données : la courbe des vues et de la portée par jour (`jours[].vues`, `jours[].portee`), la courbe des abonnés dès que deux jours ont `abonnes`, l'anneau de répartition des vues par vidéo, les barres de rétention (`taux3s`) avec la médiane, le nuage rétention × vues et l'anneau des réactions. L'onglet Dernier post compare le post à la médiane des autres reels dès que ses chiffres remontent. Aucune donnée en plus n'est demandée à la routine.
+
+## Stories (version 14)
+
+Onglet « Stories » : objectif du jour (2 stories), programme des prochains jours avec miniatures, et stats Instagram (portée, vues, sorties, réponses, gestes). Il lit le champ `stories` du fichier du compte, décrit dans routine-matin.md (étape 2 ter). Les stories elles-mêmes sont programmées dans Metricool par la routine des 2 vidéos du jour (type STORY, Instagram seulement : Metricool ne fait pas de story TikTok).
+
+## Rythme de publication (version 15)
+
+Carte « Rythme de publication » dans l'onglet Aujourd'hui : le conseil IA (`rythme.conseil` dans le fichier chiffré du compte, réécrit chaque matin) est proposé par défaut ; on peut choisir de 0 à 4 posts et de 0 à 6 stories par jour. « Appliquer » ouvre une demande GitHub pré-remplie (titre « Rythme <id> : … ») qu'il suffit d'envoyer. La routine du matin la reporte dans `reglages.json` (en clair : seulement des nombres) et la ferme. La routine qui produit et programme les vidéos lit `reglages.json` ; sans entrée pour un compte, elle suit le conseil IA.

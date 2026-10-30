@@ -345,6 +345,39 @@ svg rect { transform-box: fill-box; transform-origin: bottom; animation: pousse 
 .repere { position: static; display: inline-block; height: 10px; vertical-align: -1px; }
 .bh-txt { font: 700 12px var(--mono); text-align: right; }
 
+/* Stories */
+.obj { display: flex; align-items: center; gap: 16px; }
+.obj-anneau { width: 84px !important; flex: none; }
+.obj h3 { margin: 6px 0 4px; font: 700 18px/1.25 var(--titre); }
+.jour-st + .jour-st { margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--encre-2); }
+.jour-lib { display: flex; justify-content: space-between; font: 600 13px var(--texte); color: var(--givre); margin-bottom: 10px; }
+.jour-lib small { font: 700 12px var(--mono); color: var(--ardoise); }
+.rang-st { display: flex; gap: 10px; overflow-x: auto; scrollbar-width: none; }
+.st { flex: none; width: 76px; display: grid; gap: 5px; justify-items: start; font-size: 12px; }
+.st .vign { width: 76px; height: 124px; }
+.st b { font: 700 13px var(--mono); }
+.vign { width: 40px; height: 64px; border-radius: 10px; object-fit: cover; flex: none; background: var(--encre-2); display: block; }
+.vide-v { background: linear-gradient(160deg, color-mix(in srgb, var(--ambre) 40%, var(--encre-2)), var(--encre-2)); }
+.pastille.ok { background: color-mix(in srgb, var(--brume) 25%, transparent); color: var(--brume); }
+.nav button { font-size: 10.5px; }
+
+/* Rythme de publication */
+.rythme-ia { margin: 0 0 12px; font-size: 14px; line-height: 1.45; color: var(--givre); }
+.rythme-ia .etiquette-douce { margin-right: 4px; }
+.pas { display: grid; grid-template-columns: 1fr 40px 2.4em 40px; align-items: center; gap: 8px; padding: 8px 0; border-top: 1px solid var(--encre-2); }
+.pas-lib { font-weight: 600; display: grid; }
+.pas-lib small { font-weight: 400; font-size: 12px; color: var(--ardoise); }
+.pas button { width: 40px; height: 40px; border-radius: 12px; border: 0; background: var(--encre-2); color: var(--ivoire); font: 600 20px var(--texte); transition: transform .15s; }
+.pas button:active { transform: scale(.9); }
+.pas button:disabled { opacity: .3; }
+.pas b { font: 700 22px var(--mono); text-align: center; }
+.rythme-etat { margin: 10px 0 0; }
+.rythme-actions { display: flex; gap: 8px; margin-top: 12px; }
+.rythme-actions button { flex: 1; min-height: 44px; border-radius: 12px; font: 700 14px var(--texte); border: 0; }
+.btn-plein { background: var(--ambre); color: var(--nuit); }
+.btn-plein:disabled { background: var(--encre-2); color: var(--ardoise); }
+.btn-doux { background: transparent; color: var(--givre); border: 1px solid var(--encre-2) !important; }
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
   .page-compte .logo, .page-compte .nom, .page-compte .det, .page-compte .statut, .page-compte .entrer, .page-compte::before { transform: none; opacity: 1; }

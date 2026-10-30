@@ -308,6 +308,8 @@ function afficher() {
   graphique($("#graph"), DATA.instagram.jours);
   activite();
   dernier();
+  stories();
+  rythme();
   stats();
   compter($(".tab.actif") || document);
 }
@@ -437,6 +439,104 @@ function nuage(el, items) {
     ${pts.map((r, i) => `<circle class="bulle" cx="${X(r.taux3s)}" cy="${Y(r.vues)}" r="${r === top ? 7 : 5}" style="fill:var(${r === top ? "--ambre" : "--brume"});animation-delay:${i * .05}s" opacity="${r === top ? 1 : .7}"><title>${esc(r.titre)} : ${fmt.format(r.vues)} vues, ${Math.round(r.taux3s)} %</title></circle>`).join("")}
     <text x="${Math.min(X(top.taux3s), W - d)}" y="${Y(top.vues) - 11}" text-anchor="end" font-size="10" style="fill:var(--ambre)">${esc(court(top.titre, 22))}</text></svg>
     <p class="note">Plus un point est à droite, plus l'accroche retient. Plus il est haut, plus la vidéo a été vue.</p>`;
+}
+
+// ——— Stories : objectif du jour, programme, stats Instagram ———
+function stories() {
+  const el = $("#stories"), S = DATA.stories || {}, objectif = S.objectif || 2;
+  const prog = (S.programmees || []).slice().sort((a, b) => new Date(a.date) - new Date(b.date));
+  const pub = (S.publiees || []).slice().sort((a, b) => new Date(b.date) - new Date(a.date));
+  const auj = jourIso(), duJour = (x) => jourIso(new Date(x.date)) === auj;
+  const faitesAuj = pub.filter(duJour).length + prog.filter((x) => duJour(x) && /publi/i.test(x.statut || "")).length;
+  const prevuesAuj = prog.filter((x) => duJour(x) && !/publi/i.test(x.statut || "")).length;
+  const maintenant = Date.now(), prochaine = prog.find((x) => new Date(x.date) >= maintenant);
+  const R = 34, C = 2 * Math.PI * R, fait = Math.min(1, faitesAuj / objectif), prevu = Math.min(1, (faitesAuj + prevuesAuj) / objectif);
+  const anneauJour = `<svg viewBox="0 0 84 84" class="obj-anneau" aria-hidden="true">
+      <circle cx="42" cy="42" r="${R}" fill="none" stroke-width="8" style="stroke:var(--encre-2)"/>
+      <circle class="arc" cx="42" cy="42" r="${R}" fill="none" stroke-width="8" stroke-linecap="round" style="stroke:var(--brume);opacity:.45;--c:${C}" stroke-dasharray="${prevu * C} ${C}" transform="rotate(-90 42 42)"/>
+      <circle class="arc" cx="42" cy="42" r="${R}" fill="none" stroke-width="8" stroke-linecap="round" style="stroke:var(--ambre);--c:${C};animation-delay:.2s" stroke-dasharray="${fait * C} ${C}" transform="rotate(-90 42 42)"/>
+      <text x="42" y="48" text-anchor="middle" font-size="18" font-weight="700" style="fill:var(--ivoire);font-family:var(--mono)">${faitesAuj}/${objectif}</text></svg>`;
+  const tete = `<article class="carte obj">
+      ${anneauJour}
+      <div><span class="etiquette-douce">Objectif du jour</span>
+        <h3>${faitesAuj >= objectif ? "Les 2 stories du jour sont en ligne" : faitesAuj + prevuesAuj >= objectif ? `${objectif - faitesAuj} story${objectif - faitesAuj > 1 ? "s" : ""} encore programmée${objectif - faitesAuj > 1 ? "s" : ""} aujourd'hui` : `${objectif - faitesAuj - prevuesAuj} story${objectif - faitesAuj - prevuesAuj > 1 ? "s" : ""} à programmer aujourd'hui`}</h3>
+        <p class="meta">${prochaine ? `Prochaine : ${dateCourte(prochaine.date)} à ${heure(prochaine.date)}` : "Aucune story programmée pour l'instant."}</p></div></article>`;
+
+  const vignette = (x) => x.apercu ? `<img class="vign" src="${esc(x.apercu)}" alt="" loading="lazy" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'vign vide-v'}))">` : '<span class="vign vide-v"></span>';
+  const parJour = {};
+  prog.filter((x) => new Date(x.date) >= maintenant - 36e5 * 12).forEach((x) => (parJour[jourIso(new Date(x.date))] ||= []).push(x));
+  const programme = Object.keys(parJour).length ? Object.entries(parJour).map(([j, xs]) => `<div class="jour-st"><div class="jour-lib">${j === auj ? "Aujourd'hui" : dateCourte(j + "T12:00:00")}<small>${xs.length}/${objectif}</small></div>
+      <div class="rang-st">${xs.map((x) => `<div class="st">${vignette(x)}<b>${heure(x.date)}</b><span class="pastille ${/publi/i.test(x.statut || "") ? "ok" : "attente"}">${esc(x.statut || "Programmée")}</span>${x.reseau === "tiktok" ? '<span class="pastille tiktok">TikTok</span>' : ""}</div>`).join("")}</div></div>`).join("")
+    : '<p class="vide">Aucune story programmée. La routine des vidéos en programme 2 par jour dans Metricool.</p>';
+
+  let statsHtml = '<p class="vide">Pas encore de stats : Metricool remonte les chiffres d\'une story le lendemain de sa publication.</p>';
+  const avec = pub.filter((x) => x.impressions != null || x.portee != null);
+  if (avec.length) {
+    const s = (k) => avec.reduce((a, x) => a + (x[k] || 0), 0), moy = (k) => Math.round(s(k) / avec.length);
+    const sortie = s("impressions") ? Math.round(s("sorties") / s("impressions") * 100) : null;
+    const t = [[fmt.format(moy("portee")), "comptes touchés en moyenne"], [fmt.format(s("impressions")), "vues sur " + avec.length + " stories"],
+      [sortie != null ? sortie + " %" : "–", "quittent la story"], [fmt.format(s("reponses")), "réponses"]];
+    statsHtml = `<div class="tuiles">${t.map(([v, l]) => `<div class="tuile"><div class="val">${v}</div><div class="lib">${l}</div></div>`).join("")}</div>
+      <h2>Portée des dernières stories</h2><div class="carte" id="g-st-portee"></div>
+      <h2>Ce que font les gens</h2><div class="carte" id="g-st-gestes"></div>
+      <h2>Publiées</h2>${pub.slice(0, 20).map((x) => `<a class="ligne" ${x.url ? `href="${esc(x.url)}" target="_blank" rel="noopener"` : ""}>${vignette(x)}
+        <div class="corps"><div class="titre">${dateCourte(x.date)} · ${heure(x.date)}</div>
+        <div class="meta">${x.reponses != null ? fmt.format(x.reponses) + " réponses · " : ""}${x.sorties != null ? fmt.format(x.sorties) + " sorties" : ""}</div></div>
+        <div class="chiffre">${x.portee == null ? "…" : fmt.format(x.portee)}<small>touchés</small></div></a>`).join("")}`;
+  }
+  el.innerHTML = `${tete}<h2>Programme</h2><div class="carte">${programme}</div><h2>Stats Instagram</h2>${statsHtml}`;
+  if (avec.length) {
+    const derniers = avec.slice(0, 10), medP = mediane(avec.map((x) => x.portee || 0));
+    barresH($("#g-st-portee"), derniers.map((x) => ({ lib: dateCourte(x.date) + " " + heure(x.date), val: x.portee || 0, txt: kilo(x.portee || 0), fort: (x.portee || 0) >= medP })), medP, `Médiane : ${fmt.format(Math.round(medP))} comptes touchés par story.`);
+    const s = (k) => avec.reduce((a, x) => a + (x[k] || 0), 0);
+    anneau($("#g-st-gestes"), [{ lib: "Passent à la suivante", val: s("suivant") }, { lib: "Reviennent en arrière", val: s("retour") }, { lib: "Quittent", val: s("sorties") }, { lib: "Répondent", val: s("reponses") }], kilo(s("impressions")), "vues");
+  }
+}
+
+// ——— Rythme de publication : conseil de l'IA (écrit par la routine du matin) et choix de l'utilisateur ———
+// Le choix part en « issue » GitHub pré-remplie ; la routine du matin l'applique dans reglages.json.
+const DEPOT = "ledeclicpro12-cyber/NITT";
+const LIMITES = { posts: [0, 4], stories: [0, 6] };
+async function rythme() {
+  const el = $("#rythme"), id = COMPTE.id;
+  const conseil = DATA.rythme?.conseil || { posts: 1, stories: 2, pourquoi: "Règle de départ : 1 post par jour tant qu'il n'y a pas 14 jours de recul, 2 stories pour rester visible entre les posts." };
+  let actuel = null;
+  try { actuel = (await (await fetch("reglages.json?t=" + Date.now(), { cache: "no-store" })).json())[id] || null; } catch {}
+  const cleEnvoi = "nitt-rythme-" + id;
+  let envoye = null; try { envoye = JSON.parse(localStorage.getItem(cleEnvoi)); } catch {}
+  if (envoye && actuel && envoye.posts === actuel.posts && envoye.stories === actuel.stories) envoye = null;
+  const choix = { posts: (envoye || actuel || conseil).posts, stories: (envoye || actuel || conseil).stories };
+
+  const rendu = () => {
+    const estConseil = choix.posts === conseil.posts && choix.stories === conseil.stories;
+    const change = !actuel || choix.posts !== actuel.posts || choix.stories !== actuel.stories;
+    const ligne = (k, lib) => `<div class="pas"><span class="pas-lib">${lib}<small>conseil : ${conseil[k]}</small></span>
+      <button data-k="${k}" data-d="-1" aria-label="Moins de ${lib}" ${choix[k] <= LIMITES[k][0] ? "disabled" : ""}>−</button>
+      <b aria-live="polite">${choix[k]}</b>
+      <button data-k="${k}" data-d="1" aria-label="Plus de ${lib}" ${choix[k] >= LIMITES[k][1] ? "disabled" : ""}>+</button></div>`;
+    el.innerHTML = `<p class="rythme-ia"><span class="etiquette-douce">Conseil IA</span> ${conseil.posts} post${conseil.posts > 1 ? "s" : ""} et ${conseil.stories} stor${conseil.stories > 1 ? "ies" : "y"} par jour. ${esc(conseil.pourquoi)}</p>
+      ${ligne("posts", "posts par jour")}${ligne("stories", "stories par jour")}
+      <p class="meta rythme-etat">${actuel ? `En place : ${actuel.posts} post${actuel.posts > 1 ? "s" : ""} et ${actuel.stories} stor${actuel.stories > 1 ? "ies" : "y"} par jour${actuel.source === "conseil" ? " (conseil IA)" : ""}.` : "Aucun rythme enregistré : la routine suit le conseil IA."}
+        ${envoye ? ` Demande envoyée : ${envoye.posts} et ${envoye.stories}, appliquée à la prochaine routine.` : ""}</p>
+      <div class="rythme-actions">
+        ${estConseil ? "" : '<button class="btn-doux" data-a="conseil">Revenir au conseil IA</button>'}
+        <button class="btn-plein" data-a="appliquer" ${change ? "" : "disabled"}>${!change ? "C'est le rythme en place" : envoye && envoye.posts === choix.posts && envoye.stories === choix.stories ? "Renvoyer la demande" : "Appliquer ce rythme"}</button>
+      </div>`;
+    el.querySelectorAll(".pas button").forEach((b) => b.onclick = () => {
+      const k = b.dataset.k; choix[k] = Math.max(LIMITES[k][0], Math.min(LIMITES[k][1], choix[k] + +b.dataset.d)); rendu();
+    });
+    el.querySelector('[data-a="conseil"]')?.addEventListener("click", () => { choix.posts = conseil.posts; choix.stories = conseil.stories; rendu(); });
+    el.querySelector('[data-a="appliquer"]').onclick = () => {
+      const src = choix.posts === conseil.posts && choix.stories === conseil.stories ? "conseil" : "choix";
+      const titre = `Rythme ${id} : ${choix.posts} post${choix.posts > 1 ? "s" : ""}, ${choix.stories} stor${choix.stories > 1 ? "ies" : "y"}`;
+      const corps = `Demande envoyée depuis l'appli NITT.\n\ncompte: ${id}\nposts: ${choix.posts}\nstories: ${choix.stories}\nsource: ${src}\n\nLa routine du matin l'applique dans reglages.json puis ferme cette demande.`;
+      try { localStorage.setItem(cleEnvoi, JSON.stringify({ posts: choix.posts, stories: choix.stories })); } catch {}
+      envoye = { ...choix };
+      open(`https://github.com/${DEPOT}/issues/new?title=${encodeURIComponent(titre)}&body=${encodeURIComponent(corps)}`, "_blank", "noopener");
+      rendu();
+    };
+  };
+  rendu();
 }
 
 function lignePost(p) {
