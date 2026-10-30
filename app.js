@@ -217,25 +217,65 @@ function fermerCompte() {
   afficherHub();
 }
 
-async function chargerDonnees() {
+// Fichier de stats d'un compte : `donnees` s'il est donné, sinon comptes/<id>.enc.json (ex. comptes/inspecteur-pi.enc.json).
+// Un ami peut ainsi publier ses stats depuis sa propre routine sans toucher à la liste des comptes.
+const slug = (t) => String(t).normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+const fichiersCompte = (c) => [...new Set([c.donnees, c.id && `comptes/${slug(c.id)}.enc.json`, `comptes/${slug(c.nom)}.enc.json`].filter(Boolean))];
+
+// Chaque compte peut avoir son propre code : on essaie d'abord celui du groupe, puis celui gardé pour ce compte.
+const cleCodeCompte = (c) => "nitt-code-" + slug(c.id || c.nom);
+const lireCodeCompte = (c) => { try { return localStorage.getItem(cleCodeCompte(c)); } catch { return null; } };
+const garderCodeCompte = (c, v) => { try { v ? localStorage.setItem(cleCodeCompte(c), v) : localStorage.removeItem(cleCodeCompte(c)); } catch {} };
+
+function sansStats(html) {
   const sans = $("#sans-donnees");
-  if (!COMPTE.donnees) {
-    document.querySelectorAll(".tab").forEach((x) => x.classList.remove("actif"));
-    $(".nav").hidden = true; $("#refresh").hidden = true;
-    sans.hidden = false;
-    sans.innerHTML = `<h3>${esc(COMPTE.nom)}</h3><p>Pas encore de statistiques pour ce compte.</p><p>Connecte-le à Metricool, puis demande à Claude de l'ajouter à la mise à jour du matin.</p>`;
-    $("#maj").textContent = COMPTE.plateformes;
-    return;
-  }
-  sans.hidden = true; $(".nav").hidden = false; $("#refresh").hidden = false;
+  document.querySelectorAll(".tab").forEach((x) => x.classList.remove("actif"));
+  $(".nav").hidden = true; $("#refresh").hidden = true;
+  sans.hidden = false; sans.innerHTML = html;
+  $("#maj").textContent = COMPTE.plateformes;
+}
+
+function demanderCodeCompte(paquet, message) {
+  sansStats(`<h3>${esc(COMPTE.nom)}</h3><p>Les stats de ce compte ont leur propre code. Demande-le à son propriétaire.</p>
+    <form class="code-compte"><label for="code-compte">Code du compte</label>
+    <input id="code-compte" type="password" autocapitalize="none" autocorrect="off" spellcheck="false" required>
+    <p class="verrou-msg">${esc(message || "")}</p><button type="submit">Ouvrir les stats</button></form>`);
+  $("#code-compte").focus();
+  $(".code-compte").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const v = $("#code-compte").value.trim().toLowerCase();
+    try { DATA = await dechiffrer(paquet, v); }
+    catch { return demanderCodeCompte(paquet, "Code incorrect."); }
+    garderCodeCompte(COMPTE, v);
+    montrerStats();
+  });
+}
+
+function montrerStats() {
+  $("#sans-donnees").hidden = true; $(".nav").hidden = false; $("#refresh").hidden = false;
+  if (!document.querySelector(".tab.actif")) ouvrirOnglet("jour");
+  afficher();
+}
+
+async function chargerDonnees() {
+  const compte = COMPTE;
   $("#refresh").classList.add("tourne");
-  try {
-    DATA = await dechiffrer(await chargerChiffre(COMPTE.donnees), lireCode());
-    afficher();
-  } catch {
-    if (!DATA) $("#maj").textContent = "Données indisponibles (hors ligne ?)";
+  let paquet = null;
+  for (const f of fichiersCompte(compte)) {
+    try { paquet = await chargerChiffre(f); break; } catch {}
   }
   $("#refresh").classList.remove("tourne");
+  if (compte !== COMPTE) return;
+  if (!paquet) {
+    if (DATA) return; // hors ligne : on garde ce qui est affiché
+    return sansStats(`<h3>${esc(compte.nom)}</h3><p>Pas encore de statistiques pour ce compte.</p>
+      <p>Connecte-le à Metricool, puis lance la routine du matin qui publie <code>${esc(fichiersCompte(compte).at(-1))}</code>.</p>`);
+  }
+  for (const code of [lireCode(), lireCodeCompte(compte)].filter(Boolean)) {
+    try { DATA = await dechiffrer(paquet, code); return montrerStats(); } catch {}
+  }
+  garderCodeCompte(compte, null);
+  demanderCodeCompte(paquet);
 }
 
 $("#verrou").addEventListener("submit", (e) => {
@@ -708,7 +748,7 @@ document.querySelectorAll(".seg button").forEach((b) => b.addEventListener("clic
   if (DATA) { stats(); compter($("#stats")); }
 }));
 $("#refresh").addEventListener("click", () => COMPTE && chargerDonnees());
-document.addEventListener("visibilitychange", () => { if (!document.hidden && COMPTE?.donnees) chargerDonnees(); });
+document.addEventListener("visibilitychange", () => { if (!document.hidden && COMPTE && !$(".code-compte")) chargerDonnees(); });
 
 // Nouvelle version de l'appli : on recharge une fois pour l'afficher.
 if ("serviceWorker" in navigator) {

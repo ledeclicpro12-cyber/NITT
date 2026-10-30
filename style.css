@@ -139,6 +139,10 @@ h2 {
   width: 100%; max-width: 320px; padding: 14px; border: 0; border-radius: 12px;
   background: var(--ambre); color: var(--nuit); font: 700 16px var(--texte);
 }
+.code-compte { display: flex; flex-direction: column; gap: 10px; margin-top: 18px; }
+.code-compte label { color: var(--givre); font-size: 15px; }
+.code-compte input { padding: 14px; border-radius: 12px; border: 1px solid var(--encre-2); background: var(--encre); color: var(--ivoire); font: 500 17px var(--mono); text-align: center; }
+.code-compte button { padding: 14px; border: 0; border-radius: 12px; background: var(--ambre); color: var(--nuit); font: 700 16px var(--texte); }
 .verrou-msg { min-height: 1.2em; margin: 0; color: var(--ambre); font-size: 14px; }
 
 .dernier-tete { margin-top: 14px; }
