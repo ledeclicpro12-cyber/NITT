@@ -1,7 +1,8 @@
-// Appli du Déclic : lit data.enc.json (écrit et chiffré chaque jour par la routine Claude) et l'affiche.
+// Appli NITT : accueil du groupe, choix d'un compte, puis tableau de bord du compte dans sa propre DA.
+// comptes.enc.json liste les comptes ; chaque compte a ses données chiffrées (ex. comptes/declic.enc.json, écrit par la routine Claude).
 
 // Conseils de réserve, utilisés quand la routine n'a pas encore écrit celui du jour.
-const RESERVE = [
+const RESERVE_DECLIC = [
   ["Pose une question dans la première seconde", "Ton reel le plus vu commence par « Où est-ce que tu blindes cet avion ? ». Une question oblige le cerveau à chercher la réponse, donc à rester."],
   ["Un chiffre surprenant vaut mieux qu'un long contexte", "Commence par le résultat étonnant, explique ensuite. Le contexte en ouverture fait partir les gens avant le déclic."],
   ["Publie vers 18 h en semaine", "Les repères Metricool donnent un pic vers 10 h et un autre vers 18 h. Garde un créneau fixe pour que tes abonnés prennent l'habitude."],
@@ -16,6 +17,15 @@ const RESERVE = [
   ["Un seul concept par vidéo", "Si tu dois dire « et aussi », c'est probablement une deuxième vidéo. Deux idées dans 50 secondes, c'est zéro retenue."],
   ["Teste deux accroches sur le même sujet", "Publie la même idée sur TikTok avec une autre première phrase et compare le taux au-delà de 3 secondes."],
   ["Garde la musique sous la voix", "Si on doit tendre l'oreille, on scrolle. La voix d'abord, la musique pour l'émotion."],
+];
+
+// Conseils de réserve valables pour n'importe quel compte.
+const RESERVE_GENERAL = [
+  ["Accroche dans la première seconde", "Une question, un chiffre ou une image qui intrigue : il faut donner une raison de rester avant que le pouce ne scrolle."],
+  ["Publie à heure fixe", "Un créneau régulier aide l'algorithme et tes abonnés à prendre l'habitude. Les pics habituels sont vers 10 h et 18 h en semaine."],
+  ["Réponds aux commentaires dans l'heure", "Les premières interactions comptent le plus pendant que la plateforme teste la vidéo."],
+  ["Un seul message par vidéo", "Si tu dois dire « et aussi », c'est sûrement une deuxième vidéo."],
+  ["Soigne la couverture", "Dans la grille, la cover est ta vitrine : peu de mots, très lisibles, une promesse claire."],
 ];
 
 const fmt = new Intl.NumberFormat("fr-FR");
@@ -49,35 +59,106 @@ function verrou(message) {
   $("#code").focus();
 }
 
-let PAQUET = null;
-async function charger() {
-  $("#refresh").classList.add("tourne");
-  try {
-    const rep = await fetch("data.enc.json?t=" + Date.now(), { cache: "no-store" });
-    PAQUET = await rep.json();
-  } catch {
-    if (!PAQUET && !DATA) $("#maj").textContent = "Hors ligne, pas encore de données";
-  }
-  $("#refresh").classList.remove("tourne");
+let COMPTES = null;
+let COMPTE = null;
+
+async function chargerChiffre(url) {
+  const rep = await fetch(url + "?t=" + Date.now(), { cache: "no-store" });
+  if (!rep.ok) throw new Error("absent");
+  return rep.json();
+}
+
+// Accueil : liste des comptes (chiffrée elle aussi).
+async function chargerComptes() {
+  let paquet;
+  try { paquet = await chargerChiffre("comptes.enc.json"); }
+  catch { $("#hub-liste").innerHTML = `<p class="vide">Hors ligne et rien en mémoire pour l'instant.</p>`; return; }
   const code = lireCode();
-  if (!PAQUET) return;
   if (!code) return verrou();
   try {
-    DATA = await dechiffrer(PAQUET, code);
-    $("#verrou").hidden = true;
-    afficher();
+    COMPTES = await dechiffrer(paquet, code);
   } catch {
     garderCode(null);
-    verrou("Code incorrect ou changé.");
+    return verrou("Code incorrect ou changé.");
   }
+  $("#verrou").hidden = true;
+  afficherHub();
+}
+
+function afficherHub() {
+  $("#hub-liste").innerHTML = COMPTES.comptes.map((c, i) => `
+    <button class="compte" data-i="${i}" style="--c:${esc(c.couleur)}" ${c.statut !== "actif" ? "disabled" : ""}>
+      <span class="pastille-c">${c.logo ? `<img src="${esc(c.logo)}" alt="">` : esc(initiale(c.nom))}</span>
+      <span class="infos"><span class="nom">${esc(c.nom)}</span>
+        <div class="det">${esc(c.plateformes)} · ${esc(c.sujet)}</div>
+        <div class="statut ${c.statut !== "actif" ? "afaire" : ""}">${c.statut === "actif" ? (c.donnees ? "● En activité · stats branchées" : "● En activité") : "○ À faire"}</div></span>
+      <span class="fleche">›</span>
+    </button>`).join("");
+  document.querySelectorAll(".compte").forEach((b) => b.addEventListener("click", () => ouvrirCompte(COMPTES.comptes[+b.dataset.i])));
+}
+
+const initiale = (nom) => nom.replace(/^(le|la|les) /i, "").charAt(0).toUpperCase();
+// Pastille ronde à l'initiale du compte, quand il n'a pas encore de logo.
+const logoInitiale = (c) => "data:image/svg+xml," + encodeURIComponent(
+  `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 72"><circle cx="36" cy="36" r="36" fill="${c.couleur}"/><text x="36" y="47" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-weight="800" font-size="32" fill="#fff">${initiale(c.nom)}</text></svg>`);
+
+// Applique la direction artistique du compte : chaque clé de « da » devient une variable CSS.
+function appliquerDA(da) {
+  const r = document.documentElement.style;
+  ["nuit", "encre", "encre-2", "brume", "givre", "ambre", "cuivre", "ivoire", "ardoise"].forEach((k) => da[k] ? r.setProperty("--" + k, da[k]) : r.removeProperty("--" + k));
+  da.titre ? r.setProperty("--titre", da.titre) : r.removeProperty("--titre");
+  document.querySelector('meta[name="theme-color"]').content = da.nuit || "#0E1220";
+  document.body.style.background = da.nuit || "";
+}
+
+async function ouvrirCompte(c) {
+  COMPTE = c; DATA = null;
+  appliquerDA(c.da || {});
+  $("#app-nom").textContent = c.nom;
+  $("#app-logo").src = c.logo || logoInitiale(c);
+  $("#hub").hidden = true; $("#app").hidden = false;
+  ouvrirOnglet("jour");
+  scrollTo(0, 0);
+  await chargerDonnees();
+}
+
+function fermerCompte() {
+  COMPTE = null; DATA = null;
+  appliquerDA({});
+  document.querySelector('meta[name="theme-color"]').content = "#1F2A44";
+  document.body.style.background = "#F3F4F7";
+  $("#app").hidden = true; $("#hub").hidden = false;
+  scrollTo(0, 0);
+}
+
+async function chargerDonnees() {
+  const sans = $("#sans-donnees");
+  if (!COMPTE.donnees) {
+    document.querySelectorAll(".tab").forEach((x) => x.classList.remove("actif"));
+    $(".nav").hidden = true; $("#refresh").hidden = true;
+    sans.hidden = false;
+    sans.innerHTML = `<h3>${esc(COMPTE.nom)}</h3><p>Pas encore de statistiques pour ce compte.</p><p>Connecte-le à Metricool, puis demande à Claude de l'ajouter à la mise à jour du matin.</p>`;
+    $("#maj").textContent = COMPTE.plateformes;
+    return;
+  }
+  sans.hidden = true; $(".nav").hidden = false; $("#refresh").hidden = false;
+  $("#refresh").classList.add("tourne");
+  try {
+    DATA = await dechiffrer(await chargerChiffre(COMPTE.donnees), lireCode());
+    afficher();
+  } catch {
+    if (!DATA) $("#maj").textContent = "Données indisponibles (hors ligne ?)";
+  }
+  $("#refresh").classList.remove("tourne");
 }
 
 $("#verrou").addEventListener("submit", (e) => {
   e.preventDefault();
   garderCode($("#code").value.trim().toLowerCase());
   $("#code").value = "";
-  charger();
+  chargerComptes();
 });
+$("#retour").addEventListener("click", fermerCompte);
 
 function afficher() {
   $("#maj").textContent = "Mis à jour " + dateCourte(DATA.maj) + " à " + heure(DATA.maj);
@@ -96,8 +177,9 @@ function conseil() {
     ({ titre, texte, base } = c);
     etiquette = "Conseil IA du jour";
   } else {
-    const n = Math.floor(Date.now() / 864e5) % RESERVE.length;
-    [titre, texte] = RESERVE[n];
+    const liste = COMPTE?.id === "declic" ? RESERVE_DECLIC : RESERVE_GENERAL;
+    const n = Math.floor(Date.now() / 864e5) % liste.length;
+    [titre, texte] = liste[n];
     base = "Conseil de réserve : celui du jour n'a pas encore été écrit.";
     etiquette = "Conseil du jour";
   }
@@ -129,9 +211,9 @@ function graphique(el, jours) {
     const x = i * pas + (pas - larg) / 2, y = H - bas - h;
     const top = j.vues === max;
     const d = new Date(j.date + "T12:00:00");
-    return `<rect x="${x}" y="${y}" width="${larg}" height="${h}" rx="4" fill="${top ? "#F2A65A" : "#A9C6E8"}" opacity="${top ? 1 : .55}"/>
-      <text x="${x + larg / 2}" y="${y - 5}" text-anchor="middle" font-size="10" fill="#D6E6F7" font-family="JetBrains Mono">${j.vues >= 1000 ? (j.vues / 1000).toFixed(1).replace(".", ",") + "k" : j.vues}</text>
-      <text x="${x + larg / 2}" y="${H - 6}" text-anchor="middle" font-size="10" fill="#7D8799">${d.getDate()}/${d.getMonth() + 1}</text>`;
+    return `<rect x="${x}" y="${y}" width="${larg}" height="${h}" rx="4" style="fill:var(${top ? "--ambre" : "--brume"})" opacity="${top ? 1 : .55}"/>
+      <text x="${x + larg / 2}" y="${y - 5}" text-anchor="middle" font-size="10" style="fill:var(--givre);font-family:var(--mono)">${j.vues >= 1000 ? (j.vues / 1000).toFixed(1).replace(".", ",") + "k" : j.vues}</text>
+      <text x="${x + larg / 2}" y="${H - 6}" text-anchor="middle" font-size="10" style="fill:var(--ardoise)">${d.getDate()}/${d.getMonth() + 1}</text>`;
   }).join("");
   el.innerHTML = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Vues par jour">${barres}</svg>`;
 }
@@ -306,10 +388,13 @@ function stats() {
   graphique($("#graph-stats"), d.jours);
 }
 
-document.querySelectorAll(".nav button").forEach((b) => b.addEventListener("click", () => {
+function ouvrirOnglet(nom) {
   document.querySelectorAll(".nav button, .tab").forEach((x) => x.classList.remove("actif"));
-  b.classList.add("actif");
-  $("#tab-" + b.dataset.tab).classList.add("actif");
+  $(`.nav button[data-tab="${nom}"]`).classList.add("actif");
+  $("#tab-" + nom).classList.add("actif");
+}
+document.querySelectorAll(".nav button").forEach((b) => b.addEventListener("click", () => {
+  ouvrirOnglet(b.dataset.tab);
   scrollTo(0, 0);
 }));
 document.querySelectorAll(".seg button").forEach((b) => b.addEventListener("click", () => {
@@ -318,8 +403,8 @@ document.querySelectorAll(".seg button").forEach((b) => b.addEventListener("clic
   reseau = b.dataset.reseau;
   if (DATA) stats();
 }));
-$("#refresh").addEventListener("click", charger);
-document.addEventListener("visibilitychange", () => { if (!document.hidden) charger(); });
+$("#refresh").addEventListener("click", () => COMPTE && chargerDonnees());
+document.addEventListener("visibilitychange", () => { if (!document.hidden && COMPTE?.donnees) chargerDonnees(); });
 
 // Nouvelle version de l'appli : on recharge une fois pour l'afficher.
 if ("serviceWorker" in navigator) {
@@ -333,4 +418,5 @@ if ("serviceWorker" in navigator) {
     document.addEventListener("visibilitychange", () => { if (!document.hidden) reg.update(); });
   });
 }
-charger();
+document.body.style.background = "#F3F4F7";
+chargerComptes();

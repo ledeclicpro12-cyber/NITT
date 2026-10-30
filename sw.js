@@ -1,7 +1,7 @@
 // Toujours la dernière version en ligne d'abord ; le cache ne sert que hors ligne.
-const CACHE = "declic-v7";
+const CACHE = "declic-v8";
 const COQUILLE = ["./", "index.html", "style.css", "app.js", "manifest.webmanifest",
-  "icons/icon-180.png", "icons/icon-192.png", "icons/icon-512.png"];
+  "icons/nitt-180.png", "icons/nitt-192.png", "icons/icon-192.png"];
 
 self.addEventListener("install", (e) => {
   e.waitUntil(caches.open(CACHE).then((c) => c.addAll(COQUILLE)).then(() => self.skipWaiting()));
@@ -27,7 +27,7 @@ self.addEventListener("fetch", (e) => {
     })));
     return;
   }
-  const cle = url.pathname.endsWith("data.enc.json") ? "data.enc.json" : e.request;
+  const cle = url.pathname.endsWith(".enc.json") ? url.pathname : e.request;
   e.respondWith(fetch(e.request, { cache: "no-store" }).then((rep) => {
     if (rep.ok) { const copie = rep.clone(); caches.open(CACHE).then((c) => c.put(cle, copie)); }
     return rep;

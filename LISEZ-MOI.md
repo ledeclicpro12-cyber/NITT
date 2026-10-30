@@ -1,19 +1,19 @@
-# Appli « Le Déclic » pour iPhone
+# Appli NITT pour iPhone
 
-Une petite appli web (PWA) à mettre sur l'écran d'accueil : conseil du jour, activité (programmé et publié), page « Dernier post » (chiffres, comparaison à ta médiane, prévisions à 24 h, 7 j et 30 j) et statistiques Instagram et TikTok.
+Une appli web (PWA) aux couleurs de NITT Corporation. À l'ouverture, on choisit le compte à gérer, puis l'appli passe dans la DA de ce compte. Pour un compte branché (aujourd'hui Le Déclic) : conseil du jour, activité (programmé et publié), page « Dernier post » (chiffres, comparaison à ta médiane, prévisions à 24 h, 7 j et 30 j) et statistiques Instagram et TikTok.
 
 ## Comment ça marche
 
 L'appli est un site statique. Elle ne parle jamais à Metricool directement (il faudrait mettre ta clé Metricool dans le site, lisible par n'importe qui). À la place :
 
-1. Chaque matin, une routine Claude lit Metricool (brand 7757860), écrit les chiffres et le conseil du jour, les **chiffre** avec ton code d'accès (`chiffre.mjs`) et publie `data.enc.json`. Le fichier lisible n'est jamais mis dans le dépôt.
-2. L'appli demande le code une fois, le garde sur le téléphone, et lit `data.enc.json` à chaque ouverture (bouton ↻ pour forcer). Hors ligne, elle montre les derniers chiffres reçus.
+1. Chaque matin, une routine Claude lit Metricool (brand 7757860), écrit les chiffres et le conseil du jour, les **chiffre** avec ton code d'accès (`chiffre.mjs`) et publie `comptes/declic.enc.json`. Le fichier lisible n'est jamais mis dans le dépôt.
+2. L'appli demande le code une fois, le garde sur le téléphone, et lit les fichiers chiffrés à chaque ouverture (bouton ↻ pour forcer). Hors ligne, elle montre les derniers chiffres reçus.
 3. Si la routine n'est pas passée, l'appli affiche un « conseil de réserve » tiré d'une liste fixe.
 
 ## Héberger gratuitement
 
 **Option recommandée : GitHub Pages** (gratuit, et la routine peut mettre à jour les chiffres toute seule).
-Dépôt utilisé : `ledeclicpro12-cyber/NITT` (public). Le code du site est visible, mais les stats sont chiffrées (AES-256) : sans le code, `data.enc.json` est illisible.
+Dépôt utilisé : `ledeclicpro12-cyber/NITT` (public). Le code du site est visible, mais les stats sont chiffrées (AES-256) : sans le code, les fichiers `*.enc.json` sont illisibles.
 1. Settings → Pages → Source « Deploy from a branch », branche `main`, dossier `/ (root)`, Save.
 2. L'adresse est `https://ledeclicpro12-cyber.github.io/NITT/`.
 
@@ -36,3 +36,10 @@ Le code d'accès n'est écrit nulle part dans le dépôt. Pour le changer, il fa
 - `programmes` : `[{ date, reseau: "instagram"|"tiktok", titre, statut }]`.
 
 Champs Metricool : Insta reels IGRE02,03,06,23,11,10,07,12,21,09,24,28 ; Insta par jour IGEV01 (abonnés), IGEV05 (vues), IGEV06 (portée) ; TikTok vidéos TKPO02,03,05,07,08,09,10,13,15 ; TikTok par jour TKEV07,12 ; programmés : getScheduledPosts.
+
+## Comptes du groupe
+
+`comptes.enc.json` (chiffré avec le même code) liste les comptes affichés à l'accueil : `{ groupe, comptes: [{ id, nom, plateformes, sujet, statut: "actif"|"a-faire", couleur, logo?, donnees?, da }] }`.
+- `donnees` : chemin du fichier chiffré du compte (ex. `comptes/declic.enc.json`), même format que celui du Déclic. Sans ce champ, l'appli affiche « pas encore de statistiques ».
+- `da` : la direction artistique du compte, appliquée à tout l'écran : `nuit` (fond), `encre` et `encre-2` (cartes), `ivoire` (texte), `givre` (texte secondaire), `ardoise` (gris), `ambre` (accent), `brume` (accent 2), `cuivre`, `titre` (police des titres). Le Déclic a sa vraie DA ; celles de La ronde des Comptines, Inspecteur Pi et Bébé Steve sont provisoires, tirées des couleurs du document NITT.
+- Pour ajouter ou modifier un compte : déchiffre `comptes.enc.json` (même code), modifie le JSON hors du dépôt, rechiffre avec `node chiffre.mjs "$CODE" comptes.json > comptes.enc.json`. Ne jamais y mettre d'e-mail ni de mot de passe.

@@ -19,6 +19,7 @@
 html { -webkit-text-size-adjust: 100%; }
 body {
   margin: 0;
+  transition: background .2s;
   background: var(--nuit);
   color: var(--ivoire);
   font: 400 16px/1.45 var(--texte);
@@ -30,7 +31,7 @@ body {
   position: sticky; top: 0; z-index: 5;
   display: flex; align-items: center; gap: 12px;
   padding: calc(var(--haut) + 10px) 16px 10px;
-  background: rgba(14, 18, 32, .92);
+  background: color-mix(in srgb, var(--nuit) 92%, transparent);
   backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--encre-2);
 }
@@ -56,8 +57,8 @@ h2 {
 
 .conseil {
   margin-top: 14px; padding: 18px;
-  background: linear-gradient(160deg, #2A2232 0%, var(--encre) 55%);
-  border: 1px solid rgba(242, 166, 90, .35);
+  background: linear-gradient(160deg, color-mix(in srgb, var(--ambre) 14%, var(--encre)) 0%, var(--encre) 55%);
+  border: 1px solid color-mix(in srgb, var(--ambre) 35%, transparent);
   border-radius: 18px;
 }
 .conseil .etiquette {
@@ -89,7 +90,7 @@ h2 {
 .ligne .meta { font-size: 13px; color: var(--ardoise); margin-top: 2px; }
 .ligne .chiffre { font: 700 16px var(--mono); text-align: right; flex: none; }
 .ligne .chiffre small { display: block; font: 400 11px var(--texte); color: var(--ardoise); }
-.ligne.top1 { border: 1px solid rgba(242, 166, 90, .35); }
+.ligne.top1 { border: 1px solid color-mix(in srgb, var(--ambre) 35%, transparent); }
 .ligne.top1 .chiffre { color: var(--ambre); }
 
 .pastille {
@@ -97,7 +98,7 @@ h2 {
   background: var(--encre-2); color: var(--brume); margin-right: 6px;
 }
 .pastille.tiktok { color: var(--givre); }
-.pastille.attente { background: rgba(242, 166, 90, .15); color: var(--ambre); }
+.pastille.attente { background: color-mix(in srgb, var(--ambre) 15%, transparent); color: var(--ambre); }
 
 .seg { display: flex; background: var(--encre); border-radius: 12px; padding: 4px; margin-top: 14px; }
 .seg button {
@@ -110,7 +111,7 @@ h2 {
   position: fixed; left: 0; right: 0; bottom: 0; z-index: 5;
   display: flex; justify-content: space-around;
   padding: 8px 8px calc(var(--bas) + 8px);
-  background: rgba(14, 18, 32, .95);
+  background: color-mix(in srgb, var(--nuit) 95%, transparent);
   backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
   border-top: 1px solid var(--encre-2);
 }
@@ -153,14 +154,14 @@ h2 {
 .prev-val { font: 700 22px var(--mono); margin-top: 2px; }
 .prev-val small { font: 400 12px var(--texte); color: var(--ardoise); }
 .prev-barre { position: relative; height: 8px; border-radius: 4px; background: var(--encre-2); margin: 8px 0 6px; }
-.prev-barre span { position: absolute; top: 0; bottom: 0; border-radius: 4px; background: rgba(169, 198, 232, .45); }
+.prev-barre span { position: absolute; top: 0; bottom: 0; border-radius: 4px; background: color-mix(in srgb, var(--brume) 45%, transparent); }
 .prev-barre i { position: absolute; top: -3px; width: 3px; height: 14px; margin-left: -1px; border-radius: 2px; background: var(--ambre); }
 .prev-four { font-size: 12px; color: var(--ardoise); }
 .note { margin: 12px 0 0; font-size: 12px; color: var(--ardoise); }
 .delta .plus { color: var(--ambre); }
 .delta .moins { color: var(--ardoise); }
 
-.ligne.recent { background: #1B2A40; border: 1px solid var(--brume); }
+.ligne.recent { background: color-mix(in srgb, var(--brume) 12%, var(--encre)); border: 1px solid var(--brume); }
 .ligne.recent .rang, .ligne.recent .chiffre { color: var(--brume); }
 .badge-recent {
   display: inline-block; margin-bottom: 4px; padding: 3px 7px; border-radius: 999px;
@@ -169,3 +170,54 @@ h2 {
 }
 
 .version { margin: 28px 0 0; text-align: center; font-size: 12px; color: var(--ardoise); }
+
+/* ---- Accueil NITT ---- */
+[hidden] { display: none !important; }
+.ecran[hidden], .app[hidden] { display: none !important; }
+.hub {
+  --n-marine: #1F2A44; --n-saumon: #F5C6B8; --n-fond: #F3F4F7; --n-gris: #6B7280;
+  min-height: 100dvh; background: var(--n-fond); color: var(--n-marine);
+  font-family: var(--texte);
+}
+.hub-tete {
+  background: var(--n-marine); color: #fff;
+  padding: calc(var(--haut) + 28px) 20px 26px;
+  border-bottom: 4px solid var(--n-saumon);
+}
+.hub-logo { margin: 0; font: 800 34px/1 var(--texte); letter-spacing: .32em; }
+.hub-sous { margin: 8px 0 0; color: var(--n-saumon); font-size: 14px; letter-spacing: .04em; }
+.hub-corps { padding: 20px 16px calc(var(--bas) + 32px); max-width: 560px; margin: 0 auto; }
+.hub h2 { color: var(--n-gris); }
+.compte {
+  display: flex; align-items: center; gap: 14px; width: 100%; text-align: left;
+  background: #fff; border: 0; border-left: 6px solid var(--c); border-radius: 14px;
+  padding: 14px; margin-bottom: 10px; color: var(--n-marine); font: inherit;
+  box-shadow: 0 1px 2px rgba(31, 42, 68, .08);
+}
+.compte:disabled { opacity: .55; }
+.compte .pastille-c {
+  flex: none; width: 46px; height: 46px; border-radius: 50%; overflow: hidden;
+  display: grid; place-items: center; background: var(--c); color: #fff; font: 800 20px var(--texte);
+}
+.compte .pastille-c img { width: 100%; height: 100%; object-fit: cover; }
+.compte .infos { flex: 1; min-width: 0; }
+.compte .nom { font-weight: 700; font-size: 17px; }
+.compte .det { font-size: 13px; color: var(--n-gris); margin-top: 2px; }
+.compte .statut { font-size: 12px; font-weight: 700; margin-top: 4px; color: #1E8E3E; }
+.compte .statut.afaire { color: #B9770E; }
+.compte .fleche { color: var(--n-gris); font-size: 22px; }
+.hub .verrou { background: var(--n-fond); }
+.hub-verrou h2 { color: var(--n-marine); }
+.retour {
+  width: 40px; height: 40px; border-radius: 50%; border: 0; flex: none;
+  background: var(--encre); color: var(--givre); font-size: 18px;
+}
+.vide-compte { margin-top: 40px; text-align: center; color: var(--ardoise); }
+.vide-compte h3 { color: var(--ivoire); font: 600 22px var(--titre); }
+.hub-verrou { background: var(--n-fond); }
+.hub-verrou .hub-logo { color: var(--n-marine); }
+.hub-verrou h2 { margin: 4px 0 0; font: 700 22px var(--texte); letter-spacing: 0; text-transform: none; color: var(--n-marine); }
+.hub-verrou label { color: var(--n-gris); }
+.hub-verrou input { background: #fff; color: var(--n-marine); border-color: #D9DCE3; }
+.hub-verrou button { background: var(--n-marine); color: #fff; }
+.hub-verrou .verrou-msg { color: #C0392B; }

@@ -3,41 +3,56 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Déclic</title>
-<meta name="description" content="Activité, statistiques et conseil du jour du compte Le Déclic.">
-<meta name="theme-color" content="#0E1220">
+<title>NITT</title>
+<meta name="description" content="Tableau de bord des comptes de NITT Corporation.">
+<meta name="theme-color" content="#1F2A44">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Déclic">
+<meta name="apple-mobile-web-app-title" content="NITT">
 <link rel="manifest" href="manifest.webmanifest">
-<link rel="apple-touch-icon" href="icons/icon-180.png">
-<link rel="icon" type="image/png" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/nitt-180.png">
+<link rel="icon" type="image/png" href="icons/nitt-192.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=Inter:wght@400;600;700;800&family=Fredoka:wght@600&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
+<div id="hub" class="hub">
+  <header class="hub-tete">
+    <p class="hub-logo">NITT</p>
+    <p class="hub-sous">Corporation · tableau de bord des comptes</p>
+  </header>
+  <form id="verrou" class="verrou hub-verrou" hidden>
+    <p class="hub-logo">NITT</p>
+    <h2>Accès privé</h2>
+    <label for="code">Entre ton code d'accès</label>
+    <input id="code" type="password" autocomplete="current-password" autocapitalize="none" autocorrect="off" spellcheck="false" required>
+    <p id="verrou-msg" class="verrou-msg"></p>
+    <button type="submit">Ouvrir</button>
+  </form>
+  <div class="hub-corps">
+    <h2>Choisis un compte</h2>
+    <div id="hub-liste"><p class="vide">Chargement…</p></div>
+  </div>
+</div>
+
+<div id="app" class="app" hidden>
 <header class="top">
-  <img src="icons/icon-192.png" alt="" class="avatar" width="36" height="36">
+  <button class="retour" id="retour" aria-label="Retour aux comptes NITT">‹</button>
+  <img src="icons/icon-192.png" alt="" class="avatar" id="app-logo" width="36" height="36">
   <div>
-    <h1>Le Déclic</h1>
+    <h1 id="app-nom">Le Déclic</h1>
     <p class="maj" id="maj">Chargement…</p>
   </div>
   <button class="refresh" id="refresh" aria-label="Actualiser">↻</button>
 </header>
 
-<form id="verrou" class="verrou" hidden>
-  <img src="icons/icon-192.png" alt="" width="72" height="72" class="avatar">
-  <h2>Appli privée</h2>
-  <label for="code">Entre ton code d'accès</label>
-  <input id="code" type="password" autocomplete="current-password" autocapitalize="none" autocorrect="off" spellcheck="false" required>
-  <p id="verrou-msg" class="verrou-msg"></p>
-  <button type="submit">Ouvrir</button>
-</form>
+
 
 <main>
+  <div id="sans-donnees" class="vide-compte" hidden></div>
   <section id="tab-jour" class="tab actif" aria-labelledby="nav-jour">
     <article class="conseil" id="conseil"></article>
     <h2>En bref</h2>
@@ -46,7 +61,7 @@
     <div class="carte" id="graph"></div>
     <h2>Prochaines publications</h2>
     <div id="prochains"></div>
-    <p class="version">Version 7 de l'appli</p>
+    <p class="version">Version 8 de l'appli · NITT</p>
   </section>
 
   <section id="tab-activite" class="tab" aria-labelledby="nav-activite">
@@ -75,6 +90,7 @@
   <button id="nav-dernier" data-tab="dernier"><span>★</span>Dernier post</button>
   <button id="nav-stats" data-tab="stats"><span>▮▮</span>Stats</button>
 </nav>
+</div>
 
 <script src="app.js"></script>
 </body>
