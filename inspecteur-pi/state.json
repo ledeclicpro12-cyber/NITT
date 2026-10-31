@@ -1,0 +1,16 @@
+{
+  "next_number": 10,
+  "published_or_made": {
+    "001": "chameaux (héritage de chameaux)",
+    "002": "énigme (voir miniatures)",
+    "003": "dilemme (sauver la fille)",
+    "004": "Monty Hall",
+    "005": "poison dans les glaçons",
+    "006": "camion sous un pont (pneus)",
+    "007": "coffre du braqueur et les 3 filles (somme/produit)",
+    "008": "neuf pièces et une balance (grotte)",
+    "009": "100 prisonniers, 1 ampoule, 1 interrupteur (compteur)"
+  },
+  "also_made_not_published": ["anniversaire de la directrice (type Cheryl) - jugé trop connu"],
+  "errors": []
+}
