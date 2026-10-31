@@ -322,6 +322,7 @@ function afficher() {
   dernier();
   stories();
   rythme();
+  reponses();
   stats();
   compter($(".tab.actif") || document);
 }
@@ -544,6 +545,44 @@ async function rythme() {
       const corps = `Demande envoyée depuis l'appli NITT.\n\ncompte: ${id}\nposts: ${choix.posts}\nstories: ${choix.stories}\nsource: ${src}\n\nLa routine du matin l'applique dans reglages.json puis ferme cette demande.`;
       try { localStorage.setItem(cleEnvoi, JSON.stringify({ posts: choix.posts, stories: choix.stories })); } catch {}
       envoye = { ...choix };
+      open(`https://github.com/${DEPOT}/issues/new?title=${encodeURIComponent(titre)}&body=${encodeURIComponent(corps)}`, "_blank", "noopener");
+      rendu();
+    };
+  };
+  rendu();
+}
+
+// ——— Réponses aux commentaires : désactivé, brouillons à valider, ou automatique ———
+const MODES_REP = [
+  ["off", "Désactivé", "Personne ne répond à ta place. Tu réponds toi-même dans Instagram."],
+  ["brouillons", "Brouillons", "Chaque matin, Claude prépare une réponse par commentaire. Tu les valides avant qu'elles partent."],
+  ["auto", "Automatique", "Claude répond seul aux commentaires simples (merci, questions sur le sujet). Les critiques et les messages sensibles restent en brouillon."],
+];
+async function reponses() {
+  const el = $("#reponses"), id = COMPTE.id;
+  let reg = null;
+  try { reg = (await (await fetch("reglages.json?t=" + Date.now(), { cache: "no-store" })).json())[id] || null; } catch {}
+  const actuel = reg?.commentaires || "off";
+  const cle = "nitt-rep-" + id;
+  let envoye = null; try { envoye = localStorage.getItem(cle); } catch {}
+  if (envoye === actuel) envoye = null;
+  let choix = envoye || actuel;
+  const branche = !!DATA.commentaires?.branche;
+  const semaine = (DATA.instagram?.reels || []).filter((r) => Date.now() - new Date(r.date) < 7 * 864e5).reduce((a, r) => a + (r.commentaires || 0), 0);
+  const rendu = () => {
+    const m = MODES_REP.find((x) => x[0] === choix);
+    el.innerHTML = `<p class="meta">${fmt.format(semaine)} commentaire${semaine > 1 ? "s" : ""} sur tes reels des 7 derniers jours.</p>
+      <div class="seg seg-rep" role="radiogroup" aria-label="Réponses aux commentaires">${MODES_REP.map(([k, lib]) => `<button role="radio" aria-checked="${k === choix}" class="${k === choix ? "actif" : ""}" data-k="${k}">${lib}</button>`).join("")}</div>
+      <p class="rythme-ia">${esc(m[2])}</p>
+      ${!branche && choix !== "off" ? '<p class="note">Pas encore actif : il faut d\'abord brancher la lecture des commentaires Instagram (Metricool ne la permet pas). Ton choix est gardé et s\'appliquera dès que ce sera fait.</p>' : ""}
+      <p class="meta rythme-etat">En place : ${MODES_REP.find((x) => x[0] === actuel)[1].toLowerCase()}.${envoye ? ` Demande envoyée : ${MODES_REP.find((x) => x[0] === envoye)[1].toLowerCase()}.` : ""}</p>
+      <div class="rythme-actions"><button class="btn-plein" data-a="appliquer" ${choix === actuel ? "disabled" : ""}>${choix === actuel ? "C'est le réglage en place" : envoye === choix ? "Renvoyer la demande" : "Appliquer"}</button></div>`;
+    el.querySelectorAll(".seg-rep button").forEach((b) => b.onclick = () => { choix = b.dataset.k; rendu(); });
+    el.querySelector('[data-a="appliquer"]').onclick = () => {
+      const titre = `Commentaires ${id} : ${choix}`;
+      const corps = `Demande envoyée depuis l'appli NITT.\n\ncompte: ${id}\ncommentaires: ${choix}\n\nLa routine du matin l'applique dans reglages.json puis ferme cette demande.`;
+      try { localStorage.setItem(cle, choix); } catch {}
+      envoye = choix;
       open(`https://github.com/${DEPOT}/issues/new?title=${encodeURIComponent(titre)}&body=${encodeURIComponent(corps)}`, "_blank", "noopener");
       rendu();
     };

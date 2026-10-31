@@ -361,7 +361,9 @@ svg rect { transform-box: fill-box; transform-origin: bottom; animation: pousse 
 .pastille.ok { background: color-mix(in srgb, var(--brume) 25%, transparent); color: var(--brume); }
 .nav button { font-size: 10.5px; }
 
-/* Rythme de publication */
+/* Rythme de publication et réponses aux commentaires */
+.seg-rep { margin: 10px 0 12px; }
+.seg-rep button { font-size: 13px; }
 .rythme-ia { margin: 0 0 12px; font-size: 14px; line-height: 1.45; color: var(--givre); }
 .rythme-ia .etiquette-douce { margin-right: 4px; }
 .pas { display: grid; grid-template-columns: 1fr 40px 2.4em 40px; align-items: center; gap: 8px; padding: 8px 0; border-top: 1px solid var(--encre-2); }

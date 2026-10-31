@@ -56,3 +56,7 @@ Onglet « Stories » : objectif du jour (2 stories), programme des prochains jou
 ## Rythme de publication (version 15)
 
 Carte « Rythme de publication » dans l'onglet Aujourd'hui : le conseil IA (`rythme.conseil` dans le fichier chiffré du compte, réécrit chaque matin) est proposé par défaut ; on peut choisir de 0 à 4 posts et de 0 à 6 stories par jour. « Appliquer » ouvre une demande GitHub pré-remplie (titre « Rythme <id> : … ») qu'il suffit d'envoyer. La routine du matin la reporte dans `reglages.json` (en clair : seulement des nombres) et la ferme. La routine qui produit et programme les vidéos lit `reglages.json` ; sans entrée pour un compte, elle suit le conseil IA.
+
+## Réponses aux commentaires (version 18)
+
+Carte « Réponses aux commentaires » dans l'onglet Aujourd'hui : désactivé (par défaut), brouillons à valider, ou automatique (seulement pour les commentaires simples). Le choix passe par une demande GitHub « Commentaires <id> : … » et arrive dans `reglages.json` (champ `commentaires`). Tant que la lecture des commentaires Instagram n'est pas branchée (`commentaires.branche` à false dans les données), la carte le signale et rien n'est envoyé.
