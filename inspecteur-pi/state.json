@@ -20,5 +20,11 @@
   "stories": [
     "4 fils + 1 soeur (5 enfants)",
     "les pas"
-  ]
+  ],
+  "horaires": {
+    "2026-10-31": [
+      "10:00",
+      "18:00 (créneaux Metricool, avant consigne de variation)"
+    ]
+  }
 }

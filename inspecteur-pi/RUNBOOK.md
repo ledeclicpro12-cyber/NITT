@@ -61,3 +61,7 @@ Texte TikTok < 2200 caractères. Pas de promesse chiffrée fausse ; si l'énigme
 
 ## 4. Stories
 Pas d'extraits vidéo. Visuels pixel-art 1080x1920 générés par `pipeline/stories.py` (2 mini-énigmes/jour, question + réponse, différentes des vidéos). PNG dans `stories/AAAA-MM-JJ/`. Metricool : `instagramData {"type":"STORY"}`, texte vide, instagram seul ; questions = heure du Reel + 30 min, réponses à 21:00 et 21:10. Marque Metricool connectée : 7769726.
+
+## 5. Qualité et horaires (consignes de l'utilisateur)
+- Prendre le temps nécessaire pour un rendu soigné : au moins 2 passes de contrôle (planches contact de toutes les scènes, synchro whisper, fin, ffprobe/volumedetect) et corriger avant de programmer.
+- Horaires : jamais fixes. Demander à Metricool (getBestTimeToPostByNetwork, jour précis, instagram + tiktok), choisir 2 créneaux parmi les 4 meilleurs, éviter l'heure exacte de la veille, minutes variables (±30 min max autour du créneau). Noter les heures choisies dans state.json (champ horaires).
