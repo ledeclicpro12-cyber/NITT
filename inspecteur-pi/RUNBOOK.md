@@ -35,7 +35,7 @@ Pour un nouvel épisode N : copier ces 4 fichiers en `renderN.py`, `buildN.py`, 
 1. `git checkout inspecteur-media` ; copier la vidéo dans `inspecteur-pi/videos/NNN.mp4` ; commit + push (`git fetch origin inspecteur-media` avant le push).
 2. URL publique : `https://raw.githubusercontent.com/ledeclicpro12-cyber/nitt/inspecteur-media/inspecteur-pi/videos/NNN.mp4`
    (Metricool la télécharge et la ré-héberge : vérifié, la réponse contient `static.metricool.com`).
-3. Outil Metricool `createScheduledPost` : `blogId` = `7767925`, fuseau `Europe/Paris`, `info` (JSON) avec
+3. Outil Metricool `createScheduledPost` : `blogId` = `7769726`, fuseau `Europe/Paris`, `info` (JSON) avec
    `providers: [{"network":"instagram"},{"network":"tiktok"}]`, `instagramData: {"type":"REEL","showReelOnFeed":true}`,
    `tiktokData: {"privacyOption":"PUBLIC_TO_EVERYONE","title":"<titre court>","disableComment":false,"disableDuet":false,"disableStitch":false}`,
    `autoPublish: true`, `draft: false`, `media: [<url raw>]`, `text` = description (modèle ci-dessous).
@@ -58,3 +58,6 @@ Pour un nouvel épisode N : copier ces 4 fichiers en `renderN.py`, `buildN.py`, 
 #énigme #enigme #énigmedujour #logique #défi #cassetête #inspecteurpi #pixelart #maths #réfléchir #quiz #jeudelogique #reels #tiktokfrance
 ```
 Texte TikTok < 2200 caractères. Pas de promesse chiffrée fausse ; si l'énigme a un piège classique dans les commentaires, ne pas le spoiler.
+
+## 4. Stories
+Teaser = début de la vidéo jusqu'à la fin de la question (sans la réponse), coupé après le dernier mot de la question, fondus 0.4 s. Fichier `videos/stories/NNN.mp4`. Metricool : `instagramData {"type":"STORY"}`, texte vide, providers instagram seul, 30 min après le Reel. Marque Metricool connectée : 7769726 (l'ancienne 7767925 est déconnectée).
