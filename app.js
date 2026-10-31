@@ -618,6 +618,7 @@ async function production() {
           <div class="prod-tete"><b>#${esc(v.num)} ${esc(v.sujet)}</b><span>${faits}/${es.length}</span></div>
           <div class="prod-barre"><span style="width:${es.length ? faits / es.length * 100 : 0}%"></span></div>
           <ol class="prod-etapes">${es.map(([k, lib]) => `<li class="${etat(v.etapes[k])}" title="${esc(v.etapes[k])}"><i></i>${lib}</li>`).join("")}</ol>
+          ${v.pourquoi ? `<p class="prod-pourquoi"><span class="etiquette-douce">Pourquoi ce sujet</span> ${esc(v.pourquoi)}</p>` : ""}
           <p class="meta">${cours ? `${v.etapes[cours[0]] === "bloque" ? "Bloqué" : "En cours"} : ${cours[1].toLowerCase()}${v.detail ? " · " + esc(v.detail) : ""}` : faits === es.length ? "Prête" : v.detail ? esc(v.detail) : "En attente"}${v.heure ? ` · sortie ${esc(v.heure)}` : ""}${v.heureStory ? ` · story ${esc(v.heureStory)}` : ""}</p>
         </article>`;
       }).join("")}`;

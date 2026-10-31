@@ -384,6 +384,7 @@ svg rect { transform-box: fill-box; transform-origin: bottom; animation: pousse 
 .prod-etapes .bloque { color: #E5484D; font-weight: 600; }
 .prod-etapes .bloque i { border-color: #E5484D; }
 .prod .meta { margin: 12px 0 0; }
+.prod-pourquoi { margin: 12px 0 0; font-size: 13px; line-height: 1.45; color: var(--givre); }
 
 /* Rythme de publication et réponses aux commentaires */
 .seg-rep { margin: 10px 0 12px; }
