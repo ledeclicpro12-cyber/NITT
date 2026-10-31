@@ -323,6 +323,7 @@ function afficher() {
   stories();
   rythme();
   reponses();
+  production();
   stats();
   compter($(".tab.actif") || document);
 }
@@ -588,6 +589,40 @@ async function reponses() {
     };
   };
   rendu();
+}
+
+// ——— Production en cours : étapes de préparation des vidéos, mises à jour en direct ———
+const ETAPES = [["script", "Script"], ["voix", "Voix"], ["montage", "Montage"], ["rendu", "Rendu"], ["cover", "Cover"], ["textes", "Textes"], ["story", "Story"], ["programme", "Programmé"]];
+let minuterieProd = null;
+async function production() {
+  clearTimeout(minuterieProd);
+  const el = $("#production"), compte = COMPTE;
+  if (!compte || !el) return;
+  let P = null;
+  try {
+    const paquet = await chargerChiffre(`comptes/${slug(compte.id || compte.nom)}-production.enc.json`);
+    for (const code of [lireCode(), lireCodeCompte(compte)].filter(Boolean)) { try { P = await dechiffrer(paquet, code); break; } catch {} }
+  } catch {}
+  if (compte !== COMPTE) return;
+  const vids = P?.videos || [];
+  const duJour = P?.maj && jourIso(new Date(P.maj)) === jourIso();
+  const finies = vids.length && vids.every((v) => Object.values(v.etapes || {}).every((e) => e === "fait"));
+  if (!vids.length || !duJour) { el.innerHTML = ""; }
+  else {
+    const etat = (e) => e === "fait" ? "fait" : e === "en cours" ? "encours" : e === "bloque" ? "bloque" : "afaire";
+    el.innerHTML = `<h2 class="prod-titre"><span class="${finies ? "" : "pouls"}"></span>${finies ? "Production du jour terminée" : "Production en cours"}<small>maj ${heure(P.maj)}</small></h2>
+      ${vids.map((v) => {
+        const es = ETAPES.filter(([k]) => v.etapes?.[k]), faits = es.filter(([k]) => v.etapes[k] === "fait").length;
+        const cours = es.find(([k]) => v.etapes[k] === "en cours" || v.etapes[k] === "bloque");
+        return `<article class="carte prod">
+          <div class="prod-tete"><b>#${esc(v.num)} ${esc(v.sujet)}</b><span>${faits}/${es.length}</span></div>
+          <div class="prod-barre"><span style="width:${es.length ? faits / es.length * 100 : 0}%"></span></div>
+          <ol class="prod-etapes">${es.map(([k, lib]) => `<li class="${etat(v.etapes[k])}" title="${esc(v.etapes[k])}"><i></i>${lib}</li>`).join("")}</ol>
+          <p class="meta">${cours ? `${v.etapes[cours[0]] === "bloque" ? "Bloqué" : "En cours"} : ${cours[1].toLowerCase()}${v.detail ? " · " + esc(v.detail) : ""}` : faits === es.length ? "Prête" : v.detail ? esc(v.detail) : "En attente"}${v.heure ? ` · sortie ${esc(v.heure)}` : ""}${v.heureStory ? ` · story ${esc(v.heureStory)}` : ""}</p>
+        </article>`;
+      }).join("")}`;
+  }
+  if (!finies) minuterieProd = setTimeout(() => { if (!document.hidden && COMPTE === compte) production(); }, 30000);
 }
 
 function lignePost(p) {

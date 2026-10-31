@@ -361,6 +361,30 @@ svg rect { transform-box: fill-box; transform-origin: bottom; animation: pousse 
 .pastille.ok { background: color-mix(in srgb, var(--brume) 25%, transparent); color: var(--brume); }
 .nav button { font-size: 10.5px; }
 
+/* Production en cours */
+@keyframes pouls { 0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--ambre) 70%, transparent); } 100% { box-shadow: 0 0 0 10px transparent; } }
+@keyframes encours { 50% { opacity: .35; } }
+.prod-titre { display: flex; align-items: center; gap: 8px; }
+.prod-titre span { width: 8px; height: 8px; border-radius: 50%; background: var(--brume); }
+.prod-titre span.pouls { background: var(--ambre); animation: pouls 1.4s infinite; }
+.prod-titre small { margin-left: auto; font: 500 11px var(--mono); letter-spacing: 0; text-transform: none; color: var(--ardoise); }
+.prod + .prod { margin-top: 10px; }
+.prod-tete { display: flex; justify-content: space-between; gap: 8px; }
+.prod-tete span { font: 700 13px var(--mono); color: var(--ardoise); }
+.prod-barre { height: 6px; border-radius: 3px; background: var(--encre-2); margin: 10px 0 12px; overflow: hidden; }
+.prod-barre span { display: block; height: 100%; background: var(--ambre); border-radius: 3px; transition: width .8s cubic-bezier(.2,.8,.2,1); }
+.prod-etapes { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px 6px; font-size: 11.5px; }
+.prod-etapes li { display: flex; align-items: center; gap: 5px; color: var(--ardoise); min-width: 0; }
+.prod-etapes i { width: 14px; height: 14px; border-radius: 50%; border: 1.5px solid var(--encre-2); flex: none; display: grid; place-items: center; }
+.prod-etapes .fait { color: var(--givre); }
+.prod-etapes .fait i { background: var(--brume); border-color: var(--brume); }
+.prod-etapes .fait i::after { content: "✓"; font-size: 9px; color: var(--nuit); font-weight: 800; }
+.prod-etapes .encours { color: var(--ambre); font-weight: 600; }
+.prod-etapes .encours i { border-color: var(--ambre); background: var(--ambre); animation: encours 1.2s infinite; }
+.prod-etapes .bloque { color: #E5484D; font-weight: 600; }
+.prod-etapes .bloque i { border-color: #E5484D; }
+.prod .meta { margin: 12px 0 0; }
+
 /* Rythme de publication et réponses aux commentaires */
 .seg-rep { margin: 10px 0 12px; }
 .seg-rep button { font-size: 13px; }

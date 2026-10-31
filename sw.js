@@ -1,5 +1,5 @@
 // Toujours la dernière version en ligne d'abord ; le cache ne sert que hors ligne.
-const CACHE = "declic-v18";
+const CACHE = "declic-v19";
 const COQUILLE = ["./", "index.html", "style.css", "app.js", "manifest.webmanifest",
   "icons/nitt-180.png", "icons/nitt-192.png", "icons/icon-192.png"];
 

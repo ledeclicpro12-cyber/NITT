@@ -60,3 +60,7 @@ Carte « Rythme de publication » dans l'onglet Aujourd'hui : le conseil IA (`ry
 ## Réponses aux commentaires (version 18)
 
 Carte « Réponses aux commentaires » dans l'onglet Aujourd'hui : désactivé (par défaut), brouillons à valider, ou automatique (seulement pour les commentaires simples). Le choix passe par une demande GitHub « Commentaires <id> : … » et arrive dans `reglages.json` (champ `commentaires`). Tant que la lecture des commentaires Instagram n'est pas branchée (`commentaires.branche` à false dans les données), la carte le signale et rien n'est envoyé.
+
+## Production en cours (version 19)
+
+En haut de l'onglet Aujourd'hui, la carte « Production en cours » montre chaque vidéo du jour étape par étape (script, voix, montage, rendu, cover, textes, story, programmée), et se rafraîchit toute seule toutes les 30 s. Source : `/mnt/project-files/appli-iphone/production.json` (écrit par la routine des vidéos), chiffré et poussé dans `comptes/<id>-production.enc.json` à chaque changement par la session de l'appli. Format : `{ "<id>": { maj, videos: [{ num, sujet, etapes: {script, voix, montage, rendu, cover, textes, story, programme: "a_faire"|"en cours"|"fait"|"bloque"}, detail, heure, heureStory }] } }`. La carte disparaît le lendemain.
