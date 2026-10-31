@@ -1,5 +1,5 @@
 {
-  "next_number": 10,
+  "next_number": 12,
   "published_or_made": {
     "001": "chameaux (héritage de chameaux)",
     "002": "énigme (voir miniatures)",
@@ -9,8 +9,12 @@
     "006": "camion sous un pont (pneus)",
     "007": "coffre du braqueur et les 3 filles (somme/produit)",
     "008": "neuf pièces et une balance (grotte)",
-    "009": "100 prisonniers, 1 ampoule, 1 interrupteur (compteur)"
+    "009": "100 prisonniers, 1 ampoule, 1 interrupteur (compteur)",
+    "010": "deux sabliers (4 et 7 min) pour mesurer 9 minutes (bombe)",
+    "011": "vin et eau : une cuillère échangée entre deux verres"
   },
-  "also_made_not_published": ["anniversaire de la directrice (type Cheryl) - jugé trop connu"],
+  "also_made_not_published": [
+    "anniversaire de la directrice (type Cheryl) - jugé trop connu"
+  ],
   "errors": []
 }
