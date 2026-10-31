@@ -60,4 +60,4 @@ Pour un nouvel épisode N : copier ces 4 fichiers en `renderN.py`, `buildN.py`, 
 Texte TikTok < 2200 caractères. Pas de promesse chiffrée fausse ; si l'énigme a un piège classique dans les commentaires, ne pas le spoiler.
 
 ## 4. Stories
-Teaser = début de la vidéo jusqu'à la fin de la question (sans la réponse), coupé après le dernier mot de la question, fondus 0.4 s. Fichier `videos/stories/NNN.mp4`. Metricool : `instagramData {"type":"STORY"}`, texte vide, providers instagram seul, 30 min après le Reel. Marque Metricool connectée : 7769726 (l'ancienne 7767925 est déconnectée).
+Pas d'extraits vidéo. Visuels pixel-art 1080x1920 générés par `pipeline/stories.py` (2 mini-énigmes/jour, question + réponse, différentes des vidéos). PNG dans `stories/AAAA-MM-JJ/`. Metricool : `instagramData {"type":"STORY"}`, texte vide, instagram seul ; questions = heure du Reel + 30 min, réponses à 21:00 et 21:10. Marque Metricool connectée : 7769726.
