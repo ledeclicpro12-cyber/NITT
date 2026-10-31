@@ -1,5 +1,5 @@
 {
-  "next_number": 12,
+  "next_number": 14,
   "published_or_made": {
     "001": "chameaux (héritage de chameaux)",
     "002": "énigme (voir miniatures)",
@@ -11,7 +11,9 @@
     "008": "neuf pièces et une balance (grotte)",
     "009": "100 prisonniers, 1 ampoule, 1 interrupteur (compteur)",
     "010": "deux sabliers (4 et 7 min) pour mesurer 9 minutes (bombe)",
-    "011": "vin et eau : une cuillère échangée entre deux verres"
+    "011": "vin et eau : une cuillère échangée entre deux verres",
+    "012": "trois cartes (rouge/rouge, bleue/bleue, mixte) : face rouge visible, proba que l'autre soit rouge = 2/3",
+    "013": "damier amputé de deux coins opposés et 31 dominos : impossible (coloration)"
   },
   "also_made_not_published": [
     "anniversaire de la directrice (type Cheryl) - jugé trop connu"
@@ -19,12 +21,22 @@
   "errors": [],
   "stories": [
     "4 fils + 1 soeur (5 enfants)",
-    "les pas"
+    "les pas",
+    "dépasser le 2e en course = 2e",
+    "nénuphar qui double chaque jour, plein au jour 48 : moitié au jour 47"
   ],
   "horaires": {
     "2026-10-31": [
       "10:00",
       "18:00 (créneaux Metricool, avant consigne de variation)"
+    ],
+    "2026-11-01": [
+      "reel #012 12:23",
+      "reel #013 19:12",
+      "story q1 12:53",
+      "story q2 19:42",
+      "story a1 20:46",
+      "story a2 20:56 (créneaux Metricool les mieux notés 10h/12h/18h/19h ; 10h et 18h évités car utilisés la veille)"
     ]
   }
 }
