@@ -610,7 +610,15 @@ async function production() {
   if (!vids.length || !duJour) { el.innerHTML = ""; }
   else {
     const etat = (e) => e === "fait" ? "fait" : e === "en cours" ? "encours" : e === "bloque" ? "bloque" : "afaire";
-    el.innerHTML = `<h2 class="prod-titre"><span class="${finies ? "" : "pouls"}"></span>${finies ? "Production du jour terminée" : "Production en cours"}<small>maj ${heure(P.maj)}</small></h2>
+    const actions = vids.filter((v) => v.action).map((v) => `#${v.num} ${v.sujet} : ${v.action}`);
+    const bandeau = actions.length ? `<div class="prod-action" role="alert"><b>Action de ta part sur l'ordinateur</b>${actions.map((a) => `<p>${esc(a)}</p>`).join("")}</div>` : "";
+    try { if (navigator.setAppBadge) actions.length ? navigator.setAppBadge(actions.length) : navigator.clearAppBadge(); } catch {}
+    if (actions.length) {
+      try { if (document.title.indexOf("●") < 0) document.title = "● " + document.title; } catch {}
+      const cle = "nitt-action-" + P.maj;
+      try { if (!localStorage.getItem(cle) && window.Notification && Notification.permission === "granted") { localStorage.setItem(cle, "1"); new Notification("Action requise sur l'ordinateur", { body: actions[0] }); } } catch {}
+    } else { try { document.title = document.title.replace(/^● /, ""); } catch {} }
+    el.innerHTML = bandeau + `<h2 class="prod-titre"><span class="${finies ? "" : "pouls"}"></span>${finies ? "Production du jour terminée" : "Production en cours"}<small>maj ${heure(P.maj)}</small></h2>
       ${vids.map((v) => {
         const es = ETAPES.filter(([k]) => v.etapes?.[k]), faits = es.filter(([k]) => v.etapes[k] === "fait").length;
         const cours = es.find(([k]) => v.etapes[k] === "en cours" || v.etapes[k] === "bloque");

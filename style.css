@@ -383,6 +383,10 @@ svg rect { transform-box: fill-box; transform-origin: bottom; animation: pousse 
 .prod-etapes .encours i { border-color: var(--ambre); background: var(--ambre); animation: encours 1.2s infinite; }
 .prod-etapes .bloque { color: #E5484D; font-weight: 600; }
 .prod-etapes .bloque i { border-color: #E5484D; }
+.prod-action { margin: 0 0 14px; padding: 14px 16px; border-radius: 14px; background: #E5484D; color: #fff; animation: pulse-action 1.6s ease-in-out infinite; }
+.prod-action b { display: block; font: 700 12px var(--texte); letter-spacing: .08em; text-transform: uppercase; margin-bottom: 6px; }
+.prod-action p { margin: 4px 0 0; font-size: 15px; line-height: 1.4; font-weight: 600; }
+@keyframes pulse-action { 50% { box-shadow: 0 0 0 8px color-mix(in srgb, #E5484D 25%, transparent); } }
 .prod .meta { margin: 12px 0 0; }
 .prod-pourquoi { margin: 12px 0 0; font-size: 13px; line-height: 1.45; color: var(--givre); }
 

@@ -64,3 +64,5 @@ Carte « Réponses aux commentaires » dans l'onglet Aujourd'hui : désactivé (
 ## Production en cours (version 19)
 
 En haut de l'onglet Aujourd'hui, la carte « Production en cours » montre chaque vidéo du jour étape par étape (script, voix, montage, rendu, cover, textes, story, programmée), et se rafraîchit toute seule toutes les 30 s. Source : `/mnt/project-files/appli-iphone/production.json` (écrit par la routine des vidéos), chiffré et poussé dans `comptes/<id>-production.enc.json` à chaque changement par la session de l'appli. Format : `{ "<id>": { maj, videos: [{ num, sujet, etapes: {script, voix, montage, rendu, cover, textes, story, programme: "a_faire"|"en cours"|"fait"|"bloque"}, detail, heure, heureStory }] } }`. La carte disparaît le lendemain.
+
+Champ `action` (texte) sur une vidéo de production.json : bandeau rouge en haut de l'appli (« Action de ta part sur l'ordinateur ») et pastille sur l'icône. Étape correspondante à `"bloque"`.
