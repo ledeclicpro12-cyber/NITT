@@ -11,7 +11,7 @@ Dépôt public : tout ce qui est poussé ici est visible de tous. Travailler sur
 - Voix : Gemini TTS, voix « Puck », préfixe `Say in an energetic, friendly, playful way: "<texte>"`. Les nombres s'écrivent en lettres.
 - « toi » = le spectateur. Les personnages sont nommés à la 3e personne (« l'inspecteur », « le braqueur »), jamais « un pirate ».
 - Accroche très forte dans la 1re phrase (enjeu, urgence), histoire immersive (~35 s), énoncé clair, question finale.
-- Avant la réponse : la voix dit d'écrire sa réponse en commentaire, puis compte à rebours de 5 s (musique baissée, ticks). Pas de sondage.
+- Avant la réponse : la voix dit d'écrire sa réponse en commentaire, puis compte à rebours de 5 s (musique baissée, ticks). Pas de sondage. Écran du compte à rebours : inspecteur + points d'interrogation, JAMAIS d'ampoule (l'ampoule est propre à l'épisode #009 des ampoules) ; ne reprendre un décor/accessoire d'un épisode que s'il a un lien avec l'énigme.
 - Fin : « Tu avais trouvé ? Bravo ! Partage… abonne-toi… demain une nouvelle énigme » + « Demain #N+1 ».
 - Zone de sécurité : contenu entre y≈112 et 508 (base 640), entête à y≈84. Rien d'important en haut/bas.
 - Choix d'énigme : difficile mais vulgarisable, **peu connue** (pas Monty Hall, pas Cheryl, pas les 100 bouteilles), pas de coffre-fort
