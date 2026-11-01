@@ -5,5 +5,12 @@
     "source": "choix",
     "maj": "2026-10-31",
     "commentaires": "auto"
+  },
+  "inspecteur-pi": {
+    "posts": 2,
+    "stories": 2,
+    "source": "choix",
+    "maj": "2026-11-01",
+    "commentaires": "off"
   }
 }
