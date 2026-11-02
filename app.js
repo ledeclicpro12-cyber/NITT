@@ -107,7 +107,14 @@ const DA_LOCALES = {
     da: { nuit: "#07090F", encre: "#121830", "encre-2": "#1A2244", ivoire: "#F3E6CF", givre: "#C9CFE4", ardoise: "#AEB6D4",
       ambre: "#FF7A59", brume: "#8FE3FF", cuivre: "#3F4F86", titre: '"Anton", "Impact", sans-serif' },
   },
+  // Track the Good One : fond encre, texte crème, accent or, cyan menthe et corail, flat design épuré.
+  "trackthegoodone": {
+    logo: "icons/trackthegoodone.svg",
+    da: { nuit: "#1E1E2E", encre: "#2A2A3E", "encre-2": "#35354C", ivoire: "#F7F3EB", givre: "#D6D2CA", ardoise: "#A9A6B8",
+      ambre: "#FFC43D", brume: "#2EC4B6", cuivre: "#FF5E5B", titre: '"Inter", system-ui, sans-serif' },
+  },
 };
+DA_LOCALES["track-the-good-one"] = DA_LOCALES["trackthegoodone"];
 const avecDA = (c) => { const l = DA_LOCALES[slug(c.id || c.nom)]; return l ? { ...c, ...l, da: { ...(c.da || {}), ...l.da } } : c; };
 
 // Couleurs d'une page du carrousel, tirées de la DA du compte.
