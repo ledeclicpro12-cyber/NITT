@@ -1,0 +1,90 @@
+{
+ "groupe": "NITT Corporation",
+ "comptes": [
+  {
+   "id": "declic",
+   "nom": "Le Déclic",
+   "plateformes": "Instagram · TikTok",
+   "sujet": "Chiffres et échelles qui donnent le vertige",
+   "statut": "actif",
+   "couleur": "#E4572E",
+   "logo": "icons/icon-192.png",
+   "donnees": "comptes/declic.json",
+   "da": {
+    "nuit": "#0E1220",
+    "encre": "#1A2133",
+    "encre-2": "#222B40",
+    "brume": "#A9C6E8",
+    "givre": "#D6E6F7",
+    "ambre": "#F2A65A",
+    "cuivre": "#C9773A",
+    "ivoire": "#F2EEE6",
+    "ardoise": "#7D8799",
+    "titre": "\"Fraunces\", Georgia, serif"
+   }
+  },
+  {
+   "id": "inspecteur-pi",
+   "nom": "Inspecteur Pi",
+   "plateformes": "Instagram · TikTok",
+   "sujet": "Résolution d'énigmes",
+   "statut": "actif",
+   "couleur": "#2E86AB",
+   "donnees": null,
+   "da": {
+    "nuit": "#0B1520",
+    "encre": "#13212F",
+    "encre-2": "#1C3042",
+    "brume": "#7FB7D6",
+    "givre": "#CFE3EF",
+    "ambre": "#3FA7D6",
+    "cuivre": "#2E86AB",
+    "ivoire": "#EAF2F7",
+    "ardoise": "#7A8C9B",
+    "titre": "\"JetBrains Mono\", ui-monospace, monospace"
+   }
+  },
+  {
+   "id": "comptines",
+   "nom": "La ronde des Comptines",
+   "plateformes": "YouTube",
+   "sujet": "Comptines et vidéos pour enfants",
+   "statut": "actif",
+   "couleur": "#C0392B",
+   "donnees": null,
+   "da": {
+    "nuit": "#FFF8EF",
+    "encre": "#FFFFFF",
+    "encre-2": "#F3E6D8",
+    "brume": "#3B82C4",
+    "givre": "#4A3B32",
+    "ambre": "#C0392B",
+    "cuivre": "#E67E22",
+    "ivoire": "#2B211C",
+    "ardoise": "#8A7B70",
+    "titre": "\"Fredoka\", system-ui, sans-serif"
+   }
+  },
+  {
+   "id": "trackthegoodone",
+   "nom": "Track The Good One",
+   "plateformes": "Instagram",
+   "sujet": "Le compte de Thomas (@trackthegoodone)",
+   "statut": "actif",
+   "couleur": "#3DDC97",
+   "donnees": null,
+   "da": {
+    "nuit": "#0C1612",
+    "encre": "#14231C",
+    "encre-2": "#1D3228",
+    "brume": "#8FD9B6",
+    "givre": "#D3F2E3",
+    "ambre": "#3DDC97",
+    "cuivre": "#25A871",
+    "ivoire": "#EEF7F2",
+    "ardoise": "#7E9488",
+    "titre": "\"Inter\", system-ui, sans-serif"
+   }
+  }
+ ]
+}

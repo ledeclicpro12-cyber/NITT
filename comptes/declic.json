@@ -1,0 +1,555 @@
+{
+ "maj": "2026-11-02T06:50:00+01:00",
+ "conseil": {
+  "date": "2026-11-02",
+  "titre": "Les idées reçues battent les paradoxes mathématiques",
+  "texte": "Napoléon (#08, 61 % > 3 s, 1 755 vues en moins de 12 h) confirme le schéma des meilleures vidéos : corriger une croyance ancrée depuis l'enfance retient mieux qu'une énigme abstraite. Les 4 vidéos au-dessus de 54 % > 3 s (survivant 65 %, Napoléon 61 %, GPS 55 %, Cléopâtre 54 %) partagent la même structure : « voilà ce que tout le monde croit → voilà ce qui est vrai selon telle source ». Pour la vidéo d'aujourd'hui, pars d'une idée reçue que le public croit vrai et retourne-la avec un chiffre source.",
+  "base": "13 reels Instagram (Metricool, 26 oct–2 nov) : vues, taux >3 s, portée ; IGEV05 vues quotidiennes."
+ },
+ "instagram": {
+  "compte": "le.declic_off",
+  "abonnes": 27,
+  "abonnesVeille": 25,
+  "reels": [
+   {
+    "date": "2026-10-31T19:06:17+01:00",
+    "titre": "#08 Napoléon n'était pas si petit",
+    "url": "https://www.instagram.com/reel/DfK3c9RjtKI/",
+    "vues": 1755,
+    "portee": 1562,
+    "likes": 57,
+    "commentaires": 0,
+    "enregistrements": 3,
+    "partages": 3,
+    "interactions": 63,
+    "tempsMoyen": 17.788,
+    "pct3s": 61.1
+   },
+   {
+    "date": "2026-10-31T14:08:56+01:00",
+    "titre": "#07 Le problème de Monty Hall",
+    "url": "https://www.instagram.com/reel/DfKVP1gldkv/",
+    "vues": 390,
+    "portee": 330,
+    "likes": 8,
+    "commentaires": 0,
+    "enregistrements": 0,
+    "partages": 0,
+    "interactions": 8,
+    "tempsMoyen": 16.168,
+    "pct3s": 49.8
+   },
+   {
+    "date": "2026-10-30T17:07:06+01:00",
+    "titre": "#06 L'effet Barnum",
+    "url": "https://www.instagram.com/reel/DfIFGcpjwGb/",
+    "vues": 168,
+    "portee": 129,
+    "likes": 5,
+    "commentaires": 0,
+    "enregistrements": 0,
+    "partages": 0,
+    "interactions": 5,
+    "tempsMoyen": 10.583,
+    "pct3s": 42.4
+   },
+   {
+    "date": "2026-10-29T17:44:27+01:00",
+    "titre": "#05 Les rats d'Hanoï",
+    "url": "https://www.instagram.com/reel/DfFkg-hoz3q/",
+    "vues": 1962,
+    "portee": 1675,
+    "likes": 35,
+    "commentaires": 0,
+    "enregistrements": 3,
+    "partages": 7,
+    "interactions": 45,
+    "tempsMoyen": 17.913,
+    "pct3s": 54.7
+   },
+   {
+    "date": "2026-10-29T09:43:02+01:00",
+    "titre": "#04 Le GPS et Einstein",
+    "url": "https://www.instagram.com/reel/DfEtf5UIst4/",
+    "vues": 1540,
+    "portee": 1307,
+    "likes": 34,
+    "commentaires": 0,
+    "enregistrements": 2,
+    "partages": 1,
+    "interactions": 37,
+    "tempsMoyen": 12.307,
+    "pct3s": 55.2
+   },
+   {
+    "date": "2026-10-28T15:18:34+01:00",
+    "titre": "Effet Dunning-Kruger : le jus de citron",
+    "url": "https://www.instagram.com/reel/DfCu9yYITkJ/",
+    "vues": 414,
+    "portee": 359,
+    "likes": 14,
+    "commentaires": 3,
+    "enregistrements": 0,
+    "partages": 1,
+    "interactions": 18,
+    "tempsMoyen": 16.323,
+    "pct3s": 45.2
+   },
+   {
+    "date": "2026-10-28T12:31:31+01:00",
+    "titre": "1 centime doublé pendant 30 jours",
+    "url": "https://www.instagram.com/reel/DfCb_oHI7QN/",
+    "vues": 177,
+    "portee": 142,
+    "likes": 6,
+    "commentaires": 0,
+    "enregistrements": 0,
+    "partages": 2,
+    "interactions": 8,
+    "tempsMoyen": 12.089,
+    "pct3s": 40.6
+   },
+   {
+    "date": "2026-10-27T16:20:34+01:00",
+    "titre": "L'histoire de la Terre en 24 heures",
+    "url": "https://www.instagram.com/reel/DfARbXpopFz/",
+    "vues": 613,
+    "portee": 500,
+    "likes": 36,
+    "commentaires": 4,
+    "enregistrements": 1,
+    "partages": 2,
+    "interactions": 43,
+    "tempsMoyen": 14.908,
+    "pct3s": 50.5
+   },
+   {
+    "date": "2026-10-27T11:01:35+01:00",
+    "titre": "Un million de secondes, c'est 11 jours",
+    "url": "https://www.instagram.com/reel/De_s5exo1Fs/",
+    "vues": 1957,
+    "portee": 1640,
+    "likes": 46,
+    "commentaires": 2,
+    "enregistrements": 1,
+    "partages": 6,
+    "interactions": 55,
+    "tempsMoyen": 14.618,
+    "pct3s": 54.3
+   },
+   {
+    "date": "2026-10-27T09:55:47+01:00",
+    "titre": "Une feuille pliée 42 fois dépasse la Lune",
+    "url": "https://www.instagram.com/reel/De_lZT4ogsB/",
+    "vues": 459,
+    "portee": 370,
+    "likes": 9,
+    "commentaires": 0,
+    "enregistrements": 2,
+    "partages": 0,
+    "interactions": 11,
+    "tempsMoyen": 11.941,
+    "pct3s": 53.3
+   },
+   {
+    "date": "2026-10-27T09:02:51+01:00",
+    "titre": "#01 Biais du survivant : l'avion criblé",
+    "url": "https://www.instagram.com/reel/De_fTG_oh49/",
+    "vues": 14407,
+    "portee": 11824,
+    "likes": 382,
+    "commentaires": 5,
+    "enregistrements": 43,
+    "partages": 14,
+    "interactions": 444,
+    "tempsMoyen": 17.72,
+    "pct3s": 65.6
+   },
+   {
+    "date": "2026-10-26T22:13:19+01:00",
+    "titre": "Cléopâtre, plus près de l'iPhone que de la pyramide",
+    "url": "https://www.instagram.com/reel/De-U_Qloidg/",
+    "vues": 2309,
+    "portee": 1811,
+    "likes": 58,
+    "commentaires": 0,
+    "enregistrements": 2,
+    "partages": 5,
+    "interactions": 65,
+    "tempsMoyen": 14.732,
+    "pct3s": 54.1
+   },
+   {
+    "date": "2026-10-26T20:12:27+01:00",
+    "titre": "Le paradoxe des anniversaires",
+    "url": "https://www.instagram.com/reel/De-HJtUI0Ka/",
+    "vues": 257,
+    "portee": 206,
+    "likes": 11,
+    "commentaires": 0,
+    "enregistrements": 1,
+    "partages": 3,
+    "interactions": 15,
+    "tempsMoyen": 10.748,
+    "pct3s": 42.9
+   }
+  ],
+  "parJour": [
+   {
+    "date": "2026-10-26",
+    "abonnes": null,
+    "vues": 2351,
+    "portee": 1845
+   },
+   {
+    "date": "2026-10-27",
+    "abonnes": null,
+    "vues": 12924,
+    "portee": 10392
+   },
+   {
+    "date": "2026-10-28",
+    "abonnes": null,
+    "vues": 4268,
+    "portee": 3471
+   },
+   {
+    "date": "2026-10-29",
+    "abonnes": 25,
+    "vues": 3805,
+    "portee": 3269
+   },
+   {
+    "date": "2026-10-30",
+    "abonnes": 25,
+    "vues": 729,
+    "portee": 575
+   },
+   {
+    "date": "2026-10-31",
+    "abonnes": 27,
+    "vues": 2264,
+    "portee": 1988
+   }
+  ]
+ },
+ "tiktok": {
+  "compte": "le.declic_offf",
+  "abonnes": 0,
+  "jours": [
+   {
+    "date": "2026-10-30",
+    "abonnes": 5,
+    "vues": null
+   }
+  ],
+  "videos": [
+   {
+    "date": "2026-10-31T19:04:26+02:00",
+    "titre": "#08 Napoléon n'était pas si petit",
+    "url": "https://www.tiktok.com/@le.declic_offf/video/7702909939018255638",
+    "vues": 424,
+    "likes": 34,
+    "commentaires": 0,
+    "partages": 0
+   },
+   {
+    "date": "2026-10-31T14:05:13+02:00",
+    "titre": "#07 Monty Hall",
+    "url": "https://www.tiktok.com/@le.declic_offf/video/7702832825002708246",
+    "vues": 397,
+    "likes": 17,
+    "commentaires": 1,
+    "partages": 0
+   },
+   {
+    "date": "2026-10-30T17:05:45+02:00",
+    "titre": "#06 L'effet Barnum",
+    "url": "https://www.tiktok.com/@le.declic_offf/video/7702508261248994582",
+    "vues": 404,
+    "likes": 13,
+    "commentaires": 0,
+    "partages": 0
+   },
+   {
+    "date": "2026-10-29T17:59:11+02:00",
+    "titre": "#05 Les rats d'Hanoï",
+    "url": "https://www.tiktok.com/@le.declic_offf/video/7702150872595320097",
+    "vues": 297,
+    "likes": 21,
+    "commentaires": 0,
+    "partages": 1
+   },
+   {
+    "date": "2026-10-29T09:31:57+02:00",
+    "titre": "#04 GPS et Einstein",
+    "url": "https://www.tiktok.com/@le.declic_offf/video/7702020168305626401",
+    "vues": 276,
+    "likes": 27,
+    "commentaires": 0,
+    "partages": 0
+   },
+   {
+    "date": "2026-10-28T15:51:02+02:00",
+    "titre": "Dunning-Kruger",
+    "url": "https://www.tiktok.com/@le.declic_offf/video/7701746751719492867",
+    "vues": 338,
+    "likes": 34,
+    "commentaires": 1,
+    "partages": 0
+   },
+   {
+    "date": "2026-10-28T11:47:18+02:00",
+    "titre": "Centime doublé",
+    "url": "https://www.tiktok.com/@le.declic_offf/video/7701683951185743107",
+    "vues": 233,
+    "likes": 12,
+    "commentaires": 1,
+    "partages": 0
+   },
+   {
+    "date": "2026-10-27T16:16:36+02:00",
+    "titre": "24h Terre",
+    "url": "https://www.tiktok.com/@le.declic_offf/video/7701382266110397718",
+    "vues": 5,
+    "likes": 2,
+    "commentaires": 0,
+    "partages": 0
+   },
+   {
+    "date": "2026-10-27T10:56:02+02:00",
+    "titre": "Million de secondes",
+    "url": "https://www.tiktok.com/@le.declic_offf/video/7701299635297766659",
+    "vues": 5,
+    "likes": 2,
+    "commentaires": 0,
+    "partages": 0
+   },
+   {
+    "date": "2026-10-27T09:52:30+02:00",
+    "titre": "Feuille 42 plis",
+    "url": "https://www.tiktok.com/@le.declic_offf/video/7701283286999371040",
+    "vues": 762,
+    "likes": 44,
+    "commentaires": 0,
+    "partages": 0
+   },
+   {
+    "date": "2026-10-27T09:04:57+02:00",
+    "titre": "#01 Biais du survivant",
+    "url": "https://www.tiktok.com/@le.declic_offf/video/7701271016651230497",
+    "vues": 2517,
+    "likes": 175,
+    "commentaires": 2,
+    "partages": 1
+   },
+   {
+    "date": "2026-10-26T22:12:51+02:00",
+    "titre": "Cléopâtre",
+    "url": "https://www.tiktok.com/@le.declic_offf/video/7701102989674843424",
+    "vues": 797,
+    "likes": 52,
+    "commentaires": 1,
+    "partages": 1
+   },
+   {
+    "date": "2026-10-26T20:11:50+02:00",
+    "titre": "Anniversaires",
+    "url": "https://www.tiktok.com/@le.declic_offf/video/7701071802814205186",
+    "vues": 12,
+    "likes": 3,
+    "commentaires": 0,
+    "partages": 0
+   }
+  ]
+ },
+ "programmes": [],
+ "suivi": {
+  "https://www.instagram.com/reel/DfIFGcpjwGb/": [
+   {
+    "date": "2026-10-31",
+    "vues": null
+   },
+   {
+    "date": "2026-11-01",
+    "vues": 164
+   },
+   {
+    "date": "2026-11-02",
+    "vues": 168
+   }
+  ],
+  "https://www.instagram.com/reel/DfFkg-hoz3q/": [
+   {
+    "date": "2026-10-31",
+    "vues": 1941
+   },
+   {
+    "date": "2026-11-01",
+    "vues": 1960
+   },
+   {
+    "date": "2026-11-02",
+    "vues": 1962
+   }
+  ],
+  "https://www.instagram.com/reel/DfEtf5UIst4/": [
+   {
+    "date": "2026-10-31",
+    "vues": 1536
+   },
+   {
+    "date": "2026-11-01",
+    "vues": 1539
+   },
+   {
+    "date": "2026-11-02",
+    "vues": 1540
+   }
+  ],
+  "https://www.instagram.com/reel/DfCu9yYITkJ/": [
+   {
+    "date": "2026-10-31",
+    "vues": 414
+   },
+   {
+    "date": "2026-11-01",
+    "vues": 414
+   },
+   {
+    "date": "2026-11-02",
+    "vues": 414
+   }
+  ],
+  "https://www.instagram.com/reel/DfCb_oHI7QN/": [
+   {
+    "date": "2026-10-31",
+    "vues": 177
+   },
+   {
+    "date": "2026-11-01",
+    "vues": 177
+   },
+   {
+    "date": "2026-11-02",
+    "vues": 177
+   }
+  ],
+  "https://www.instagram.com/reel/DfARbXpopFz/": [
+   {
+    "date": "2026-10-31",
+    "vues": 611
+   },
+   {
+    "date": "2026-11-01",
+    "vues": 613
+   },
+   {
+    "date": "2026-11-02",
+    "vues": 613
+   }
+  ],
+  "https://www.instagram.com/reel/De_s5exo1Fs/": [
+   {
+    "date": "2026-10-31",
+    "vues": 1957
+   },
+   {
+    "date": "2026-11-01",
+    "vues": 1957
+   },
+   {
+    "date": "2026-11-02",
+    "vues": 1957
+   }
+  ],
+  "https://www.instagram.com/reel/De_lZT4ogsB/": [
+   {
+    "date": "2026-10-31",
+    "vues": 459
+   },
+   {
+    "date": "2026-11-01",
+    "vues": 459
+   },
+   {
+    "date": "2026-11-02",
+    "vues": 459
+   }
+  ],
+  "https://www.instagram.com/reel/De_fTG_oh49/": [
+   {
+    "date": "2026-10-31",
+    "vues": 14139
+   },
+   {
+    "date": "2026-11-01",
+    "vues": 14314
+   },
+   {
+    "date": "2026-11-02",
+    "vues": 14407
+   }
+  ],
+  "https://www.instagram.com/reel/De-U_Qloidg/": [
+   {
+    "date": "2026-10-31",
+    "vues": 2305
+   },
+   {
+    "date": "2026-11-01",
+    "vues": 2308
+   },
+   {
+    "date": "2026-11-02",
+    "vues": 2309
+   }
+  ],
+  "https://www.instagram.com/reel/De-HJtUI0Ka/": [
+   {
+    "date": "2026-10-31",
+    "vues": 257
+   },
+   {
+    "date": "2026-11-01",
+    "vues": 257
+   },
+   {
+    "date": "2026-11-02",
+    "vues": 257
+   }
+  ],
+  "https://www.instagram.com/reel/DfKVP1gldkv/": [
+   {
+    "date": "2026-11-01",
+    "vues": 84
+   },
+   {
+    "date": "2026-11-02",
+    "vues": 390
+   }
+  ],
+  "https://www.instagram.com/reel/DfK3c9RjtKI/": [
+   {
+    "date": "2026-11-02",
+    "vues": 1755
+   }
+  ]
+ },
+ "rythme": {
+  "conseil": {
+   "posts": 1,
+   "stories": 2,
+   "date": "2026-11-02",
+   "pourquoi": "Le compte a 7 jours de contenu (26 oct–2 nov) : il faut 14 jours de recul. Les abonnés ont progressé de 25 à 27 le 31 oct. Les vues quotidiennes sont remontées à 2 264 le 31 oct après le creux de 729 le 30. 1 post soigné par jour reste la règle jusqu'au 9 novembre."
+  }
+ },
+ "commentaires": {
+  "branche": false
+ },
+ "stories": {
+  "objectif": 2,
+  "programmees": [],
+  "publiees": []
+ }
+}
