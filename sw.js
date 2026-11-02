@@ -1,5 +1,5 @@
 // Toujours la dernière version en ligne d'abord ; le cache ne sert que hors ligne.
-const CACHE = "declic-v21";
+const CACHE = "declic-v22";
 const COQUILLE = ["./", "index.html", "style.css", "app.js", "manifest.webmanifest",
   "icons/nitt-180.png", "icons/nitt-192.png", "icons/icon-192.png"];
 
@@ -27,7 +27,7 @@ self.addEventListener("fetch", (e) => {
     })));
     return;
   }
-  const cle = url.pathname.endsWith(".enc.json") ? url.pathname : e.request;
+  const cle = url.pathname.endsWith(".json") ? url.pathname : e.request;
   e.respondWith(fetch(e.request, { cache: "no-store" }).then((rep) => {
     if (rep.ok) { const copie = rep.clone(); caches.open(CACHE).then((c) => c.put(cle, copie)); }
     return rep;

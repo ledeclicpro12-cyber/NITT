@@ -62,6 +62,13 @@ function verrou(message) {
 let COMPTES = null;
 let COMPTE = null;
 
+// Depuis le 2026-11-02 (choix de Tiago) les stats sont publiques, en clair : X.json passe avant X.enc.json.
+async function chargerClair(url) {
+  const rep = await fetch(url.replace(/\.enc\.json$/, ".json") + "?t=" + Date.now(), { cache: "no-store" });
+  if (!rep.ok) throw new Error("absent");
+  return rep.json();
+}
+
 async function chargerChiffre(url) {
   const rep = await fetch(url + "?t=" + Date.now(), { cache: "no-store" });
   if (!rep.ok) throw new Error("absent");
@@ -70,6 +77,12 @@ async function chargerChiffre(url) {
 
 // Accueil : liste des comptes (chiffrée elle aussi).
 async function chargerComptes() {
+  try {
+    COMPTES = await chargerClair("comptes.json");
+    $("#verrou").hidden = true;
+    COMPTES.comptes = COMPTES.comptes.map(avecDA);
+    return afficherHub();
+  } catch {}
   let paquet;
   try { paquet = await chargerChiffre("comptes.enc.json"); }
   catch { $("#hub-liste").innerHTML = `<p class="vide">Hors ligne et rien en mémoire pour l'instant.</p>`; return; }
@@ -264,6 +277,8 @@ function demanderCodeCompte(paquet, message) {
 }
 
 function montrerStats() {
+  // La routine écrit parfois « parJour » au lieu de « jours » : on accepte les deux.
+  for (const r of [DATA?.instagram, DATA?.tiktok]) if (r && !r.jours) r.jours = r.parJour || [];
   $("#sans-donnees").hidden = true; $(".nav").hidden = false; $("#refresh").hidden = false;
   if (!document.querySelector(".tab.actif")) ouvrirOnglet("jour");
   afficher();
@@ -272,7 +287,15 @@ function montrerStats() {
 async function chargerDonnees() {
   const compte = COMPTE;
   $("#refresh").classList.add("tourne");
-  let paquet = null;
+  let paquet = null, clair = null;
+  for (const f of fichiersCompte(compte)) {
+    try { clair = await chargerClair(f); break; } catch {}
+  }
+  if (clair) {
+    $("#refresh").classList.remove("tourne");
+    if (compte !== COMPTE) return;
+    DATA = clair; return montrerStats();
+  }
   for (const f of fichiersCompte(compte)) {
     try { paquet = await chargerChiffre(f); break; } catch {}
   }
@@ -599,8 +622,10 @@ async function production() {
   const el = $("#production"), compte = COMPTE;
   if (!compte || !el) return;
   let P = null;
-  try {
-    const paquet = await chargerChiffre(`comptes/${slug(compte.id || compte.nom)}-production.enc.json`);
+  const fprod = `comptes/${slug(compte.id || compte.nom)}-production.enc.json`;
+  try { P = await chargerClair(fprod); } catch {}
+  if (!P) try {
+    const paquet = await chargerChiffre(fprod);
     for (const code of [lireCode(), lireCodeCompte(compte)].filter(Boolean)) { try { P = await dechiffrer(paquet, code); break; } catch {} }
   } catch {}
   if (compte !== COMPTE) return;
