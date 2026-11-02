@@ -1,5 +1,5 @@
 {
-  "next_number": 16,
+  "next_number": 18,
   "published_or_made": {
     "001": "chameaux (héritage de chameaux)",
     "002": "énigme (voir miniatures)",
@@ -15,7 +15,9 @@
     "012": "trois cartes (rouge/rouge, bleue/bleue, mixte) : face rouge visible, proba que l'autre soit rouge = 2/3",
     "013": "damier amputé de deux coins opposés et 31 dominos : impossible (coloration)",
     "014": "poignées de main : 5 couples, 9 réponses distinctes 0–8, la femme de l'inspecteur a serré 4 mains",
-    "015": "duel à trois (1/3, 2/3, 100 %) : le plus faible doit tirer en l'air (≈40 % de survie)"
+    "015": "duel à trois (1/3, 2/3, 100 %) : le plus faible doit tirer en l'air (≈40 % de survie)",
+    "016": "Pile-Face vs Pile-Pile : nombre moyen de lancers = 4 contre 6 (série qui s'arrête le plus vite)",
+    "017": "100 détenus en cercle, le 1 élimine le 2, le 3 le 4… : dernier survivant = n°73 (Josephus, 100 = 64 + 36)"
   },
   "also_made_not_published": [
     "anniversaire de la directrice (type Cheryl) - jugé trop connu"
@@ -27,7 +29,9 @@
     "dépasser le 2e en course = 2e",
     "nénuphar qui double chaque jour, plein au jour 48 : moitié au jour 47",
     "5 machines/5 objets/5 min → 100 machines : 5 min",
-    "3 comprimés toutes les 30 min → 1 heure"
+    "3 comprimés toutes les 30 min → 1 heure",
+    "les aiguilles d'une horloge se superposent 22 fois en 24 h",
+    "la bougie (grande jeune, petite vieille)"
   ],
   "horaires": {
     "2026-10-31": [
@@ -50,6 +54,15 @@
       "story_a1": "21:08",
       "story_a2": "21:18",
       "note": "Top heures Metricool : IG 10/11/12/9h ; TikTok 18/10/12/16h ; 10h+18h = meilleur couple commun espacé de ≥4 h"
+    },
+    "2026-11-03": {
+      "reel_016": "12:07",
+      "reel_017": "18:16",
+      "story_q1": "12:37",
+      "story_q2": "18:46",
+      "story_a1": "20:23",
+      "story_a2": "20:33",
+      "note": "Mardi : IG top 10h(4942)/18h(4788)/12h(4656)/11h(4642) ; TikTok 10h/18h/12h. 10h et 18h déjà utilisés la veille (10:17 / 18:28) → 12h et 18h avec minutes différentes (écart 6 h)."
     }
   }
 }
