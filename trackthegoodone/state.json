@@ -25,6 +25,14 @@
       "story": "stories/002_answer.png"
     }
   ],
-  "horaires": [],
+  "horaires": [
+    {
+      "number": 2,
+      "reel": "2026-11-03T12:18+01:00",
+      "metricool_id": 415060549,
+      "story_answer": "2026-11-04T15:24+01:00",
+      "story_metricool_id": 415060566
+    }
+  ],
   "errors": []
 }
