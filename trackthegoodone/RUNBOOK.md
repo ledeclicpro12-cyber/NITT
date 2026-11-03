@@ -45,3 +45,8 @@ Thèmes disponibles (pipeline/ttgo.py, dict THEMES) : coin, car, santa, pumpkin,
 Chaque jour, regarder l'actualité (France et monde) : grosse manifestation → vest ; grand match ou compétition de foot → ball ; Noël (décembre) → santa ; Halloween → pumpkin ; sinon alterner coin / car / ball.
 Si un événement majeur demande un nouvel objet (ex. drapeaux pour une Coupe du monde, œufs à Pâques, cœurs à la Saint-Valentin), l'ajouter dans ttgo.py sur le modèle des autres : fonction objet(d, cx, cy, r, good, bg) en flat design (version grise quand good=False, version colorée quand good=True) + fonction décor + entrée THEMES. Vérifier le rendu sur une image test avant de l'utiliser. Rien de choquant, de politique partisan ou de tragique (pas d'attentat, de guerre, de catastrophe).
 Jamais deux fois la même vidéo : graine nouvelle à chaque épisode (make_episode.py le garantit) et jamais deux fois de suite le même thème.
+
+## Mise à jour du 2026-11-03 (demandes de Thomas)
+- Gros badge « LEVEL EASY / MEDIUM / IMPOSSIBLE » sous l'en-tête, qui « pop » à chaque changement de niveau.
+- Tic-tac du minuteur à chaque seconde, plus fort sur les 5 dernières.
+- Ballons de foot réalistes (dégradé, pentagones, coutures) ; le bon ballon est doré.

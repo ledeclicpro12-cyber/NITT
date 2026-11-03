@@ -68,7 +68,10 @@ def make(out, theme, ep, seed, n=8):
     d = ImageDraw.Draw(base)
     d.text((W / 2, 370), "TRACK THE", font=font("black", 60), fill=th["ink"], anchor="mm")
     d.text((W / 2, 455), "GOOD ONE", font=font("black", 108), fill=th["accent"], anchor="mm")
-    pill(d, W / 2, 570, "#%03d" % ep, th["ink"], WHITE if light else INK, 32)
+    pill(d, W / 2 - 160, 570, "#%03d" % ep, th["ink"], WHITE if light else INK, 32)
+    lv_start = {}
+    for k_, a_, b_, dt_ in tl:
+        lv_start.setdefault(dt_["level"], a_)
 
     def seg_at(tt):
         for s in tl:
@@ -107,10 +110,13 @@ def make(out, theme, ep, seed, n=8):
         img = base.copy(); d = ImageDraw.Draw(img)
         kind, t0, t1, data = seg_at(tt)
         lv = data["level"]
-        pill(d, W / 2 - 190, 570, lv, DIFF[lv], WHITE if lv != "MEDIUM" else INK, 26 if lv == "IMPOSSIBLE" else 32)
+        # gros badge LEVEL, avec un petit "pop" quand le niveau change
+        since = tt - lv_start[lv]
+        pop = 1 + .35 * max(0., 1 - since * 3) if since < .4 else 1.
+        pill(d, W / 2, 745, "LEVEL " + lv, DIFF[lv], WHITE if lv != "MEDIUM" else INK, int(46 * pop))
         # minuteur : temps restant de la vidéo
         rem = max(0., T_END - tt); urgent = rem <= 5
-        tx, ty = W / 2 + 200, 570
+        tx, ty = W / 2 + 160, 570
         tcol = CORAL if urgent else (INK if light else (96, 76, 140))
         d.rounded_rectangle([tx - 72, ty - 26, tx + 72, ty + 26], radius=26, fill=tcol)
         d.ellipse([tx - 60, ty - 16, tx - 28, ty + 16], outline=WHITE, width=4)
@@ -256,6 +262,12 @@ def music(tl, steps, T_END, seed):
             add(t0, .12 * np.sin(2 * np.pi * np.cumsum(f) / SR) * np.hanning(n))
         if kind == "comment":
             add(t0, marimba(784, .4, .25)); add(t0 + .12, marimba(988, .5, .25))
+    # tic-tac du minuteur : un tick par seconde, plus fort sur les 5 dernières
+    for sec in range(int(T_END)):
+        last = T_END - sec <= 5.5
+        tn = int(.035 * SR); tt_ = np.arange(tn) / SR
+        f = 2400 if sec % 2 == 0 else 1900
+        add(sec, (.22 if last else .07) * np.sin(2 * np.pi * f * tt_) * np.exp(-tt_ * 160))
     a = a[:int(T_END * SR)]
     return np.clip(a / max(1e-6, np.abs(a).max()) * .85, -1, 1)
 

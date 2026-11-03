@@ -206,19 +206,47 @@ def vest(d, cx, cy, r, good, bg):
         d.rectangle([cx - r * .72, cy + r * yy, cx + r * .72, cy + r * (yy + .12)], fill=strip)
     d.line([(cx, cy - r * .2), (cx, cy + r * .85)], fill=tuple(int(v * .8) for v in body), width=max(2, int(r * .05)))
 
+_BALL = {}
+def _ball_sprite(r, good):
+    key = (int(r), good)
+    if key in _BALL: return _BALL[key]
+    S = 4; R = int(r * .86) * S; size = 2 * R + 4 * S
+    im = Image.new("RGBA", (size, size), (0, 0, 0, 0)); dd = ImageDraw.Draw(im); c = size / 2
+    base_hi, base_lo = ((255, 236, 150), (214, 160, 30)) if good else ((255, 255, 255), (178, 182, 190))
+    patch = (40, 30, 10) if good else (28, 28, 36)
+    for k in range(40, 0, -1):  # dégradé radial (lumière en haut à gauche)
+        t = k / 40; rr = R * t
+        col = tuple(int(base_hi[i] + (base_lo[i] - base_hi[i]) * t ** 1.6) for i in range(3))
+        ox, oy = -R * .25 * (1 - t), -R * .3 * (1 - t)
+        dd.ellipse([c + ox - rr, c + oy - rr, c + ox + rr, c + oy + rr], fill=col)
+    def pent(px, py, pr, rot):
+        pts = [(px + pr * math.cos(rot + i * 2 * math.pi / 5), py + pr * math.sin(rot + i * 2 * math.pi / 5)) for i in range(5)]
+        dd.polygon(pts, fill=patch); return pts
+    centre = pent(c, c + R * .05, R * .3, -math.pi / 2)
+    outer = []
+    for i in range(5):
+        a_ = -math.pi / 2 + i * 2 * math.pi / 5
+        px, py = c + R * .86 * math.cos(a_), c + R * .05 + R * .86 * math.sin(a_)
+        outer.append(pent(px, py, R * .27, a_ + math.pi / 5))
+    seam = tuple(int(v * .75) for v in base_lo)
+    for i in range(5):  # coutures entre les pentagones
+        p1 = centre[i]; o = outer[i]
+        far = max(o, key=lambda q: -math.hypot(q[0] - p1[0], q[1] - p1[1]))
+        dd.line([p1, far], fill=seam, width=int(S * 2.2))
+    m = Image.new("L", (size, size), 0); ImageDraw.Draw(m).ellipse([c - R, c - R, c + R, c + R], fill=255)
+    im.putalpha(Image.fromarray(np.minimum(np.array(im.split()[3]), np.array(m))))
+    hl = Image.new("RGBA", (size, size), (0, 0, 0, 0))
+    ImageDraw.Draw(hl).ellipse([c - R * .62, c - R * .78, c - R * .05, c - R * .3], fill=(255, 255, 255, 110))
+    im.alpha_composite(hl.filter(ImageFilter.GaussianBlur(R * .08)))
+    ImageDraw.Draw(im).ellipse([c - R, c - R, c + R, c + R], outline=(0, 0, 0, 60), width=S * 2)
+    im = im.resize((size // S, size // S), Image.LANCZOS)
+    _BALL[key] = im
+    return im
+
 def ball(d, cx, cy, r, good, bg):
     shadow(d, cx, cy, r, bg)
-    base_c = WHITE if good else (220, 220, 220)
-    patch = INK if good else (150, 150, 158)
-    d.ellipse([cx - r * .85, cy - r * .85, cx + r * .85, cy + r * .85], fill=base_c)
-    pts = [(cx + r * .3 * math.cos(-math.pi / 2 + i * 2 * math.pi / 5), cy + r * .3 * math.sin(-math.pi / 2 + i * 2 * math.pi / 5)) for i in range(5)]
-    d.polygon(pts, fill=patch)
-    for i in range(5):
-        a = -math.pi / 2 + i * 2 * math.pi / 5
-        x, y = cx + r * .68 * math.cos(a), cy + r * .68 * math.sin(a)
-        d.ellipse([x - r * .16, y - r * .16, x + r * .16, y + r * .16], fill=patch)
-    if good:
-        d.ellipse([cx - r * .85, cy - r * .85, cx + r * .85, cy + r * .85], outline=GOLD, width=max(3, int(r * .1)))
+    sp = _ball_sprite(r, good)
+    d._image.alpha_composite(sp, (int(cx - sp.width / 2), int(cy - sp.height / 2)))
 
 def decor_street(d, W, H, rnd):
     d.rectangle([0, 0, W, H], fill=(214, 226, 238))
