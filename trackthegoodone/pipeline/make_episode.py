@@ -1,6 +1,7 @@
 """Fabrique les prochains épisodes de Track the Good One.
 
-Usage : python3 make_episode.py <dossier_compte> [nombre=2]
+Usage : python3 make_episode.py <dossier_compte> [nombre=2] [themes=coin,car]
+  themes : liste imposée (un par vidéo, dans l'ordre), par exemple choisie selon l'actualité.
 - lit <dossier_compte>/state.json
 - choisit un thème (calendrier + pas deux fois de suite le même)
 - rend videos/NNN.mp4 (3 manches, ~58 s) et stories/NNN_answer.png (réponse à poster le lendemain)
@@ -19,7 +20,7 @@ def pick_theme(today, last):
     elif m == 12 and d <= 26:
         pool = ["santa", "santa", "coin", "car"]
     else:
-        pool = ["coin", "car"]
+        pool = ["coin", "car", "ball"]
     choices = [t for t in pool if t != last] or pool
     return random.choice(choices)
 
@@ -53,6 +54,7 @@ def answer_story(path, theme, ep, answer, seed, n=8):
 
 def main():
     root = os.path.abspath(sys.argv[1]); count = int(sys.argv[2]) if len(sys.argv) > 2 else 2
+    forced = sys.argv[3].split(",") if len(sys.argv) > 3 and sys.argv[3] else []
     sp = os.path.join(root, "state.json")
     st = json.load(open(sp))
     today = datetime.date.today()
@@ -60,8 +62,11 @@ def main():
     for _ in range(count):
         ep = st["next_number"]
         last = st["episodes"][-1]["theme"] if st["episodes"] else None
-        theme = pick_theme(today, last)
+        theme = forced[len(made)] if len(made) < len(forced) else pick_theme(today, last)
+        if theme not in THEMES: raise SystemExit("thème inconnu : " + theme)
+        used = {e["seed"] for e in st["episodes"]}
         seed = random.randrange(10 ** 6)
+        while seed in used: seed = random.randrange(10 ** 6)
         out = os.path.join(root, "videos", "%03d" % ep)
         info = ttgo3.make(out, theme, ep, seed)
         if os.path.exists(out + ".wav"): os.remove(out + ".wav")

@@ -39,3 +39,9 @@ Follow for a new challenge every day ✅
 
 #trackthegoodone #challenge #puzzle #brainteaser #satisfying #game #fyp #viral
 ```
+
+## Thèmes et actualité
+Thèmes disponibles (pipeline/ttgo.py, dict THEMES) : coin, car, santa, pumpkin, vest (gilet jaune, décor de rue), ball (football, terrain).
+Chaque jour, regarder l'actualité (France et monde) : grosse manifestation → vest ; grand match ou compétition de foot → ball ; Noël (décembre) → santa ; Halloween → pumpkin ; sinon alterner coin / car / ball.
+Si un événement majeur demande un nouvel objet (ex. drapeaux pour une Coupe du monde, œufs à Pâques, cœurs à la Saint-Valentin), l'ajouter dans ttgo.py sur le modèle des autres : fonction objet(d, cx, cy, r, good, bg) en flat design (version grise quand good=False, version colorée quand good=True) + fonction décor + entrée THEMES. Vérifier le rendu sur une image test avant de l'utiliser. Rien de choquant, de politique partisan ou de tragique (pas d'attentat, de guerre, de catastrophe).
+Jamais deux fois la même vidéo : graine nouvelle à chaque épisode (make_episode.py le garantit) et jamais deux fois de suite le même thème.

@@ -194,6 +194,61 @@ THEMES = {
     "pumpkin": dict(obj=pumpkin, decor=decor_halloween, bg=(43, 32, 66), ink=WHITE, accent=(255, 138, 40), label="pumpkins"),
 }
 
+# ---- thèmes ajoutés le 2026-11-03 ----
+def vest(d, cx, cy, r, good, bg):
+    shadow(d, cx, cy, r, bg)
+    body = (255, 214, 0) if good else (214, 210, 190)
+    strip = (230, 230, 235) if good else (196, 194, 184)
+    d.polygon([(cx - r * .75, cy - r * .55), (cx - r * .3, cy - r * .9), (cx - r * .12, cy - r * .5), (cx + r * .12, cy - r * .5),
+               (cx + r * .3, cy - r * .9), (cx + r * .75, cy - r * .55), (cx + r * .7, cy + r * .85), (cx - r * .7, cy + r * .85)], fill=body)
+    d.polygon([(cx - r * .12, cy - r * .5), (cx, cy - r * .2), (cx + r * .12, cy - r * .5)], fill=bg)
+    for yy in (.15, .5):
+        d.rectangle([cx - r * .72, cy + r * yy, cx + r * .72, cy + r * (yy + .12)], fill=strip)
+    d.line([(cx, cy - r * .2), (cx, cy + r * .85)], fill=tuple(int(v * .8) for v in body), width=max(2, int(r * .05)))
+
+def ball(d, cx, cy, r, good, bg):
+    shadow(d, cx, cy, r, bg)
+    base_c = WHITE if good else (220, 220, 220)
+    patch = INK if good else (150, 150, 158)
+    d.ellipse([cx - r * .85, cy - r * .85, cx + r * .85, cy + r * .85], fill=base_c)
+    pts = [(cx + r * .3 * math.cos(-math.pi / 2 + i * 2 * math.pi / 5), cy + r * .3 * math.sin(-math.pi / 2 + i * 2 * math.pi / 5)) for i in range(5)]
+    d.polygon(pts, fill=patch)
+    for i in range(5):
+        a = -math.pi / 2 + i * 2 * math.pi / 5
+        x, y = cx + r * .68 * math.cos(a), cy + r * .68 * math.sin(a)
+        d.ellipse([x - r * .16, y - r * .16, x + r * .16, y + r * .16], fill=patch)
+    if good:
+        d.ellipse([cx - r * .85, cy - r * .85, cx + r * .85, cy + r * .85], outline=GOLD, width=max(3, int(r * .1)))
+
+def decor_street(d, W, H, rnd):
+    d.rectangle([0, 0, W, H], fill=(214, 226, 238))
+    for i in range(7):
+        x0 = i * W / 7; h = rnd.uniform(.18, .3) * H
+        d.rectangle([x0, H * .86 - h, x0 + W / 7 - W * .01, H * .86], fill=rnd.choice([(196, 206, 220), (180, 192, 210), (206, 196, 186)]))
+        for wy in range(int(H * .86 - h + H * .02), int(H * .84), int(H * .04)):
+            for wx in (x0 + W * .025, x0 + W * .075):
+                d.rectangle([wx, wy, wx + W * .025, wy + H * .018], fill=(240, 244, 250))
+    d.rectangle([0, H * .86, W, H], fill=(120, 124, 134))
+    for x in range(0, int(W), int(W / 5)):
+        d.rectangle([x + W * .03, H * .925, x + W * .14, H * .935], fill=WHITE)
+    for _ in range(5):
+        x = rnd.uniform(W * .05, W * .95); y = H * .88
+        d.rounded_rectangle([x - W * .03, y - H * .05, x + W * .03, y], radius=W * .01, fill=(255, 140, 40))
+        d.rectangle([x - W * .03, y - H * .035, x + W * .03, y - H * .028], fill=WHITE)
+
+def decor_pitch(d, W, H, rnd):
+    for i in range(12):
+        d.rectangle([0, i * H / 12, W, (i + 1) * H / 12], fill=(70, 170, 90) if i % 2 else (82, 182, 100))
+    lw = int(W * .008)
+    d.rectangle([W * .05, H * .05, W * .95, H * .95], outline=WHITE, width=lw)
+    d.line([(W * .05, H * .5), (W * .95, H * .5)], fill=WHITE, width=lw)
+    d.ellipse([W * .35, H * .5 - W * .15, W * .65, H * .5 + W * .15], outline=WHITE, width=lw)
+    d.rectangle([W * .25, H * .05, W * .75, H * .16], outline=WHITE, width=lw)
+    d.rectangle([W * .25, H * .84, W * .75, H * .95], outline=WHITE, width=lw)
+
+THEMES["vest"] = dict(obj=vest, decor=decor_street, bg=(214, 226, 238), ink=INK, accent=(255, 200, 0), label="yellow vests")
+THEMES["ball"] = dict(obj=ball, decor=decor_pitch, bg=(76, 176, 95), ink=INK, accent=(255, 196, 61), label="footballs")
+
 def pill(d, x, y, text, col, txtcol, size):
     f = font("black", size)
     tw = d.textlength(text, font=f)
