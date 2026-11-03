@@ -50,3 +50,9 @@ Jamais deux fois la même vidéo : graine nouvelle à chaque épisode (make_epis
 - Gros badge « LEVEL EASY / MEDIUM / IMPOSSIBLE » sous l'en-tête, qui « pop » à chaque changement de niveau.
 - Tic-tac du minuteur à chaque seconde, plus fort sur les 5 dernières.
 - Ballons de foot réalistes (dégradé, pentagones, coutures) ; le bon ballon est doré.
+
+## Mise à jour 2026-11-03 (rétention, validée par Thomas)
+- Manche 1 EASY raccourcie à 8 s (vitesse inchangée, swap 0.95 s) : vidéo ~54 s.
+- Accroche en bas d'écran : "99% FAIL LEVEL 3" (corail) pendant l'intro et le début de l'EASY, puis "IMPOSSIBLE LEVEL COMING..." (violet) pendant EASY et MEDIUM.
+- Fin en boucle : les 0,5 dernières secondes fondent vers la première image (replay fluide).
+- Gros badge LEVEL, tic du minuteur chaque seconde, ballons réalistes.

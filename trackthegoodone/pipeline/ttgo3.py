@@ -42,7 +42,7 @@ def build(seed, n):
         seg("yeah", 2.2, level=level)
 
     seg("intro", 2.6, level="EASY")
-    shuffle(12, .95, "EASY")
+    shuffle(8, .95, "EASY")
     reveal_block("EASY")
     seg("next", 1.8, level="MEDIUM", text="A LITTLE FASTER...")
     shuffle(11, .46, "MEDIUM")
@@ -107,6 +107,13 @@ def make(out, theme, ep, seed, n=8):
         if t2: dd.text((W / 2, 1515), t2, font=font("bold", 38), fill=th["ink"], anchor="mm")
 
     def render(tt):
+        # fin en boucle : les 0,5 dernières secondes fondent vers la toute première image
+        if tt > T_END - .5:
+            a_ = (tt - (T_END - .5)) / .5
+            return Image.blend(render_core(tt), render_core(0.), a_)
+        return render_core(tt)
+
+    def render_core(tt):
         img = base.copy(); d = ImageDraw.Draw(img)
         kind, t0, t1, data = seg_at(tt)
         lv = data["level"]
@@ -173,6 +180,13 @@ def make(out, theme, ep, seed, n=8):
                 for (vx, vy, col, sz) in confetti:
                     px = gx + vx * 700 * lt; py = gy + vy * 900 * lt + 1300 * lt * lt
                     d.rectangle([px - sz / 2, py - sz / 3, px + sz / 2, py + sz / 3], fill=col)
+        # accroche + teaser pour garder les gens jusqu'au niveau IMPOSSIBLE
+        if lv in ("EASY", "MEDIUM"):
+            hs = int(40 * (1 + .06 * math.sin(tt * 6)))
+            if kind == "intro" or (lv == "EASY" and kind == "shuffle" and tt - t0 < 1.5):
+                pill(d, W / 2, 1625, "99% FAIL LEVEL 3", CORAL, WHITE, hs)
+            else:
+                pill(d, W / 2, 1625, "IMPOSSIBLE LEVEL COMING...", DIFF["IMPOSSIBLE"], WHITE, hs)
         # textes
         if kind == "intro":
             banner(img, "WATCH THIS ONE")
