@@ -48,7 +48,7 @@ def build(seed, n):
     shuffle(11, .46, "MEDIUM")
     reveal_block("MEDIUM")
     seg("next", 2.4, level="IMPOSSIBLE", text="NOW THE IMPOSSIBLE LEVEL")
-    shuffle(11, .3, "IMPOSSIBLE", max_pairs=2)
+    shuffle(11, .26, "IMPOSSIBLE", max_pairs=2)
     seg("comment", 4.5, level="IMPOSSIBLE")
     return good, tl, steps, t
 

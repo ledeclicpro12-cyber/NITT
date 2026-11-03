@@ -56,3 +56,4 @@ Jamais deux fois la même vidéo : graine nouvelle à chaque épisode (make_epis
 - Accroche en bas d'écran : "99% FAIL LEVEL 3" (corail) pendant l'intro et le début de l'EASY, puis "IMPOSSIBLE LEVEL COMING..." (violet) pendant EASY et MEDIUM.
 - Fin en boucle : les 0,5 dernières secondes fondent vers la première image (replay fluide).
 - Gros badge LEVEL, tic du minuteur chaque seconde, ballons réalistes.
+- 2026-11-03 15:15 : IMPOSSIBLE un tout petit peu plus rapide (swap 0.26 s au lieu de 0.30), demandé par Thomas.
