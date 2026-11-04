@@ -1,5 +1,5 @@
 {
-  "next_number": 20,
+  "next_number": 22,
   "published_or_made": {
     "001": "chameaux (héritage de chameaux)",
     "002": "énigme (voir miniatures)",
@@ -19,7 +19,9 @@
     "016": "Pile-Face vs Pile-Pile : nombre moyen de lancers = 4 contre 6 (série qui s'arrête le plus vite)",
     "017": "100 détenus en cercle, le 1 élimine le 2, le 3 le 4… : dernier survivant = n°73 (Josephus, 100 = 64 + 36)",
     "018": "avion de 100 places : le 1er passager a perdu son billet et s'assoit au hasard, proba que le dernier ait sa place = 1/2",
-    "019": "pont, lampe et 4 personnes (1, 2, 5, 10 min) : temps minimum = 17 min (pas 19)"
+    "019": "pont, lampe et 4 personnes (1, 2, 5, 10 min) : temps minimum = 17 min (pas 19)",
+    "020": "corde autour de la Terre rallongée de 12 m : un homme debout passe dessous (≈1,91 m, indépendant du rayon)",
+    "021": "le nombre 1089 : nombre à 3 chiffres, à l'envers, soustraction, à l'envers, addition = toujours 1089"
   },
   "also_made_not_published": [
     "anniversaire de la directrice (type Cheryl) - jugé trop connu"
@@ -35,7 +37,9 @@
     "les aiguilles d'une horloge se superposent 22 fois en 24 h",
     "la bougie (grande jeune, petite vieille)",
     "17 moutons, tous sauf 9 s'enfuient : il en reste 9",
-    "escargot +3 m le jour, -2 m la nuit, puits de 10 m : 8 jours"
+    "escargot +3 m le jour, -2 m la nuit, puits de 10 m : 8 jours",
+    "brique = 1 kg + une demi-brique : 2 kg",
+    "portrait : le père de cet homme est le fils de mon père (fils unique) : son fils"
   ],
   "horaires": {
     "2026-10-31": [
@@ -76,6 +80,15 @@
       "story_a1": "21:17",
       "story_a2": "21:27",
       "note": "Mercredi. Exécution tardive (reprise à 12:22 Paris, créneaux du matin passés). IG : 10h(6506)/11h/12h/9h ; TikTok : 10h/18h/12h/16h. Il restait 16h-19h (aucun couple ≥4h parmi les 4 meilleurs restants) : 18h (meilleur créneau commun) + 14h (≥4h d'écart, 14h≈16h en score IG) avec minutes :07/:21 différentes de la veille (12:07/18:16)."
+    },
+    "2026-11-05": {
+      "reel_020": "10:12",
+      "reel_021": "18:34",
+      "story_q1": "10:42",
+      "story_q2": "19:04",
+      "story_a1": "20:41",
+      "story_a2": "21:06",
+      "note": "Mode manuel. Jeudi. IG top : 10h(6275)/12h/11h/18h(5078) ; TikTok : 10h(1471)/18h/12h/16h. 10h et 18h = meilleur couple commun espacé de 8 h ; minutes différentes de la veille (14:07/18:21)."
     }
   }
 }
