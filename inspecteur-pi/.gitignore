@@ -1,0 +1,11 @@
+# sorties intermédiaires de fabrication (pipeline)
+pipeline/Enigme_e*.mp4
+pipeline/video_e*.mp4
+pipeline/voice_e*.wav
+pipeline/music_e*.wav
+pipeline/mix_e*.m4a
+pipeline/tmp_e*.wav
+pipeline/qc_words_*.json
+pipeline/build*.log
+pipeline/mux*.log
+pipeline/__pycache__/
