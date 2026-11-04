@@ -1,7 +1,7 @@
 # RUNBOOK — @inspecteur.pi (énigmes quotidiennes)
 
 Objectif : à chaque exécution, fabriquer **2 vidéos** (épisodes N et N+1, N = `state.json.next_number`),
-les héberger dans ce dépôt, puis les **programmer dans Metricool** (Instagram Reel + TikTok) le **lendemain à 10:00 et 18:00 (Europe/Paris)**.
+les héberger dans ce dépôt, puis les **ENVOYER à l'utilisateur** (SendUserFile + message avec descriptions et heures conseillées). **MODE MANUEL depuis le 4 nov. 2026** : la limite gratuite de Metricool est atteinte, ne rien programmer (aucun createScheduledPost) ; l'utilisateur publie à la main. Metricool reste en lecture (getBestTimeToPostByNetwork, brand 7769726).
 Ne jamais écrire de clé API dans un fichier ni dans un message. La clé Gemini est dans la variable d'environnement `GKEY`.
 Dépôt public : tout ce qui est poussé ici est visible de tous. Travailler sur la branche `inspecteur-media` uniquement.
 
@@ -31,7 +31,7 @@ Pour un nouvel épisode N : copier ces 4 fichiers en `renderN.py`, `buildN.py`, 
 6. **Miniature** : `cover(1.0)` du renderer → PNG 1080×1920 (utile comme cover ; cf. `videoThumbnailUrl`).
 7. **Validation avant publication** : `ffprobe` durée 55–90 s, 1080×1920, h264+aac ; `volumedetect` max_volume ≤ −1 dB. Si une étape échoue : ne PAS programmer cette vidéo, consigner l'erreur dans `state.json.errors`.
 
-## 3. Hébergement et programmation
+## 3. Hébergement et envoi (mode manuel ; l'ancienne programmation Metricool ci-dessous est SUSPENDUE)
 1. `git checkout inspecteur-media` ; copier la vidéo dans `inspecteur-pi/videos/NNN.mp4` ; commit + push (`git fetch origin inspecteur-media` avant le push).
 2. URL publique : `https://raw.githubusercontent.com/ledeclicpro12-cyber/nitt/inspecteur-media/inspecteur-pi/videos/NNN.mp4`
    (Metricool la télécharge et la ré-héberge : vérifié, la réponse contient `static.metricool.com`).
