@@ -1,5 +1,5 @@
 {
- "maj": "2026-11-05T17:06:25+01:00",
+ "maj": "2026-11-05T17:29:08+01:00",
  "pour": "2026-11-05",
  "videos": [
   {
@@ -13,11 +13,11 @@
     "cover": "fait",
     "textes": "fait",
     "story": "fait",
-    "programme": "en cours"
+    "programme": "fait"
    },
    "heure": "18:30",
    "heureStory": "19:30",
-   "detail": "Idée reçue : 3 secondes de mémoire → faux. Levier à horaire (Plymouth), son mémorisé des mois (Technion).",
+   "detail": "Programmé : Reel Insta + TikTok 18h30, story 19h30",
    "pourquoi": "Même structure que les 4 vidéos au-dessus de 54 % > 3 s (survivant 65 %, Napoléon 61 %) : croyance d'enfance → vérité sourcée. Sujet animal, très partageable."
   },
   {
@@ -27,15 +27,15 @@
     "script": "fait",
     "voix": "fait",
     "montage": "fait",
-    "rendu": "en cours",
-    "cover": "a faire",
+    "rendu": "fait",
+    "cover": "fait",
     "textes": "fait",
-    "story": "a faire",
-    "programme": "a faire"
+    "story": "fait",
+    "programme": "fait"
    },
    "heure": "20:45",
    "heureStory": "21:45",
-   "detail": "Proverbe faux : Empire State Building frappé ~20 fois/an, Roy Sullivan foudroyé 7 fois.",
+   "detail": "Programmé : Reel Insta + TikTok 20h45, story 21h45",
    "pourquoi": "Proverbe connu de tous, démonté par un chiffre concret (20 fois par an), comme Grand Mur et Napoléon, les formats qui retiennent le mieux."
   }
  ]
