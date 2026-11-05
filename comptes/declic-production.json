@@ -1,41 +1,42 @@
 {
- "maj": "2026-10-31T17:00:56+01:00",
+ "maj": "2026-11-05T16:45:00+01:00",
+ "pour": "2026-11-05",
  "videos": [
   {
-   "num": "07",
-   "sujet": "Monty Hall",
+   "num": "13",
+   "sujet": "Mémoire du poisson rouge",
    "etapes": {
     "script": "fait",
-    "voix": "fait",
-    "montage": "fait",
-    "rendu": "fait",
-    "cover": "fait",
+    "voix": "a faire",
+    "montage": "a faire",
+    "rendu": "a faire",
+    "cover": "a faire",
     "textes": "fait",
-    "story": "fait",
-    "programme": "fait"
+    "story": "a faire",
+    "programme": "a faire"
    },
-   "heure": "15:00",
-   "heureStory": "17:00",
-   "detail": "IG + TikTok programmés 15h00, story 17h00",
-   "pourquoi": "Énigme avec une question au spectateur dès la 1re seconde, le format du biais du survivant (65,5 % restent plus de 3 s, 59 % des vues du compte), et appel au partage car les commentaires restent rares (14 au total)."
+   "heure": "18:30",
+   "heureStory": "19:30",
+   "detail": "Idée reçue : 3 secondes de mémoire → faux. Levier à horaire (Plymouth), son mémorisé des mois (Technion).",
+   "pourquoi": "Même structure que les 4 vidéos au-dessus de 54 % > 3 s (survivant 65 %, Napoléon 61 %) : croyance d'enfance → vérité sourcée. Sujet animal, très partageable."
   },
   {
-   "num": "08",
-   "sujet": "Napoléon était petit ?",
+   "num": "14",
+   "sujet": "La foudre deux fois au même endroit",
    "etapes": {
     "script": "fait",
-    "voix": "fait",
-    "montage": "fait",
-    "rendu": "fait",
-    "cover": "fait",
+    "voix": "a faire",
+    "montage": "a faire",
+    "rendu": "a faire",
+    "cover": "a faire",
     "textes": "fait",
-    "story": "fait",
-    "programme": "fait"
+    "story": "a faire",
+    "programme": "a faire"
    },
-   "heure": "20:00",
-   "heureStory": "21:00",
-   "detail": "IG + TikTok 20h00, story 21h00 en attente Metricool",
-   "pourquoi": "Fait d'histoire qui retourne une idée reçue, comme Cléopâtre (2 305 vues, 54 % restent plus de 3 s), en 40 s car on regarde 11 à 18 s en moyenne et les vidéos de 46 à 58 s retiennent mal."
+   "heure": "20:45",
+   "heureStory": "21:45",
+   "detail": "Proverbe faux : Empire State Building frappé ~20 fois/an, Roy Sullivan foudroyé 7 fois.",
+   "pourquoi": "Proverbe connu de tous, démonté par un chiffre concret (20 fois par an), comme Grand Mur et Napoléon, les formats qui retiennent le mieux."
   }
  ]
 }
