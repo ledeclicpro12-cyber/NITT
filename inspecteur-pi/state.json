@@ -1,5 +1,5 @@
 {
-  "next_number": 22,
+  "next_number": 24,
   "published_or_made": {
     "001": "chameaux (héritage de chameaux)",
     "002": "énigme (voir miniatures)",
@@ -21,7 +21,9 @@
     "018": "avion de 100 places : le 1er passager a perdu son billet et s'assoit au hasard, proba que le dernier ait sa place = 1/2",
     "019": "pont, lampe et 4 personnes (1, 2, 5, 10 min) : temps minimum = 17 min (pas 19)",
     "020": "corde autour de la Terre rallongée de 12 m : un homme debout passe dessous (≈1,91 m, indépendant du rayon)",
-    "021": "le nombre 1089 : nombre à 3 chiffres, à l'envers, soustraction, à l'envers, addition = toujours 1089"
+    "021": "le nombre 1089 : nombre à 3 chiffres, à l'envers, soustraction, à l'envers, addition = toujours 1089",
+    "022": "jeu des 21 allumettes (on en prend 1 à 3, celui qui prend la dernière gagne) : prendre 1 puis laisser un multiple de 4",
+    "023": "le moine et la montagne : montée un jour, descente le lendemain, il passe forcément au même endroit à la même heure (deux moines qui se croisent)"
   },
   "also_made_not_published": [
     "anniversaire de la directrice (type Cheryl) - jugé trop connu"
@@ -39,7 +41,9 @@
     "17 moutons, tous sauf 9 s'enfuient : il en reste 9",
     "escargot +3 m le jour, -2 m la nuit, puits de 10 m : 8 jours",
     "brique = 1 kg + une demi-brique : 2 kg",
-    "portrait : le père de cet homme est le fils de mon père (fils unique) : son fils"
+    "portrait : le père de cet homme est le fils de mon père (fils unique) : son fils",
+    "soustraire 5 de 25 : une seule fois",
+    "deux pièces font 3 € dont l'une n'est pas 1 € : 2 € + 1 €"
   ],
   "horaires": {
     "2026-10-31": [
@@ -89,6 +93,15 @@
       "story_a1": "20:41",
       "story_a2": "21:06",
       "note": "Mode manuel. Jeudi. IG top : 10h(6275)/12h/11h/18h(5078) ; TikTok : 10h(1471)/18h/12h/16h. 10h et 18h = meilleur couple commun espacé de 8 h ; minutes différentes de la veille (14:07/18:21)."
+    },
+    "2026-11-06": {
+      "reel_022": "12:19",
+      "reel_023": "18:09",
+      "story_q1": "12:49",
+      "story_q2": "18:39",
+      "story_a1": "20:36",
+      "story_a2": "21:04",
+      "note": "Mode manuel. Vendredi. IG top : 10h(6734)/11h/12h(5909)/9h ; TikTok : 10h(1379)/12h(1251)/18h(1222)/16h. Aucun couple >=4h dans le top 4 IG : 12h (3e IG, 2e TikTok) + 18h (3e TikTok) espacés de 6 h, minutes différentes de la veille (10:12/18:34)."
     }
   }
 }
