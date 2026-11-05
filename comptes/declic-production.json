@@ -1,42 +1,40 @@
 {
- "maj": "2026-11-05T17:29:08+01:00",
- "pour": "2026-11-05",
+ "maj": "2026-11-05T22:05:00+01:00",
+ "pour": "2026-11-06",
  "videos": [
   {
-   "num": "13",
-   "sujet": "Mémoire du poisson rouge",
+   "num": "15",
+   "sujet": "Les chauves-souris aveugles",
    "etapes": {
     "script": "fait",
-    "voix": "fait",
-    "montage": "fait",
-    "rendu": "fait",
-    "cover": "fait",
+    "voix": "a faire",
+    "montage": "a faire",
+    "rendu": "a faire",
+    "cover": "a faire",
     "textes": "fait",
-    "story": "fait",
-    "programme": "fait"
+    "story": "a faire",
+    "programme": "a faire"
    },
-   "heure": "18:30",
-   "heureStory": "19:30",
-   "detail": "Programmé : Reel Insta + TikTok 18h30, story 19h30",
-   "pourquoi": "Même structure que les 4 vidéos au-dessus de 54 % > 3 s (survivant 65 %, Napoléon 61 %) : croyance d'enfance → vérité sourcée. Sujet animal, très partageable."
+   "heure": "18:00",
+   "detail": "Idée reçue : aveugles → faux. Aucune des 1 400 espèces, roussettes à bonne vue, UV (Nature 2003).",
+   "pourquoi": "Les idées reçues d'enfance retiennent le mieux (Braess 70 % > 3 s, survivant 65 %, Napoléon 61 %). Sujet animal, comme le poisson rouge d'hier."
   },
   {
-   "num": "14",
-   "sujet": "La foudre deux fois au même endroit",
+   "num": "16",
+   "sujet": "Le sang bleu dans les veines",
    "etapes": {
     "script": "fait",
-    "voix": "fait",
-    "montage": "fait",
-    "rendu": "fait",
-    "cover": "fait",
+    "voix": "a faire",
+    "montage": "a faire",
+    "rendu": "a faire",
+    "cover": "a faire",
     "textes": "fait",
-    "story": "fait",
-    "programme": "fait"
+    "story": "a faire",
+    "programme": "a faire"
    },
-   "heure": "20:45",
-   "heureStory": "21:45",
-   "detail": "Programmé : Reel Insta + TikTok 20h45, story 21h45",
-   "pourquoi": "Proverbe connu de tous, démonté par un chiffre concret (20 fois par an), comme Grand Mur et Napoléon, les formats qui retiennent le mieux."
+   "heure": "en attente",
+   "detail": "Idée reçue d'école : le sang est toujours rouge, la peau fait paraître les veines bleues.",
+   "pourquoi": "Croyance très répandue, démontable par une preuve que tout le monde a vue (la prise de sang). Programmation suspendue : forfait Metricool presque épuisé."
   }
  ]
 }
