@@ -1,5 +1,5 @@
 {
- "maj": "2026-11-05T22:05:00+01:00",
+ "maj": "2026-11-05T22:08:16+01:00",
  "pour": "2026-11-06",
  "videos": [
   {
@@ -7,16 +7,16 @@
    "sujet": "Les chauves-souris aveugles",
    "etapes": {
     "script": "fait",
-    "voix": "a faire",
-    "montage": "a faire",
+    "voix": "en cours",
+    "montage": "fait",
     "rendu": "a faire",
-    "cover": "a faire",
+    "cover": "fait",
     "textes": "fait",
-    "story": "a faire",
+    "story": "fait",
     "programme": "a faire"
    },
    "heure": "18:00",
-   "detail": "Idée reçue : aveugles → faux. Aucune des 1 400 espèces, roussettes à bonne vue, UV (Nature 2003).",
+   "detail": "Quota Gemini épuisé ce soir : voix et rendu reprennent demain à 9h07",
    "pourquoi": "Les idées reçues d'enfance retiennent le mieux (Braess 70 % > 3 s, survivant 65 %, Napoléon 61 %). Sujet animal, comme le poisson rouge d'hier."
   },
   {
@@ -24,16 +24,16 @@
    "sujet": "Le sang bleu dans les veines",
    "etapes": {
     "script": "fait",
-    "voix": "a faire",
-    "montage": "a faire",
+    "voix": "en cours",
+    "montage": "fait",
     "rendu": "a faire",
-    "cover": "a faire",
+    "cover": "fait",
     "textes": "fait",
-    "story": "a faire",
+    "story": "fait",
     "programme": "a faire"
    },
    "heure": "en attente",
-   "detail": "Idée reçue d'école : le sang est toujours rouge, la peau fait paraître les veines bleues.",
+   "detail": "Quota Gemini épuisé ce soir : voix et rendu reprennent demain à 9h07",
    "pourquoi": "Croyance très répandue, démontable par une preuve que tout le monde a vue (la prise de sang). Programmation suspendue : forfait Metricool presque épuisé."
   }
  ]
