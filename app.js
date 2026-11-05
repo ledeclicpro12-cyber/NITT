@@ -637,7 +637,10 @@ async function production() {
   } catch {}
   if (compte !== COMPTE) return;
   const vids = P?.videos || [];
-  const duJour = P?.maj && jourIso(new Date(P.maj)) === jourIso();
+  // « pour » = jour de publication : la préparation du soir (22 h) vaut pour le lendemain.
+  const pour = P?.pour || (P?.maj && jourIso(new Date(P.maj)));
+  const duJour = pour && pour >= jourIso();
+  const demain = pour && pour > jourIso();
   const finies = vids.length && vids.every((v) => Object.values(v.etapes || {}).every((e) => e === "fait"));
   if (!vids.length || !duJour) { el.innerHTML = ""; }
   else {
@@ -650,7 +653,8 @@ async function production() {
       const cle = "nitt-action-" + P.maj;
       try { if (!localStorage.getItem(cle) && window.Notification && Notification.permission === "granted") { localStorage.setItem(cle, "1"); new Notification("Action requise sur l'ordinateur", { body: actions[0] }); } } catch {}
     } else { try { document.title = document.title.replace(/^● /, ""); } catch {} }
-    el.innerHTML = bandeau + `<h2 class="prod-titre"><span class="${finies ? "" : "pouls"}"></span>${finies ? "Production du jour terminée" : "Production en cours"}<small>maj ${heure(P.maj)}</small></h2>
+    el.innerHTML = bandeau + `<h2 class="prod-titre"><span class="${finies ? "" : "pouls"}"></span>${demain ? (finies ? "Vidéos de demain prêtes" : "Préparation de demain") : finies ? "Production du jour terminée" : "Production en cours"}<small>maj ${heure(P.maj)}</small></h2>
+      <p class="meta">Préparation automatique chaque soir à 22 h : 2 vidéos (vers 10 h et 18 h) et 2 stories pour le lendemain.</p>
       ${vids.map((v) => {
         const es = ETAPES.filter(([k]) => v.etapes?.[k]), faits = es.filter(([k]) => v.etapes[k] === "fait").length;
         const cours = es.find(([k]) => v.etapes[k] === "en cours" || v.etapes[k] === "bloque");
