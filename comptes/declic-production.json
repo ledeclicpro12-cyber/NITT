@@ -1,5 +1,5 @@
 {
- "maj": "2026-11-05T16:45:00+01:00",
+ "maj": "2026-11-05T16:45:42+01:00",
  "pour": "2026-11-05",
  "videos": [
   {
@@ -7,8 +7,8 @@
    "sujet": "Mémoire du poisson rouge",
    "etapes": {
     "script": "fait",
-    "voix": "a faire",
-    "montage": "a faire",
+    "voix": "fait",
+    "montage": "en cours",
     "rendu": "a faire",
     "cover": "a faire",
     "textes": "fait",
@@ -25,7 +25,7 @@
    "sujet": "La foudre deux fois au même endroit",
    "etapes": {
     "script": "fait",
-    "voix": "a faire",
+    "voix": "fait",
     "montage": "a faire",
     "rendu": "a faire",
     "cover": "a faire",
