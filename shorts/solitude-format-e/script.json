@@ -1,0 +1,81 @@
+{
+  "styleAct1": "Lis ce texte en français en HURLANT sur l'auditeur, voix tendue et accusatrice, débit rapide, comme si tu l'interpellais directement avec une question gênante. Chaque mot comme une gifle :",
+  "styleAct2": "Lis ce texte en français d'une voix posée et chaleureuse mais toujours intense, comme quelqu'un qui comprend vraiment ce que ressent l'auditeur et le rassure profondément. Calme mais fort, chaque mot compte :",
+  "act1Segments": ["s1", "s2", "s3", "s4"],
+  "declicSegment": "s5",
+  "coupureDuration": 0.5,
+  "segments": [
+    {
+      "id": "s1",
+      "spoken": "T'es rentré. T'as dit que t'étais fatigué.",
+      "captions": ["T'es rentré.", "T'as dit que", "t'étais *fatigué*."],
+      "gapAfter": 0.3
+    },
+    {
+      "id": "s2",
+      "spoken": "Mais t'as passé une bonne soirée. T'as ri.",
+      "captions": ["Mais t'as passé", "une *bonne soirée*.", "T'as *ri*."],
+      "gapAfter": 0.3
+    },
+    {
+      "id": "s3",
+      "spoken": "Et là t'as besoin que tout le monde ferme sa gueule.",
+      "captions": ["Et là t'as besoin", "que tout le monde", "*ferme sa gueule*."],
+      "gapAfter": 0.3
+    },
+    {
+      "id": "s4",
+      "spoken": "Pourquoi ?",
+      "captions": ["*Pourquoi ?*"],
+      "gapAfter": 0.6
+    },
+    {
+      "id": "s5",
+      "spoken": "C'est pas eux.",
+      "captions": ["C'est *pas eux*."],
+      "gapAfter": 0.4
+    },
+    {
+      "id": "s6",
+      "spoken": "Chaque interaction sociale consomme de l'énergie cognitive — même avec des gens que t'aimes.",
+      "captions": ["Chaque interaction sociale", "consomme de *l'énergie cognitive*", "— même avec des gens *que t'aimes*."],
+      "gapAfter": 0.4
+    },
+    {
+      "id": "s7",
+      "spoken": "Ton cerveau a passé la soirée à gérer des milliers de signaux en continu : les expressions, le ton, les silences, les intentions.",
+      "captions": ["Ton cerveau a géré", "*des milliers de signaux* :", "les expressions, le ton,", "les silences, les *intentions*."],
+      "gapAfter": 0.4
+    },
+    {
+      "id": "s8",
+      "spoken": "Il est épuisé.",
+      "captions": ["Il est *épuisé*."],
+      "gapAfter": 0.5
+    },
+    {
+      "id": "s9",
+      "spoken": "Certains cerveaux se rechargent dans le bruit. D'autres dans le silence.",
+      "captions": ["Certains cerveaux", "se rechargent dans le *bruit*.", "D'autres dans le *silence*."],
+      "gapAfter": 0.4
+    },
+    {
+      "id": "s10",
+      "spoken": "T'as pas un problème social.",
+      "captions": ["T'as *pas*", "un problème *social*."],
+      "gapAfter": 0.4
+    },
+    {
+      "id": "s11",
+      "spoken": "T'as une batterie différente.",
+      "captions": ["T'as une *batterie différente*."],
+      "gapAfter": 0.4
+    },
+    {
+      "id": "s12",
+      "spoken": "Le besoin de silence après les gens que t'aimes, c'est pas un rejet. C'est de la récupération.",
+      "captions": ["Le besoin de silence", "après les gens *que t'aimes*,", "c'est pas un *rejet*.", "C'est de la *récupération*."],
+      "gapAfter": 1.2
+    }
+  ]
+}
