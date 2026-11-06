@@ -1,5 +1,5 @@
 {
- "maj": "2026-11-06T10:31:57+01:00",
+ "maj": "2026-11-06T11:02:13+01:00",
  "pour": "2026-11-06",
  "videos": [
   {
@@ -7,16 +7,16 @@
    "sujet": "Les chauves-souris aveugles",
    "etapes": {
     "script": "fait",
-    "voix": "en cours",
+    "voix": "fait",
     "montage": "fait",
-    "rendu": "a faire",
+    "rendu": "fait",
     "cover": "fait",
     "textes": "fait",
     "story": "fait",
-    "programme": "a faire"
+    "programme": "fait"
    },
    "heure": "18:00",
-   "detail": "Reprise lancée à 10h30",
+   "detail": "Programmé : Reel Insta + TikTok 18h00 (sans story, forfait Metricool épuisé)",
    "pourquoi": "Les idées reçues d'enfance retiennent le mieux (Braess 70 % > 3 s, survivant 65 %, Napoléon 61 %). Sujet animal, comme le poisson rouge d'hier."
   },
   {
@@ -24,16 +24,16 @@
    "sujet": "Le sang bleu dans les veines",
    "etapes": {
     "script": "fait",
-    "voix": "en cours",
+    "voix": "fait",
     "montage": "fait",
-    "rendu": "a faire",
+    "rendu": "fait",
     "cover": "fait",
     "textes": "fait",
     "story": "fait",
-    "programme": "a faire"
+    "programme": "bloque"
    },
    "heure": "en attente",
-   "detail": "Quota Gemini épuisé ce soir : voix et rendu reprennent demain à 9h07",
+   "detail": "Prête, en attente du choix de publication au-delà du forfait Metricool",
    "pourquoi": "Croyance très répandue, démontable par une preuve que tout le monde a vue (la prise de sang). Programmation suspendue : forfait Metricool presque épuisé."
   }
  ]
