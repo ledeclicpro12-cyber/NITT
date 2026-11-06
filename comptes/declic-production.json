@@ -1,5 +1,5 @@
 {
- "maj": "2026-11-06T10:31:13+01:00",
+ "maj": "2026-11-06T10:31:57+01:00",
  "pour": "2026-11-06",
  "videos": [
   {
@@ -7,7 +7,7 @@
    "sujet": "Les chauves-souris aveugles",
    "etapes": {
     "script": "fait",
-    "voix": "bloque",
+    "voix": "en cours",
     "montage": "fait",
     "rendu": "a faire",
     "cover": "fait",
@@ -16,9 +16,8 @@
     "programme": "a faire"
    },
    "heure": "18:00",
-   "detail": "Quota Gemini épuisé ce soir : voix et rendu reprennent demain à 9h07",
-   "pourquoi": "Les idées reçues d'enfance retiennent le mieux (Braess 70 % > 3 s, survivant 65 %, Napoléon 61 %). Sujet animal, comme le poisson rouge d'hier.",
-   "action": "Allume ton PC et réponds « go » dans le fil pour finir #15 (sortie 18h)"
+   "detail": "Reprise lancée à 10h30",
+   "pourquoi": "Les idées reçues d'enfance retiennent le mieux (Braess 70 % > 3 s, survivant 65 %, Napoléon 61 %). Sujet animal, comme le poisson rouge d'hier."
   },
   {
    "num": "16",
