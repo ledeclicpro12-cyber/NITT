@@ -1,7 +1,7 @@
 {
   "account": "trackthegoodone",
   "metricool_blog_id": 7832248,
-  "next_number": 8,
+  "next_number": 10,
   "episodes": [
     {
       "number": 1,
@@ -73,6 +73,26 @@
       "created": "2026-11-05",
       "video": "videos/007.mp4",
       "story": "stories/007_answer.png"
+    },
+    {
+      "number": 8,
+      "theme": "coin",
+      "seed": 268219,
+      "answer": 5,
+      "duration": 54.7,
+      "created": "2026-11-06",
+      "video": "videos/008.mp4",
+      "story": "stories/008_answer.png"
+    },
+    {
+      "number": 9,
+      "theme": "car",
+      "seed": 627286,
+      "answer": 2,
+      "duration": 54.7,
+      "created": "2026-11-06",
+      "video": "videos/009.mp4",
+      "story": "stories/009_answer.png"
     }
   ],
   "horaires": [
