@@ -354,6 +354,7 @@ function afficher() {
   rythme();
   reponses();
   production();
+  publier();
   stats();
   compter($(".tab.actif") || document);
 }
@@ -668,6 +669,56 @@ async function production() {
       }).join("")}`;
   }
   if (!finies) minuterieProd = setTimeout(() => { if (!document.hidden && COMPTE === compte) production(); }, 30000);
+}
+
+// ——— À publier : depuis le 2026-11-06, Tiago publie lui-même. Chaque vidéo prête arrive ici
+// avec l'heure conseillée, la vidéo, la miniature, la story et les textes à copier.
+async function publier() {
+  const el = $("#publier"), compte = COMPTE;
+  if (!compte || !el) return;
+  let P = null;
+  try { P = await chargerClair(`comptes/${slug(compte.id || compte.nom)}-publier.json`); } catch {}
+  if (compte !== COMPTE) return;
+  const aujourdhui = jourIso();
+  const vids = (P?.videos || []).filter((v) => !v.quand || v.quand.slice(0, 10) >= aujourdhui).sort((a, b) => (a.quand || "").localeCompare(b.quand || ""));
+  if (!vids.length) { el.innerHTML = ""; return; }
+  const quand = (q) => {
+    if (!q) return "dès que possible";
+    const d = new Date(q), j = jourIso(d);
+    const h = d.toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit", timeZone: "Europe/Paris" });
+    return (j === aujourdhui ? "aujourd'hui" : j === jourIso(new Date(Date.now() + 864e5)) ? "demain" : d.toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long", timeZone: "Europe/Paris" })) + " à " + h;
+  };
+  const bloc = (titre, texte, cle) => texte ? `<div class="pub-texte"><div class="pub-texte-tete"><span class="etiquette-douce">${titre}</span><button type="button" data-copier="${cle}">Copier</button></div><p>${esc(texte).replace(/\n/g, "<br>")}</p></div>` : "";
+  el.innerHTML = `<h2>À publier</h2>` + vids.map((v, i) => `<article class="carte pub">
+      <div class="prod-tete"><b>#${esc(v.num)} ${esc(v.sujet)}</b></div>
+      <p class="pub-quand">Poste ${esc(quand(v.quand))}<small>${esc(v.ou || "Instagram (Reel) + TikTok")}</small></p>
+      ${v.video ? `<video class="pub-video" src="${esc(v.video)}" ${v.miniature ? `poster="${esc(v.miniature)}"` : ""} controls playsinline preload="none"></video>` : ""}
+      <div class="pub-actions">
+        ${v.video ? `<button type="button" data-partager="${i}:video">Enregistrer la vidéo</button>` : ""}
+        ${v.miniature ? `<button type="button" data-partager="${i}:miniature">Enregistrer la miniature</button>` : ""}
+        ${v.story ? `<button type="button" data-partager="${i}:story">Enregistrer la story</button>` : ""}
+      </div>
+      ${v.miniature || v.story ? `<div class="pub-images">${v.miniature ? `<figure><img src="${esc(v.miniature)}" alt="Miniature" loading="lazy"><figcaption>Miniature (cover Insta)</figcaption></figure>` : ""}${v.story ? `<figure><img src="${esc(v.story)}" alt="Story" loading="lazy"><figcaption>Story ${v.quandStory ? esc(quand(v.quandStory)) : ""}</figcaption></figure>` : ""}</div>` : ""}
+      ${bloc("Description Instagram", v.instagram, i + ":instagram")}
+      ${bloc("Texte TikTok", v.tiktok, i + ":tiktok")}
+      ${v.conseils ? `<p class="meta">${esc(v.conseils)}</p>` : ""}
+    </article>`).join("");
+  el.querySelectorAll("[data-copier]").forEach((b) => b.onclick = async () => {
+    const [i, k] = b.dataset.copier.split(":");
+    try { await navigator.clipboard.writeText(vids[i][k]); b.textContent = "Copié ✓"; } catch { b.textContent = "Sélectionne le texte"; }
+    setTimeout(() => (b.textContent = "Copier"), 2000);
+  });
+  el.querySelectorAll("[data-partager]").forEach((b) => b.onclick = async () => {
+    const [i, k] = b.dataset.partager.split(":"), url = vids[i][k], lib = b.textContent;
+    b.textContent = "Préparation…";
+    try {
+      const blob = await (await fetch(url)).blob();
+      const f = new File([blob], url.split("/").pop(), { type: blob.type });
+      if (navigator.canShare && navigator.canShare({ files: [f] })) await navigator.share({ files: [f] });
+      else { const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = f.name; a.click(); }
+    } catch { window.open(url, "_blank"); }
+    b.textContent = lib;
+  });
 }
 
 function lignePost(p) {

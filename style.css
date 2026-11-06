@@ -413,3 +413,20 @@ svg rect { transform-box: fill-box; transform-origin: bottom; animation: pousse 
   *, *::before, *::after { animation: none !important; transition: none !important; }
   .page-compte .logo, .page-compte .nom, .page-compte .det, .page-compte .statut, .page-compte .entrer, .page-compte::before { transform: none; opacity: 1; }
 }
+
+/* À publier (depuis le 2026-11-06 : Tiago publie lui-même) */
+.pub + .pub { margin-top: 10px; }
+.pub-quand { margin: 6px 0 12px; font: 700 17px var(--texte); color: var(--ambre); display: flex; flex-direction: column; gap: 2px; }
+.pub-quand small { font: 500 12px var(--texte); color: var(--ardoise); }
+.pub-video { width: 100%; max-height: 70vh; aspect-ratio: 9 / 16; object-fit: contain; background: #000; border-radius: 12px; display: block; }
+.pub-actions { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0; }
+.pub-actions button, .pub-texte button { border: 0; border-radius: 10px; padding: 10px 12px; background: var(--encre-2); color: var(--ivoire); font: 600 13px var(--texte); }
+.pub-actions button:first-child { background: var(--ambre); color: var(--nuit); }
+.pub-images { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 6px 0 10px; }
+.pub-images figure { margin: 0; }
+.pub-images img { width: 100%; aspect-ratio: 9 / 16; object-fit: cover; border-radius: 10px; display: block; }
+.pub-images figcaption { font-size: 11px; color: var(--ardoise); margin-top: 4px; }
+.pub-texte { background: var(--encre-2); border-radius: 12px; padding: 10px 12px; margin-top: 8px; }
+.pub-texte-tete { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.pub-texte-tete button { padding: 6px 10px; background: var(--encre); }
+.pub-texte p { margin: 8px 0 0; font-size: 13.5px; line-height: 1.45; white-space: normal; user-select: text; -webkit-user-select: text; }

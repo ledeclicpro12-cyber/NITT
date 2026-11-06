@@ -1,5 +1,5 @@
 // Toujours la dernière version en ligne d'abord ; le cache ne sert que hors ligne.
-const CACHE = "declic-v23";
+const CACHE = "declic-v24";
 const COQUILLE = ["./", "index.html", "style.css", "app.js", "manifest.webmanifest",
   "icons/nitt-180.png", "icons/nitt-192.png", "icons/icon-192.png"];
 
@@ -19,6 +19,7 @@ self.addEventListener("fetch", (e) => {
   const local = url.origin === location.origin;
   const polices = url.host.includes("gstatic") || url.host.includes("googleapis");
   if (!local && !polices) return;
+  if (url.pathname.includes("/medias/")) return; // vidéos et images à publier : jamais en cache (lecture par plages sur iPhone)
   if (polices) {
     e.respondWith(caches.match(e.request).then((r) => r || fetch(e.request).then((rep) => {
       const copie = rep.clone();
