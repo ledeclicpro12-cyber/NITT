@@ -1,7 +1,7 @@
 from render_e2x import *
 import os
 B.NUM='MINI-ÉNIGME'
-D='../stories/2026-11-06/'; os.makedirs(D,exist_ok=True)
+D='../stories/2026-11-07/'; os.makedirs(D,exist_ok=True)
 def mk(fn,head,label,out,foot=None,t=0.0):
     def f(lay,dd):
         fn(lay,dd)
@@ -11,26 +11,29 @@ def mk(fn,head,label,out,foot=None,t=0.0):
     B.frame_with(lay,label).save(out)
 def nb(dd,cx,y,txt,col=GOLD,w=64,h=64,size=32):
     box(dd,cx-w/2,y,w,h,fill=CARD,border=col,bw=3,shadow=(3,3,BLACK)); T(dd,txt,cx,y+(h-size-4)/2+2,size+4,'press',size,col,align='c')
-def eurcoin(dd,cx,cy,r,txt,col=GOLD):
-    disc(dd,cx,cy,r+3,DARK); disc(dd,cx,cy,r,col); disc(dd,cx,cy,r*0.78,None,lerpc(col,(255,255,255),0.45),2)
-    sz=int(r*0.42); T(dd,txt,cx,cy-(sz+4)/2,sz+4,'press',sz,DARK,align='c')
 def q1(lay,dd):
-    nb(dd,92,170,'25',GOLD,w=84,h=72,size=40); T(dd,'-',SW/2,184,40,'press',34,CORAL,align='c'); nb(dd,226,170,'5',CORAL,w=84,h=72,size=40)
-    insp(dd,SW/2,GY,0.3,k=4.4)
-    T(dd,'?',SW-52,250,60,'press',50,GOLD,align='c',shadow=(4,4,BLACK))
+    nb(dd,92,150,'100',GOLD,w=110,h=70,size=36); lbl(dd,92,226,'JOUEURS',CREAM)
+    trophy(dd,232,150,1.5)
+    insp(dd,SW/2,GY,0.3,k=3.8)
+    T(dd,'?',SW-46,262,60,'press',50,CORAL,align='c',shadow=(4,4,BLACK))
 def a1(lay,dd):
-    nb(dd,SW/2,128,'25 - 5 = 20',GOLD,w=250,h=60,size=22)
-    nb(dd,SW/2,200,'UNE SEULE FOIS',CORAL,w=270,h=54,size=17)
-    insp(dd,SW/2,GY,0.3,k=3.4)
+    nb(dd,SW/2,128,'100 - 1 = 99',GOLD,w=290,h=60,size=17)
+    nb(dd,SW/2,206,'1 MATCH',CORAL,w=190,h=44,size=18); lbl(dd,SW/2,252,'= 1 JOUEUR ÉLIMINÉ',CORAL,11)
+    insp(dd,70,GY,0.3,k=2.8)
+    trophy(dd,244,296,0.9)
 def q2(lay,dd):
-    eurcoin(dd,100,176,48,'?',CYAN); eurcoin(dd,212,176,48,'?',GOLD)
-    nb(dd,SW/2,244,'TOTAL : 3 €',GOLD,w=240,h=40,size=18)
-    insp(dd,SW/2,GY,0.3,k=2.8)
+    for i,x in enumerate((56,128,200)): nb(dd,x,146,'7',[GOLD,CYAN,CORAL][i],w=56,h=56,size=30)
+    T(dd,'...',262,160,30,'press',26,CREAM,align='c')
+    lbl(dd,SW/2,216,'2026 FOIS',GOLD,12)
+    nb(dd,SW/2,242,'DERNIER CHIFFRE ?',CORAL,w=280,h=38,size=14)
+    insp(dd,SW/2,GY,0.3,k=2.3)
 def a2(lay,dd):
-    eurcoin(dd,92,176,44,'2 €',CYAN); T(dd,'+',156,160,40,'press',30,CREAM,align='c'); eurcoin(dd,220,176,44,'1 €',GOLD)
-    nb(dd,SW/2,244,'2 € + 1 € = 3 €',GOLD,w=270,h=40,size=14)
-    insp(dd,SW/2,GY,0.3,k=2.8)
-mk(q1,[('Combien de fois peut-on ',CREAM),('soustraire 5',GOLD),(' de ',CREAM),('25 ?',CORAL)],'LE DÉFI',D+'q1.png',foot='RÉPONSE CE SOIR')
-mk(a1,[('Réponse : ',CREAM),('une seule fois !',GOLD)],'LA RÉPONSE',D+'a1.png',foot='APRÈS, CE N’EST PLUS 25')
-mk(q2,[('2 pièces',GOLD),(' font ',CREAM),('3\u00a0€.',GOLD),(' L’une n’est pas une pièce de ',CREAM),('1\u00a0€.',CORAL),(' Lesquelles\u00a0?',CREAM)],'LE DÉFI',D+'q2.png',foot='RÉPONSE CE SOIR')
-mk(a2,[('Réponse : ',CREAM),('2\u00a0€ et 1\u00a0€\u00a0!',GOLD)],'LA RÉPONSE',D+'a2.png',foot='L’AUTRE EST UNE PIÈCE DE 1 €')
+    for i,(x,c) in enumerate(((52,'7'),(118,'9'),(184,'3'),(250,'1'))): nb(dd,x,124,c,[GOLD,CYAN,CORAL,CREAM][i],w=52,h=52,size=28)
+    lbl(dd,SW/2,190,'LE CYCLE SE RÉPÈTE',CREAM,10)
+    nb(dd,SW/2,222,'2026 = 4 x 506 + 2',GOLD,w=290,h=40,size=13); lbl(dd,SW/2,268,'RESTE 2 : LE 2E DU CYCLE',CREAM,10)
+    nb(dd,SW/2,296,'DONC : 9',CYAN,w=200,h=44,size=20)
+    insp(dd,64,GY,0.3,k=2.2) if False else None
+mk(q1,[('100 joueurs',GOLD),(' en tournoi à ',CREAM),('élimination directe.',CORAL),(' Combien de ',CREAM),('matchs',GOLD),(' ?',CREAM)],'LE DÉFI',D+'q1.png',foot='RÉPONSE CE SOIR')
+mk(a1,[('Réponse : ',CREAM),('99 matchs',GOLD),(' !',CREAM)],'LA RÉPONSE',D+'a1.png',foot='IL FAUT 99 ÉLIMINÉS')
+mk(q2,[('7 × 7 × 7 …',GOLD),(' (2026 fois). ',CREAM),('Dernier chiffre ?',CORAL)],'LE DÉFI',D+'q2.png',foot='RÉPONSE CE SOIR')
+mk(a2,[('Réponse : ',CREAM),('9',GOLD),(' !',CREAM)],'LA RÉPONSE',D+'a2.png',foot='7, 9, 3, 1, PUIS ÇA RECOMMENCE')

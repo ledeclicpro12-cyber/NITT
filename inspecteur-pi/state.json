@@ -1,5 +1,5 @@
 {
-  "next_number": 24,
+  "next_number": 26,
   "published_or_made": {
     "001": "chameaux (héritage de chameaux)",
     "002": "énigme (voir miniatures)",
@@ -23,7 +23,9 @@
     "020": "corde autour de la Terre rallongée de 12 m : un homme debout passe dessous (≈1,91 m, indépendant du rayon)",
     "021": "le nombre 1089 : nombre à 3 chiffres, à l'envers, soustraction, à l'envers, addition = toujours 1089",
     "022": "jeu des 21 allumettes (on en prend 1 à 3, celui qui prend la dernière gagne) : prendre 1 puis laisser un multiple de 4",
-    "023": "le moine et la montagne : montée un jour, descente le lendemain, il passe forcément au même endroit à la même heure (deux moines qui se croisent)"
+    "023": "le moine et la montagne : montée un jour, descente le lendemain, il passe forcément au même endroit à la même heure (deux moines qui se croisent)",
+    "024": "feuille de papier pliée 42 fois : dépasse la Lune (épaisseur 0,1 mm, ×2 à chaque pli, 440 000 km > 384 400 km)",
+    "025": "deux Parisiens ont le même nombre de cheveux (principe des tiroirs : >2 M habitants, 200 001 valeurs, au moins 10 en commun)"
   },
   "also_made_not_published": [
     "anniversaire de la directrice (type Cheryl) - jugé trop connu"
@@ -43,7 +45,9 @@
     "brique = 1 kg + une demi-brique : 2 kg",
     "portrait : le père de cet homme est le fils de mon père (fils unique) : son fils",
     "soustraire 5 de 25 : une seule fois",
-    "deux pièces font 3 € dont l'une n'est pas 1 € : 2 € + 1 €"
+    "deux pièces font 3 € dont l'une n'est pas 1 € : 2 € + 1 €",
+    "tournoi à élimination directe, 100 joueurs : 99 matchs (1 éliminé par match)",
+    "dernier chiffre de 7×7×…(2026 fois) : cycle 7-9-3-1, 2026 mod 4 = 2 → 9"
   ],
   "horaires": {
     "2026-10-31": [
@@ -102,6 +106,15 @@
       "story_a1": "20:36",
       "story_a2": "21:04",
       "note": "Mode manuel. Vendredi. IG top : 10h(6734)/11h/12h(5909)/9h ; TikTok : 10h(1379)/12h(1251)/18h(1222)/16h. Aucun couple >=4h dans le top 4 IG : 12h (3e IG, 2e TikTok) + 18h (3e TikTok) espacés de 6 h, minutes différentes de la veille (10:12/18:34)."
+    },
+    "2026-11-07": {
+      "reel_024": "10:23",
+      "reel_025": "18:36",
+      "story_q1": "10:53",
+      "story_q2": "19:06",
+      "story_a1": "20:34",
+      "story_a2": "21:02",
+      "note": "Mode manuel. Samedi. IG top : 10h(3409)/12h(2822)/11h(2816)/18h(2393) ; TikTok : 10h(852)/12h(815)/18h(709)/16h(620). 10h et 18h = meilleur couple commun espacé de 8 h ; minutes différentes de la veille (12:19/18:09)."
     }
   }
 }
