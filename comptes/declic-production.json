@@ -1,40 +1,42 @@
 {
- "maj": "2026-11-06T11:02:13+01:00",
- "pour": "2026-11-06",
- "videos": [
-  {
-   "num": "15",
-   "sujet": "Les chauves-souris aveugles",
-   "etapes": {
-    "script": "fait",
-    "voix": "fait",
-    "montage": "fait",
-    "rendu": "fait",
-    "cover": "fait",
-    "textes": "fait",
-    "story": "fait",
-    "programme": "fait"
-   },
-   "heure": "18:00",
-   "detail": "Programmé : Reel Insta + TikTok 18h00 (sans story, forfait Metricool épuisé)",
-   "pourquoi": "Les idées reçues d'enfance retiennent le mieux (Braess 70 % > 3 s, survivant 65 %, Napoléon 61 %). Sujet animal, comme le poisson rouge d'hier."
-  },
-  {
-   "num": "16",
-   "sujet": "Le sang bleu dans les veines",
-   "etapes": {
-    "script": "fait",
-    "voix": "fait",
-    "montage": "fait",
-    "rendu": "fait",
-    "cover": "fait",
-    "textes": "fait",
-    "story": "fait",
-    "programme": "bloque"
-   },
-   "heure": "en attente",
-   "detail": "Prête, en attente du choix de publication au-delà du forfait Metricool",
-   "pourquoi": "Croyance très répandue, démontable par une preuve que tout le monde a vue (la prise de sang). Programmation suspendue : forfait Metricool presque épuisé."
-  }
- ]
+  "maj": "2026-11-09T21:52:00+01:00",
+  "pour": "2026-11-10",
+  "videos": [
+    {
+      "num": "22",
+      "sujet": "L'alcool ne réchauffe pas",
+      "etapes": {
+        "script": "fait",
+        "voix": "en attente",
+        "montage": "en attente",
+        "rendu": "en attente",
+        "cover": "en attente",
+        "textes": "fait",
+        "story": "en attente",
+        "programme": "en attente"
+      },
+      "heure": "10:00",
+      "heureStory": "12:00",
+      "detail": "Script prêt. Voix à 9h (quota Gemini). Dossier PC : shorts/24-alcool-chaleur/",
+      "pourquoi": "Idée reçue très répandue (verre pour se réchauffer), contre-intuitive (sensation vs réalité), bonus Saint-Bernards. 4 segments."
+    },
+    {
+      "num": "23",
+      "sujet": "Einstein n'a pas raté les maths à l'école",
+      "etapes": {
+        "script": "fait",
+        "voix": "en attente",
+        "montage": "en attente",
+        "rendu": "en attente",
+        "cover": "en attente",
+        "textes": "fait",
+        "story": "en attente",
+        "programme": "en attente"
+      },
+      "heure": "18:00",
+      "heureStory": "20:00",
+      "detail": "Script prêt. Voix à 9h (quota Gemini). Dossier PC : shorts/25-einstein-maths/",
+      "pourquoi": "Anecdote ultra-connue, source vérifiable (6/6 système suisse), erreur de conversion amusante et choquante. 4 segments."
+    }
+  ]
 }
