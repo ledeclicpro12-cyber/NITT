@@ -1,10 +1,10 @@
 {
-  "maj": "2026-11-09T21:52:00+01:00",
-  "pour": "2026-11-10",
+  "maj": "2026-11-10T21:52:00+01:00",
+  "pour": "2026-11-11",
   "videos": [
     {
-      "num": "22",
-      "sujet": "L'alcool ne réchauffe pas",
+      "num": "24",
+      "sujet": "La carte de la langue est fausse",
       "etapes": {
         "script": "fait",
         "voix": "en attente",
@@ -17,12 +17,12 @@
       },
       "heure": "10:00",
       "heureStory": "12:00",
-      "detail": "Script prêt. Voix à 9h (quota Gemini). Dossier PC : shorts/24-alcool-chaleur/",
-      "pourquoi": "Idée reçue très répandue (verre pour se réchauffer), contre-intuitive (sensation vs réalité), bonus Saint-Bernards. 4 segments."
+      "detail": "Script prêt. Voix à 9h (quota Gemini). Dossier PC : shorts/26-zones-langue/",
+      "pourquoi": "Idée reçue enseignée à l'école, mauvaise traduction d'un article de 1901, bonus umami (5e goût depuis 2000). 4 segments."
     },
     {
-      "num": "23",
-      "sujet": "Einstein n'a pas raté les maths à l'école",
+      "num": "25",
+      "sujet": "Marie-Antoinette n'a jamais dit 'Qu'ils mangent de la brioche'",
       "etapes": {
         "script": "fait",
         "voix": "en attente",
@@ -35,8 +35,8 @@
       },
       "heure": "18:00",
       "heureStory": "20:00",
-      "detail": "Script prêt. Voix à 9h (quota Gemini). Dossier PC : shorts/25-einstein-maths/",
-      "pourquoi": "Anecdote ultra-connue, source vérifiable (6/6 système suisse), erreur de conversion amusante et choquante. 4 segments."
+      "detail": "Script prêt. Voix à 9h (quota Gemini). Dossier PC : shorts/27-brioche-marie-antoinette/",
+      "pourquoi": "Citation ultra-connue attribuée à tort, Rousseau écrit la phrase en 1765 quand elle a 10 ans, propagande révolutionnaire. 4 segments."
     }
   ]
 }
