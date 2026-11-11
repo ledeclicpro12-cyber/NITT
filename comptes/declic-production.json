@@ -1,10 +1,10 @@
 {
-  "maj": "2026-11-10T21:52:00+01:00",
-  "pour": "2026-11-11",
+  "maj": "2026-11-11T21:52:00+01:00",
+  "pour": "2026-11-12",
   "videos": [
     {
-      "num": "24",
-      "sujet": "La carte de la langue est fausse",
+      "num": "26",
+      "sujet": "Les Vikings n'avaient pas de cornes sur leur casque",
       "etapes": {
         "script": "fait",
         "voix": "en attente",
@@ -17,12 +17,12 @@
       },
       "heure": "10:00",
       "heureStory": "12:00",
-      "detail": "Script prêt. Voix à 9h (quota Gemini). Dossier PC : shorts/26-zones-langue/",
-      "pourquoi": "Idée reçue enseignée à l'école, mauvaise traduction d'un article de 1901, bonus umami (5e goût depuis 2000). 4 segments."
+      "detail": "Script prêt. Voix à 9h (quota Gemini). Dossier PC : shorts/28-casques-vikings/",
+      "pourquoi": "Idée reçue ultra-connue, un seul vrai casque trouvé (Gjermundbu 970), invention romantique d'opéra (Doepler 1876). 4 segments."
     },
     {
-      "num": "25",
-      "sujet": "Marie-Antoinette n'a jamais dit 'Qu'ils mangent de la brioche'",
+      "num": "27",
+      "sujet": "On oublie ses rêves à cause de la chimie du cerveau",
       "etapes": {
         "script": "fait",
         "voix": "en attente",
@@ -35,8 +35,8 @@
       },
       "heure": "18:00",
       "heureStory": "20:00",
-      "detail": "Script prêt. Voix à 9h (quota Gemini). Dossier PC : shorts/27-brioche-marie-antoinette/",
-      "pourquoi": "Citation ultra-connue attribuée à tort, Rousseau écrit la phrase en 1765 quand elle a 10 ans, propagande révolutionnaire. 4 segments."
+      "detail": "Script prêt. Voix à 9h (quota Gemini). Dossier PC : shorts/29-oubli-reves/",
+      "pourquoi": "Explication chimique surprenante (noradrénaline à zéro pendant REM), conseil actionnable (5 minutes critiques). 4 segments."
     }
   ]
 }
