@@ -1,10 +1,10 @@
 {
-  "maj": "2026-11-11T21:52:00+01:00",
-  "pour": "2026-11-12",
+  "maj": "2026-11-12T21:52:00+01:00",
+  "pour": "2026-11-13",
   "videos": [
     {
-      "num": "26",
-      "sujet": "Les Vikings n'avaient pas de cornes sur leur casque",
+      "num": "28",
+      "sujet": "On a plus de 5 sens",
       "etapes": {
         "script": "fait",
         "voix": "en attente",
@@ -17,12 +17,12 @@
       },
       "heure": "10:00",
       "heureStory": "12:00",
-      "detail": "Script prêt. Voix à 9h (quota Gemini). Dossier PC : shorts/28-casques-vikings/",
-      "pourquoi": "Idée reçue ultra-connue, un seul vrai casque trouvé (Gjermundbu 970), invention romantique d'opéra (Doepler 1876). 4 segments."
+      "detail": "Script prêt. Voix à 9h (quota Gemini). Dossier PC : shorts/30-cinq-sens/",
+      "pourquoi": "Idée enseignée à l'école depuis Aristote (350 av. J.-C.), au moins 9 sens reconnus officiellement, proprioception très parlante. 4 segments."
     },
     {
-      "num": "27",
-      "sujet": "On oublie ses rêves à cause de la chimie du cerveau",
+      "num": "29",
+      "sujet": "Le cerveau n'est pas adulte à 18 ans",
       "etapes": {
         "script": "fait",
         "voix": "en attente",
@@ -35,8 +35,8 @@
       },
       "heure": "18:00",
       "heureStory": "20:00",
-      "detail": "Script prêt. Voix à 9h (quota Gemini). Dossier PC : shorts/29-oubli-reves/",
-      "pourquoi": "Explication chimique surprenante (noradrénaline à zéro pendant REM), conseil actionnable (5 minutes critiques). 4 segments."
+      "detail": "Script prêt. Voix à 9h (quota Gemini). Dossier PC : shorts/31-cerveau-25-ans/",
+      "pourquoi": "Cortex préfrontal jusqu'à 25 ans, implications légales et comportementales, très engageant pour les 18-25 ans. 4 segments."
     }
   ]
 }
