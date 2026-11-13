@@ -1,10 +1,10 @@
 {
-  "maj": "2026-11-12T21:52:00+01:00",
-  "pour": "2026-11-13",
+  "maj": "2026-11-13T21:52:00+01:00",
+  "pour": "2026-11-14",
   "videos": [
     {
-      "num": "28",
-      "sujet": "On a plus de 5 sens",
+      "num": "30",
+      "sujet": "L'eau chaude peut geler plus vite (effet Mpemba)",
       "etapes": {
         "script": "fait",
         "voix": "en attente",
@@ -17,12 +17,12 @@
       },
       "heure": "10:00",
       "heureStory": "12:00",
-      "detail": "Script prêt. Voix à 9h (quota Gemini). Dossier PC : shorts/30-cinq-sens/",
-      "pourquoi": "Idée enseignée à l'école depuis Aristote (350 av. J.-C.), au moins 9 sens reconnus officiellement, proprioception très parlante. 4 segments."
+      "detail": "Script prêt. Voix à 9h (quota Gemini). Dossier PC : shorts/32-mpemba/",
+      "pourquoi": "Phénomène réel mais contre-intuitif, découvert par un lycéen de 13 ans en 1963, confirmé par Nature Communications 2016. Très fort pour l'engagement. 4 segments."
     },
     {
-      "num": "29",
-      "sujet": "Le cerveau n'est pas adulte à 18 ans",
+      "num": "31",
+      "sujet": "La langue des signes n'est pas universelle",
       "etapes": {
         "script": "fait",
         "voix": "en attente",
@@ -35,8 +35,8 @@
       },
       "heure": "18:00",
       "heureStory": "20:00",
-      "detail": "Script prêt. Voix à 9h (quota Gemini). Dossier PC : shorts/31-cerveau-25-ans/",
-      "pourquoi": "Cortex préfrontal jusqu'à 25 ans, implications légales et comportementales, très engageant pour les 18-25 ans. 4 segments."
+      "detail": "Script prêt. Voix à 9h (quota Gemini). Dossier PC : shorts/33-langue-signes/",
+      "pourquoi": "~300 langues des signes dans le monde, LSF/ASL/BSL toutes distinctes, histoire fascinante de Laurent Clerc 1817. Très surprenant et inclusif. 4 segments."
     }
   ]
 }
